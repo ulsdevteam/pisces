@@ -8,6 +8,7 @@ from django.urls import reverse
 from fetcher.helpers import identifier_from_uri
 from rest_framework.test import APIRequestFactory
 
+from .cron import CheckMissingOnlineAssets
 from .mappings import has_online_instance
 from .models import DataObject
 from .resources.configs import NOTE_TYPE_CHOICES_TRANSFORM
@@ -190,6 +191,7 @@ class TransformerTest(TestCase):
 
     @patch("requests.head")
     def online_instance(self, mock_head):
+        """Ensure that only objects with online assets are marked as online"""
         mock_head.return_value.status_code = 200
         for fixture, expected in [
                 ("no_online_instances.json", False),
@@ -207,7 +209,21 @@ class TransformerTest(TestCase):
                 output = has_online_instance(instances, "/repositories/2/archival_objects/4")
                 self.assertEqual(output, False)
 
+    @patch("requests.head")
+    def update_online_instances(self, mock_head):
+        """Ensure that CheckMissingOnlineAssets cron correctly updates data."""
+        mock_head.return_value.status_code = 200
+        updated = random.choice(DataObject.objects.filter(object_type__in=["collection", "object"]))
+        print(updated.es_id)
+        updated.data["online"] = False
+        updated.save()
+        CheckMissingOnlineAssets().do()
+        updated.refresh_from_db()
+        self.assertEqual(updated.data["online"], True)
+        self.assertEqual(updated.indexed, False)
+
     def test_transformer(self):
         self.mappings()
         self.views()
         self.online_instance()
+        self.update_online_instances()
