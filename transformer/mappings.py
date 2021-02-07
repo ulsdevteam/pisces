@@ -1,6 +1,7 @@
 import json
 
 import odin
+import requests
 from fetcher.helpers import identifier_from_uri
 from iso639 import languages
 from pisces import settings
@@ -14,6 +15,22 @@ from .resources.source import (SourceAgentCorporateEntity, SourceAgentFamily,
                                SourceArchivalObject, SourceDate, SourceExtent,
                                SourceGroup, SourceLinkedAgent, SourceNote,
                                SourceRef, SourceResource, SourceSubject)
+
+
+def has_online_asset(identifier):
+    req = requests.head("{}/pdfs/{}".format(settings.ASSET_BASEURL.rstrip("/"), identifier))
+    return True if req.status_code == 200 else False
+
+
+def has_online_instance(instances, uri):
+    try:
+        digital_instances = [v for v in instances if v.instance_type == "digital_object"]
+    except AttributeError:
+        digital_instances = [v for v in instances if v["instance_type"] == "digital_object"]
+    if len(digital_instances):
+        if has_online_asset(identifier_from_uri(uri)):
+            return True
+    return False
 
 
 def replace_xml(content_list):
@@ -375,7 +392,7 @@ class SourceArchivalObjectToCollection(odin.Mapping):
 
     @odin.map_field(from_field="instances", to_field="online")
     def online(self, value):
-        return True if len([v for v in value if v.instance_type == "digital_object"]) else False
+        return has_online_instance(value, self.source.uri)
 
     @odin.map_field(from_field="group", to_field="group")
     def group(self, value):
@@ -437,7 +454,7 @@ class SourceArchivalObjectToObject(odin.Mapping):
 
     @odin.map_field(from_field="instances", to_field="online")
     def online(self, value):
-        return True if len([v for v in value if v.instance_type == "digital_object"]) else False
+        return has_online_instance(value, self.source.uri)
 
     @odin.map_field(from_field="group", to_field="group")
     def group(self, value):
