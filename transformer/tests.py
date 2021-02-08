@@ -214,7 +214,6 @@ class TransformerTest(TestCase):
         """Ensure that CheckMissingOnlineAssets cron correctly updates data."""
         mock_head.return_value.status_code = 200
         updated = random.choice(DataObject.objects.filter(object_type__in=["collection", "object"]))
-        print(updated.es_id)
         updated.data["online"] = False
         updated.save()
         CheckMissingOnlineAssets().do()
