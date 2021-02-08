@@ -4,7 +4,7 @@
         {
             "request": {
                 "method": "POST",
-                "uri": "http://192.168.50.7:8089/users/admin/login?expiring=False",
+                "uri": "http://192.168.50.7:8089/users/admin/login",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -272,7 +272,7 @@
         {
             "request": {
                 "method": "POST",
-                "uri": "http://192.168.50.7:8089/users/admin/login?expiring=False",
+                "uri": "http://192.168.50.7:8089/users/admin/login",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -540,7 +540,7 @@
         {
             "request": {
                 "method": "POST",
-                "uri": "http://192.168.50.7:8089/users/admin/login?expiring=False",
+                "uri": "http://192.168.50.7:8089/users/admin/login",
                 "body": null,
                 "headers": {
                     "User-Agent": [
