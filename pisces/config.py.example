@@ -27,3 +27,4 @@ EMAIL_TO_ADDRESSES = ["user@example.com"]
 MOVING_IMAGE_REFS = []
 AUDIO_REFS = ["/subjects/42"]
 PHOTOGRAPH_REFS = []
+ASSET_BASEURL = "https://iiif.rockarch.org"
