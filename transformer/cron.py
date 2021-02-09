@@ -16,5 +16,3 @@ class CheckMissingOnlineAssets(CronJobBase):
                 object.indexed = False
                 object.save()
                 print("Online assets discovered for {}".format(object.es_id))
-            else:
-                print("There are still no online assets for {}".format(object.es_id))
