@@ -13,7 +13,7 @@ class CheckMissingOnlineAssets(CronJobBase):
 
     def do(self):
         print("Checking for recently added assets at {}".format(datetime.now()))
-        for object in DataObject.objects.filter(object_type__in=["collection", "object"], data__online=False):
+        for object in DataObject.objects.filter(object_type__in=["collection", "object"], data__online=False).iterator():
             if has_online_asset(object.es_id):
                 object.data["online"] = True
                 object.indexed = False
