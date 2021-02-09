@@ -1,12 +1,15 @@
 import json
 import os
 import random
+from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
 from fetcher.helpers import identifier_from_uri
 from rest_framework.test import APIRequestFactory
 
+from .cron import CheckMissingOnlineAssets
+from .mappings import has_online_instance
 from .models import DataObject
 from .resources.configs import NOTE_TYPE_CHOICES_TRANSFORM
 from .transformers import Transformer
@@ -186,6 +189,40 @@ class TransformerTest(TestCase):
                     final_count, "{} {} objects were expected but {} found".format(
                         final_count, object_type, len(DataObject.objects.filter(object_type=object_type))))
 
+    @patch("requests.head")
+    def online_instance(self, mock_head):
+        """Ensure that only objects with online assets are marked as online"""
+        mock_head.return_value.status_code = 200
+        for fixture, expected in [
+                ("no_online_instances.json", False),
+                ("online_instance.json", True),
+                ("multiple_instances.json", True)]:
+            with open(os.path.join("fixtures", "transformer", "online_instance", fixture), "r") as json_file:
+                instances = json.load(json_file)
+                output = has_online_instance(instances, "/repositories/2/archival_objects/4")
+                self.assertEqual(output, expected)
+
+        mock_head.return_value.status_code = 404
+        for fixture in ["no_online_instances.json", "online_instance.json", "multiple_instances.json"]:
+            with open(os.path.join("fixtures", "transformer", "online_instance", fixture), "r") as json_file:
+                instances = json.load(json_file)
+                output = has_online_instance(instances, "/repositories/2/archival_objects/4")
+                self.assertEqual(output, False)
+
+    @patch("requests.head")
+    def update_online_instances(self, mock_head):
+        """Ensure that CheckMissingOnlineAssets cron correctly updates data."""
+        mock_head.return_value.status_code = 200
+        updated = random.choice(DataObject.objects.filter(object_type__in=["collection", "object"]))
+        updated.data["online"] = False
+        updated.save()
+        CheckMissingOnlineAssets().do()
+        updated.refresh_from_db()
+        self.assertEqual(updated.data["online"], True)
+        self.assertEqual(updated.indexed, False)
+
     def test_transformer(self):
         self.mappings()
         self.views()
+        self.online_instance()
+        self.update_online_instances()
