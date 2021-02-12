@@ -209,12 +209,25 @@ class TransformerTest(TestCase):
                 output = has_online_instance(instances, "/repositories/2/archival_objects/4")
                 self.assertEqual(output, False)
 
+    def online_pending(self):
+        """Ensure `online_pending` flag is set correctly."""
+        for fixture, online, expected in [
+                ("no_online_instances.json", False, False),
+                ("online_instance.json", False, True),
+                ("no_online_instances.json", True, False),
+                ("online_instance.json", True, False)]:
+            with open(os.path.join("fixtures", "transformer", "online_instance", fixture), "r") as sf:
+                instances = json.load(sf)
+            output = Transformer().get_online_pending(instances, online)
+            self.assertEqual(output, expected)
+
     @patch("requests.head")
     def update_online_instances(self, mock_head):
         """Ensure that CheckMissingOnlineAssets cron correctly updates data."""
         mock_head.return_value.status_code = 200
         updated = random.choice(DataObject.objects.filter(object_type__in=["collection", "object"]))
         updated.data["online"] = False
+        updated.online_pending = True
         updated.save()
         CheckMissingOnlineAssets().do()
         updated.refresh_from_db()
@@ -225,4 +238,5 @@ class TransformerTest(TestCase):
         self.mappings()
         self.views()
         self.online_instance()
+        self.online_pending()
         self.update_online_instances()

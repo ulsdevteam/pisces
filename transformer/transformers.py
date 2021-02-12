@@ -36,8 +36,10 @@ class Transformer:
             self.identifier = data.get("uri")
             from_resource, mapping, schema = self.get_mapping_classes(object_type)
             transformed = self.get_transformed_object(data, from_resource, mapping)
+            online_pending = self.get_online_pending(
+                getattr(from_resource, "instances", []), transformed.get("online", False))
             is_valid(transformed, schema)
-            self.save_validated(transformed)
+            self.save_validated(transformed, online_pending)
             return transformed
         except ValidationError as e:
             raise TransformError("Transformed data is invalid: {}".format(e))
@@ -55,6 +57,19 @@ class Transformer:
             "subject": (SourceSubject, SourceSubjectToTerm, "term.json")
         }
         return TYPE_MAP[object_type]
+
+    def get_online_pending(self, instances, online):
+        """
+        If digital object instances are present in the source but the transformed
+        `online` field is set to False, mark the object as pending an online asset.
+
+        Args:
+            instances (list): source instances.
+            online (bool): value of `online` field from transformed object.
+        """
+        if len([v for v in instances if v["instance_type"] == "digital_object"]) and not online:
+            return True
+        return False
 
     def get_transformed_object(self, data, from_resource, mapping):
         from_obj = json_codec.loads(json.dumps(data), resource=from_resource)
@@ -77,16 +92,18 @@ class Transformer:
             return data
         return modified_dict
 
-    def save_validated(self, data):
+    def save_validated(self, data, online_pending):
         es_id = data["uri"].split("/")[-1]
         try:
             existing = DataObject.objects.get(es_id=es_id)
             existing.data = data
             existing.indexed = False
+            existing.online_pending = online_pending
             existing.save()
         except DataObject.DoesNotExist:
             DataObject.objects.create(
                 es_id=es_id,
                 object_type=data["type"],
                 data=data,
-                indexed=False)
+                indexed=False,
+                online_pending=online_pending)
