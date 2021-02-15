@@ -13,5 +13,6 @@ class DataObject(models.Model):
     object_type = models.CharField(max_length=255, choices=TYPE_CHOICES)
     data = JSONField()
     indexed = models.BooleanField(default=False)
+    online_pending = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
