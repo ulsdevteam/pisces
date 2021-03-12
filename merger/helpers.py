@@ -118,7 +118,9 @@ class ArchivesSpaceHelper:
     def has_children(self, uri):
         """Checks whether an archival object has children using the tree/node endpoint.
         Checks the child_count attribute and if the value is greater than 0, return true, otherwise return False."""
-        obj = self.aspace.client.get(uri).json()
+        resp = self.aspace.client.get(uri)
+        resp.raise_for_status()
+        obj = resp.json()
         resource_uri = obj['resource']['ref']
         tree_node = self.aspace.client.get('{}/tree/node?node_uri={}'.format(resource_uri, obj['uri'])).json()
         return True if tree_node['child_count'] > 0 else False
