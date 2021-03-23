@@ -1,8 +1,7 @@
-from requests.exceptions import HTTPError
-
-from .helpers import (ArchivesSpaceHelper, add_group, closest_creators,
-                      closest_parent_value, combine_references,
-                      handle_cartographer_reference, indicator_to_integer)
+from .helpers import (ArchivesSpaceHelper, MissingArchivalObjectError,
+                      add_group, closest_creators, closest_parent_value,
+                      combine_references, handle_cartographer_reference,
+                      indicator_to_integer)
 
 
 class MergeError(Exception):
@@ -29,8 +28,7 @@ class BaseMerger:
             target_object_type = self.get_target_object_type(object)
             additional_data = self.get_additional_data(object, target_object_type)
             return self.combine_data(object, additional_data), target_object_type
-        except HTTPError as e:  # 404 errors should be ignored
-            print(e)
+        except MissingArchivalObjectError:
             pass
         except Exception as e:
             print(e)

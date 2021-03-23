@@ -4,6 +4,10 @@ from fetcher.helpers import instantiate_aspace
 from pisces import settings
 
 
+class MissingArchivalObjectError(Exception):
+    pass
+
+
 def indicator_to_integer(indicator):
     """Converts an instance indicator to an integer.
 
@@ -119,7 +123,8 @@ class ArchivesSpaceHelper:
         """Checks whether an archival object has children using the tree/node endpoint.
         Checks the child_count attribute and if the value is greater than 0, return true, otherwise return False."""
         resp = self.aspace.client.get(uri)
-        resp.raise_for_status()
+        if resp.status_code == 404:
+            raise MissingArchivalObjectError("{} cannot be found".format(uri))
         obj = resp.json()
         resource_uri = obj['resource']['ref']
         tree_node = self.aspace.client.get('{}/tree/node?node_uri={}'.format(resource_uri, obj['uri'])).json()
