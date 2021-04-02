@@ -37,7 +37,7 @@ class Transformer:
             from_resource, mapping, schema = self.get_mapping_classes(object_type)
             transformed = self.get_transformed_object(data, from_resource, mapping)
             online_pending = self.get_online_pending(
-                getattr(from_resource, "instances", []), transformed.get("online", False))
+                data.get("instances", []), transformed.get("online", False))
             is_valid(transformed, schema)
             self.save_validated(transformed, online_pending)
             return transformed
