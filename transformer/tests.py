@@ -233,6 +233,7 @@ class TransformerTest(TestCase):
         updated.refresh_from_db()
         self.assertEqual(updated.data["online"], True)
         self.assertEqual(updated.indexed, False)
+        self.assertEqual(updated.online_pending, False)
 
     def test_transformer(self):
         self.mappings()
