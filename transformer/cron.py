@@ -16,6 +16,7 @@ class CheckMissingOnlineAssets(CronJobBase):
         for object in DataObject.objects.filter(object_type__in=["collection", "object"], online_pending=True).iterator():
             if has_online_asset(object.es_id):
                 object.data["online"] = True
+                object.online_pending = False
                 object.indexed = False
                 object.save()
                 print("Online assets discovered for {}".format(object.es_id))
