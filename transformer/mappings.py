@@ -14,7 +14,24 @@ from .resources.source import (SourceAgentCorporateEntity, SourceAgentFamily,
                                SourceAgentPerson, SourceAncestor,
                                SourceArchivalObject, SourceDate, SourceExtent,
                                SourceGroup, SourceLinkedAgent, SourceNote,
-                               SourceRef, SourceResource, SourceSubject)
+                               SourceRef, SourceResource, SourceStructuredDate,
+                               SourceSubject)
+
+
+def convert_dates(value):
+    """Converts agent dates.
+
+    Allows agent dates to be either SourceDate or SourceStructuredDate to
+    accommodate AS API 3.0 changes. This logic could be simplified once we have
+    migrated to AS 3.0."""
+    if len(value) and value[0]["jsonmodel_type"] == "structured_date_label":
+        return SourceStructuredDateToDate.apply(
+            [odin.codecs.json_codec.loads(json.dumps(v), resource=SourceStructuredDate) for v in value]
+        )
+    else:
+        return SourceDateToDate.apply(
+            [odin.codecs.json_codec.loads(json.dumps(v), resource=SourceDate) for v in value]
+        )
 
 
 def has_online_asset(identifier):
@@ -152,6 +169,42 @@ class SourceLinkedAgentToAgentReference(odin.Mapping):
         return identifier_from_uri(value)
 
 
+class SourceStructuredDateToDate(odin.Mapping):
+    """Maps SourceStructuredDate to Date object."""
+    from_obj = SourceStructuredDate
+    to_obj = Date
+
+    mappings = (
+        odin.define(from_field="date_type_structured", to_field="type"),
+        odin.define(from_field="date_label", to_field="label")
+    )
+
+    @odin.map_field(from_field="date_type_structured", to_field="begin")
+    def begin(self, value):
+        if value == "single":
+            return self.source.structured_date_single.date_standardized
+        else:
+            return self.source.structured_date_range.begin_date_standardized
+
+    @odin.map_field(from_field="date_type_structured", to_field="end")
+    def end(self, value):
+        if value == "single":
+            return self.source.structured_date_single.date_standardized
+        else:
+            return self.source.structured_date_range.end_date_standardized
+
+    @odin.map_field(from_field="date_type_structured", to_field="expression")
+    def expression(self, value):
+        if value == "single":
+            date_obj = self.source.structured_date_single
+            return date_obj.date_expression if date_obj.date_expression else date_obj.date_standardized
+        else:
+            date_obj = self.source.structured_date_range
+            begin = date_obj.begin_date_expression if date_obj.begin_date_expression else date_obj.begin_date_standardized
+            end = date_obj.end_date_expression if date_obj.end_date_expression else date_obj.end_date_standardized
+            return "{}-{}".format(begin, end)
+
+
 class SourceDateToDate(odin.Mapping):
     """Maps SourceDate to Date object."""
     from_obj = SourceDate
@@ -203,6 +256,10 @@ class SourceGroupToGroup(odin.Mapping):
         elif any(t in self.source.identifier for t in ["families", "people"]):
             category = "person"
         return category
+
+    @odin.map_list_field(from_field="dates", to_field="dates")
+    def dates(self, value):
+        return convert_dates(value)
 
 
 class SourceNoteToNote(odin.Mapping):
@@ -520,7 +577,7 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
 
     @odin.map_list_field(from_field="dates_of_existence", to_field="dates")
     def dates(self, value):
-        return SourceDateToDate.apply(value)
+        return convert_dates(value)
 
     @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
@@ -580,7 +637,7 @@ class SourceAgentFamilyToAgent(odin.Mapping):
 
     @odin.map_list_field(from_field="dates_of_existence", to_field="dates")
     def dates(self, value):
-        return SourceDateToDate.apply(value)
+        return convert_dates(value)
 
     @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
@@ -640,7 +697,7 @@ class SourceAgentPersonToAgent(odin.Mapping):
 
     @odin.map_list_field(from_field="dates_of_existence", to_field="dates")
     def dates(self, value):
-        return SourceDateToDate.apply(value)
+        return convert_dates(value)
 
     @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
