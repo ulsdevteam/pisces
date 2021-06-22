@@ -43,6 +43,28 @@ class SourceDate(odin.Resource):
     label = odin.StringField(choices=configs.DATE_LABEL_CHOICES)
 
 
+class SourceStructuredDateSingle(odin.Resource):
+    """A structured representation of a single date"""
+    date_expression = odin.StringField(null=True)
+    date_standardized = odin.StringField(null=True)
+
+
+class SourceStructuredDateRange(odin.Resource):
+    """A structured representation of a date range"""
+    begin_date_expression = odin.StringField(null=True)
+    begin_date_standardized = odin.StringField(null=True)
+    end_date_expression = odin.StringField(null=True)
+    end_date_standardized = odin.StringField(null=True)
+
+
+class SourceStructuredDate(odin.Resource):
+    """An alternative representation of dates, currently associated only with agents."""
+    date_label = odin.StringField(choices=configs.DATE_LABEL_CHOICES)
+    date_type_structured = odin.StringField(choices=configs.DATE_TYPE_CHOICES)
+    structured_date_single = odin.DictAs(SourceStructuredDateSingle, null=True)
+    structured_date_range = odin.DictAs(SourceStructuredDateRange, null=True)
+
+
 class SourceExtent(odin.Resource):
     """Records the size of an aggregation of archival records."""
     number = odin.StringField()
@@ -152,7 +174,7 @@ class SourceNote(odin.Resource):
 class SourceGroup(odin.Resource):
     """Information about the highest-level collection containing the data object."""
     creators = odin.ArrayOf(SourceLinkedAgent, null=True)
-    dates = odin.ArrayOf(SourceDate, null=True)
+    dates = odin.ArrayField(null=True)
     identifier = odin.StringField()
     title = odin.StringField()
 
@@ -249,7 +271,7 @@ class SourceAgentBase(odin.Resource):
         ('agent_person', 'Person')
     )
 
-    dates_of_existence = odin.ArrayOf(SourceDate)
+    dates_of_existence = odin.ArrayField(null=True)
     group = odin.DictAs(SourceGroup)
     jsonmodel_type = odin.StringField(choices=AGENT_TYPES)
     notes = odin.ArrayOf(SourceNote)
