@@ -103,10 +103,7 @@ async def handle_deleted_uris(uri_list, source, object_type, current_run):
             resp.raise_for_status()
             updated = es_ids
         except requests.exceptions.HTTPError:
-            if current_run:
-                FetchRunError.objects.create(
-                    run=current_run,
-                    message=resp.json()["detail"])
+            raise Exception("Error sending delete request: {}".format(resp.json()["detail"]))
         except Exception as e:
             raise Exception("Error sending delete request: {}".format(e))
     return updated

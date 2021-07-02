@@ -202,7 +202,6 @@ class FetcherTest(TestCase):
         error_resp.raise_for_status.side_effect = HTTPError("blergh")
         error_resp.json.return_value = {"detail": "foo"}
         mock_post.return_value = error_resp
-        deleted = loop.run_until_complete(handle_deleted_uris(uris, source, object_type, current_run))
-        self.assertFalse(deleted)
-        self.assertEqual(len(FetchRunError.objects.all()), 1)
-        self.assertEqual(FetchRunError.objects.all()[0].message, "foo")
+        with self.assertRaises(Exception) as context:
+            loop.run_until_complete(handle_deleted_uris(uris, source, object_type, current_run))
+            self.assertEqual(context.exception, "foo")
