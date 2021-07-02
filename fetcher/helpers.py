@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from electronbonder.client import ElectronBond
 from pisces import settings
 
-from .models import FetchRun, FetchRunError
+from .models import FetchRun
 
 
 def list_chunks(lst, n):
