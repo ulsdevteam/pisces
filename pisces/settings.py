@@ -185,3 +185,5 @@ PHOTOGRAPH_REFS = config.PHOTOGRAPH_REFS
 
 # Base URL for online assets
 ASSET_BASEURL = config.ASSET_BASEURL
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
