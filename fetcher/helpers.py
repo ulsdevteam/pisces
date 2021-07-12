@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from electronbonder.client import ElectronBond
 from pisces import settings
 
-from .models import FetchRun, FetchRunError
+from .models import FetchRun
 
 
 def list_chunks(lst, n):
@@ -103,10 +103,7 @@ async def handle_deleted_uris(uri_list, source, object_type, current_run):
             resp.raise_for_status()
             updated = es_ids
         except requests.exceptions.HTTPError:
-            if current_run:
-                FetchRunError.objects.create(
-                    run=current_run,
-                    message=resp.json()["detail"])
+            raise Exception("Error sending delete request: {}".format(resp.json()["detail"]))
         except Exception as e:
             raise Exception("Error sending delete request: {}".format(e))
     return updated
