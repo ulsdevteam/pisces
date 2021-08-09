@@ -1,4 +1,5 @@
 from datetime import datetime
+from subprocess import CalledProcessError, check_output
 
 from django_cron import CronJobBase, Schedule
 
@@ -10,7 +11,20 @@ class BaseCron(CronJobBase):
     RUN_EVERY_MINS = 0
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
 
+    def is_running(self):
+        """Checks to see if an instance of this class is already running."""
+        try:
+            running = check_output(["pgrep", "-f", self.__class__.__name__]).decode("utf-8").strip().split("\n")
+            if len(running) > 1:
+                return True
+            else:
+                return False
+        except CalledProcessError:
+            return False
+
     def do(self):
+        if self.is_running():
+            return
         start = datetime.now()
         source = [s[1] for s in FetchRun.SOURCE_CHOICES if s[0] == self.fetcher.source][0]
         print("Export of {} {} records from {} started at {}".format(
