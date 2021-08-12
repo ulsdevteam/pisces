@@ -72,7 +72,7 @@ class BaseDataFetcher:
     def instantiate_clients(self):
         clients = {
             "aspace": instantiate_aspace(settings.ARCHIVESSPACE)
-            }
+        }
         if settings.CARTOGRAPHER['cartographer_use']:
             clients["cartographer"] = instantiate_electronbond(settings.CARTOGRAPHER)
         return clients
