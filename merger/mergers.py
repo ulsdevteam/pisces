@@ -255,7 +255,7 @@ class ResourceMerger(BaseMerger):
         Adds Cartographer ancestors to object's `ancestors` key.
         """
         object["ancestors"] = []
-        if settings.CARTOGRAPHER['cartographer']:
+        if self.cartographer_client:
                 object["ancestors"].append(additional_data["ancestors"])
         object["position"] = additional_data.get("order", 0)
         object = super(ResourceMerger, self).combine_data(object, additional_data)
