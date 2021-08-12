@@ -3,6 +3,7 @@ from .helpers import (ArchivesSpaceHelper, MissingArchivalObjectError,
                       combine_references, handle_cartographer_reference,
                       indicator_to_integer)
 
+from pisces import settings
 
 class MergeError(Exception):
     pass
@@ -14,7 +15,8 @@ class BaseMerger:
     def __init__(self, clients):
         try:
             self.aspace_helper = ArchivesSpaceHelper(clients["aspace"])
-            self.cartographer_client = clients["cartographer"]
+            if settings.CARTOGRAPHER['cartographer']:
+                self.cartographer_client = ArchivesSpaceHelper(clients["cartographer"])
         except Exception as e:
             raise MergeError(e)
 
@@ -74,7 +76,8 @@ class ArchivalObjectMerger(BaseMerger):
             dict: a dictionary of data to be merged.
         """
         data = {"ancestors": [], "linked_agents": []}
-        data.update(self.get_cartographer_data(object))
+        if settings.CARTOGRAPHER['cartographer']:
+            data.update(self.get_cartographer_data(object))
         data.update(self.get_archivesspace_data(object, object_type))
         return data
 
@@ -230,7 +233,8 @@ class ResourceMerger(BaseMerger):
         Returns:
             dict: a dictionary of data to be merged.
         """
-        return self.get_cartographer_data(object)
+        if settings.CARTOGRAPHER['cartographer']:
+            return self.get_cartographer_data(object)
 
     def get_cartographer_data(self, object):
         """Returns ancestors (if any) for the resource record from
@@ -252,7 +256,9 @@ class ResourceMerger(BaseMerger):
 
         Adds Cartographer ancestors to object's `ancestors` key.
         """
-        object["ancestors"] = additional_data["ancestors"]
+        object["ancestors"] = []
+        if settings.CARTOGRAPHER['cartographer']:
+                object["ancestors"].append(additional_data["ancestors"])
         object["position"] = additional_data.get("order", 0)
         object = super(ResourceMerger, self).combine_data(object, additional_data)
         return combine_references(object)

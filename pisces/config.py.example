@@ -13,6 +13,7 @@ AS_BASEURL = "http://sandbox.archivesspace.org/"
 AS_USERNAME = "admin"
 AS_PASSWORD = "admin"
 AS_REPO_ID = 101
+CARTOGRAPHER = True
 CARTOGRAPHER_BASEURL = "http://localhost:8007"
 CARTOGRAPHER_HEALTH_CHECK_PATH = "/status/health/"
 CHUNK_SIZE = 20000

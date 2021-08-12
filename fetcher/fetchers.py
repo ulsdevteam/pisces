@@ -70,10 +70,12 @@ class BaseDataFetcher:
         return self.processed
 
     def instantiate_clients(self):
-        return {
-            "aspace": instantiate_aspace(settings.ARCHIVESSPACE),
-            "cartographer": instantiate_electronbond(settings.CARTOGRAPHER)
-        }
+        clients = {
+            "aspace": instantiate_aspace(settings.ARCHIVESSPACE)
+            }
+        if settings.CARTOGRAPHER['cartographer']:
+            clients["cartographer"] = instantiate_electronbond(settings.CARTOGRAPHER)
+        return clients
 
     async def process_fetched(self, fetched):
         tasks = []
