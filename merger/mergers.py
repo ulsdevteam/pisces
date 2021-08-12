@@ -256,7 +256,7 @@ class ResourceMerger(BaseMerger):
         """
         object["ancestors"] = []
         if self.cartographer_client:
-                object["ancestors"].append(additional_data["ancestors"])
+            object["ancestors"] = additional_data["ancestors"]
         object["position"] = additional_data.get("order", 0)
         object = super(ResourceMerger, self).combine_data(object, additional_data)
         return combine_references(object)
