@@ -143,7 +143,6 @@ CRON_CLASSES = [
     "fetcher.cron.DeletedArchivesSpacePeople",
     "fetcher.cron.DeletedArchivesSpaceResources",
     "fetcher.cron.DeletedArchivesSpaceSubjects",
-    "fetcher.cron.DeletedCartographerArrangementMapComponents",
     "fetcher.cron.UpdatedArchivesSpaceArchivalObjects",
     "fetcher.cron.UpdatedArchivesSpaceFamilies",
     "fetcher.cron.UpdatedArchivesSpaceOrganizations",
