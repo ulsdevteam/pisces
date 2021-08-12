@@ -231,7 +231,7 @@ class ResourceMerger(BaseMerger):
         Returns:
             dict: a dictionary of data to be merged.
         """
-        if settings.CARTOGRAPHER['cartographer']:
+        if self.cartographer_client:
             return self.get_cartographer_data(object)
 
     def get_cartographer_data(self, object):
