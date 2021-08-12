@@ -74,7 +74,7 @@ class ArchivalObjectMerger(BaseMerger):
             dict: a dictionary of data to be merged.
         """
         data = {"ancestors": [], "linked_agents": []}
-        if settings.CARTOGRAPHER['cartographer']:
+        if self.cartographer_client:
             data.update(self.get_cartographer_data(object))
         data.update(self.get_archivesspace_data(object, object_type))
         return data
