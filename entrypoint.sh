@@ -5,6 +5,12 @@ if [ ! -f manage.py ]; then
   cd pisces
 fi
 
+# Create config.py if it doesn't exist
+if [ ! -f pisces/config.py ]; then
+    echo "Creating config file"
+    cp pisces/config.py.example pisces/config.py
+fi
+
 ./wait-for-it.sh db:5432 -- echo "Apply database migrations"
 python manage.py migrate
 
