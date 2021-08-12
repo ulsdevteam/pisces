@@ -3,7 +3,6 @@ from .helpers import (ArchivesSpaceHelper, MissingArchivalObjectError,
                       combine_references, handle_cartographer_reference,
                       indicator_to_integer)
 
-from pisces import settings
 
 class MergeError(Exception):
     pass
