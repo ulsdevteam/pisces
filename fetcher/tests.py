@@ -205,3 +205,16 @@ class FetcherTest(TestCase):
         with self.assertRaises(Exception) as context:
             loop.run_until_complete(handle_deleted_uris(uris, source, object_type, current_run))
             self.assertEqual(context.exception, "foo")
+
+    def test_is_exportable(self):
+        """Ensures is_exportable correctly parses objects."""
+        fetcher = ArchivesSpaceDataFetcher()
+        for data, expected_result in [
+                ({"publish": False}, False),
+                ({"publish": True}, True),
+                ({"publish": True, "has_unpublished_ancestor": True}, False),
+                ({"publish": True, "has_unpublished_ancestor": False}, True),
+                ({"publish": True, "id_0": "foobar"}, False),
+                ({"publish": True, "id_0": "FA123"}, True)]:
+            result = fetcher.is_exportable(data)
+            self.assertEqual(result, expected_result)
