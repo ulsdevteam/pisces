@@ -162,6 +162,7 @@ ARCHIVESSPACE = {
 }
 
 CARTOGRAPHER = {
+    "cartographer_use": config.CARTOGRAPHER_USE,
     "baseurl": config.CARTOGRAPHER_BASEURL,
     "health_check_path": config.CARTOGRAPHER_HEALTH_CHECK_PATH,
 }
