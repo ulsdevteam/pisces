@@ -27,6 +27,13 @@ Or, if you want to remove all data
     $ docker-compose down -v
 
 
+## Configuring
+
+Pisces configurations are stored in `/pisces/config.py`. This file is excluded from version control, and you will need to update this file with values for your local instance. 
+
+The first time the container is started, the example config file (`/pisces/config.py.example`) will be copied to create the config file if it doesn't already exist.
+
+
 ## Developing
 Git pre-commit hooks can be enabled in this repository by running:
 ```

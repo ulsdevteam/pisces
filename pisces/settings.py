@@ -143,7 +143,6 @@ CRON_CLASSES = [
     "fetcher.cron.DeletedArchivesSpacePeople",
     "fetcher.cron.DeletedArchivesSpaceResources",
     "fetcher.cron.DeletedArchivesSpaceSubjects",
-    "fetcher.cron.DeletedCartographerArrangementMapComponents",
     "fetcher.cron.UpdatedArchivesSpaceArchivalObjects",
     "fetcher.cron.UpdatedArchivesSpaceFamilies",
     "fetcher.cron.UpdatedArchivesSpaceOrganizations",
@@ -163,6 +162,7 @@ ARCHIVESSPACE = {
 }
 
 CARTOGRAPHER = {
+    "cartographer_use": config.CARTOGRAPHER_USE,
     "baseurl": config.CARTOGRAPHER_BASEURL,
     "health_check_path": config.CARTOGRAPHER_HEALTH_CHECK_PATH,
 }
