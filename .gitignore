@@ -3,6 +3,7 @@
 *.pickle
 config.py
 source_data
+python
 
 ### Django ###
 *.log
