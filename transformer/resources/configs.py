@@ -331,16 +331,22 @@ INSTANCE_TYPE_CHOICES = (
     ('accession', 'Accession'),
     ('audio', 'Audio'),
     ('audiovisual materials', 'Audiovisual Materials'),
+    ('books', 'Books'),
     ('bound volume', 'Bound Volume'),
-    ('collection', 'Collection'),
+    ('cassette', 'Cassette')
+    ('collection', 'Collection'),s
     ('Digital', 'Digital'),
     ('computer_disks', 'Computer Disks'),
     ('digital_object', 'Digital Object'),
     ('documents', 'Documents'),
     ('Ephemera', 'Ephemera'),
+    ('graphic_materials', 'Graphic Materials')
+    ('maps', 'Maps'),
     ('microform', 'Microform'),
     ('mixed materials', 'Mixed Materials'),
     ('moving images', 'Moving Images'),
+    ('moving_images', 'Moving Images'),
+    ('photographic_images', 'Photographic Images'),
     ('realia', 'Realia'),
     ('still image', 'Still Image'),
     ('text', 'Text')
