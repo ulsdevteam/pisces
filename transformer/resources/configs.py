@@ -334,7 +334,7 @@ INSTANCE_TYPE_CHOICES = (
     ('books', 'Books'),
     ('bound volume', 'Bound Volume'),
     ('cassette', 'Cassette')
-    ('collection', 'Collection'),s
+    ('collection', 'Collection'),
     ('Digital', 'Digital'),
     ('computer_disks', 'Computer Disks'),
     ('digital_object', 'Digital Object'),
