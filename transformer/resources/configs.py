@@ -344,6 +344,7 @@ INSTANCE_TYPE_CHOICES = (
     ('maps', 'Maps'),
     ('microform', 'Microform'),
     ('mixed materials', 'Mixed Materials'),
+    ('mixed_materials', 'Mixed Materials'),
     ('moving images', 'Moving Images'),
     ('moving_images', 'Moving Images'),
     ('photographic_images', 'Photographic Images'),
