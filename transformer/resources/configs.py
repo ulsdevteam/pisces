@@ -333,14 +333,14 @@ INSTANCE_TYPE_CHOICES = (
     ('audiovisual materials', 'Audiovisual Materials'),
     ('books', 'Books'),
     ('bound volume', 'Bound Volume'),
-    ('cassette', 'Cassette')
+    ('cassette', 'Cassette'),
     ('collection', 'Collection'),
     ('Digital', 'Digital'),
     ('computer_disks', 'Computer Disks'),
     ('digital_object', 'Digital Object'),
     ('documents', 'Documents'),
     ('Ephemera', 'Ephemera'),
-    ('graphic_materials', 'Graphic Materials')
+    ('graphic_materials', 'Graphic Materials'),
     ('maps', 'Maps'),
     ('microform', 'Microform'),
     ('mixed materials', 'Mixed Materials'),
