@@ -2,7 +2,7 @@ import json
 
 from jsonschema.exceptions import ValidationError
 from odin.codecs import json_codec
-from rac_schemas import is_valid
+from pitt_schemas import is_valid
 
 from .mappings import (SourceAgentCorporateEntityToAgent,
                        SourceAgentFamilyToAgent, SourceAgentPersonToAgent,
