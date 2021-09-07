@@ -7,3 +7,4 @@ ADD requirements.txt /code/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 RUN apt-get update && apt-get install cron -y
 ADD . /code/
+ENTRYPOINT ["/code/entrypoint.sh"]
