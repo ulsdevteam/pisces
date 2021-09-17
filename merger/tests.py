@@ -1,5 +1,6 @@
 import json
 import os
+from unittest.mock import patch
 
 import vcr
 from django.test import TestCase
@@ -36,9 +37,14 @@ class MergerTest(TestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
 
-    def test_merge(self):
-        """Tests Merge."""
+    @patch("merger.mergers.ArchivalObjectMerger.get_position")
+    def test_merge(self, mock_position):
+        """Tests Merge.
 
+        get_position is mocked because it is tested separately below and requires
+        additional fetches not in the cassette.
+        """
+        mock_position.return_value = 1
         for source_object_type, merger, target_object_types in object_types:
             with merger_vcr.use_cassette("{}-merge.json".format(source_object_type)):
                 transform_count = 0
@@ -126,3 +132,22 @@ class MergerTest(TestCase):
                     for parsed_pair in source_data:
                         parsed = merger.parse_instances(parsed_pair["source"])
                         self.assertEqual(parsed, parsed_pair["parsed"])
+
+    def test_position(self):
+        """Asserts that collection positions are calculated correctly."""
+        EXPECTED = {"/repositories/2/archival_objects/1113591": 14362,
+                    "/repositories/2/archival_objects/13832": 141607,
+                    "/repositories/2/archival_objects/482045": 36134,
+                    "/repositories/2/archival_objects/487369": 40700,
+                    "/repositories/2/archival_objects/892776": 136188}
+        with merger_vcr.use_cassette("position.json"):
+            clients = BaseDataFetcher().instantiate_clients()
+            merger = ArchivalObjectMerger(clients)
+            fixture_dir = os.path.join("fixtures", "merger", "position")
+            for f in os.listdir(fixture_dir):
+                with open(os.path.join(fixture_dir, f), "r") as json_file:
+                    source_data = json.load(json_file)
+                    collection_index = merger.get_position(source_data)
+                    self.assertEqual(
+                        collection_index, EXPECTED[source_data['uri']],
+                        f"Expected {EXPECTED[source_data['uri']]}, got {collection_index}")
