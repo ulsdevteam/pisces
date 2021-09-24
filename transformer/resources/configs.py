@@ -280,10 +280,15 @@ AGENT_ROLE_CHOICES = (
 
 CONTAINER_TYPE_CHOICES = (
     ('box', 'Box'),
+    ('cabinet', 'cabinet'),
     ('carton', 'Carton'),
     ('card', 'Card'),
     ('case', 'Case'),
+    ('cassette', 'cassette'),
+    ('computer_disks_/_tapes', 'computer_disks_/_tapes'),
+    ('computer disks / tapes', 'computer disks / tapes'),
     ('Disc', 'Disc'),
+    ('disc', 'disc'),
     ('disk', 'Disk'),
     ('drawer', 'Drawer'),
     ('dvd', 'DVD'),
@@ -291,16 +296,29 @@ CONTAINER_TYPE_CHOICES = (
     ('folder', 'Folder'),
     ('frame', 'Frame'),
     ('item', 'Item'),
+    ('images', 'images'),
+    ('negatives', 'negatives'),
     ('object', 'Object'),
+    ('other', 'other'),
+    ('othertype', 'othertype'),
+    ('oversize', 'oversize'),
     ('package', 'Package'),
     ('page', 'Page'),
+    ('photos', 'photos'),
+    ('portfolio', 'portfolio'),
+    ('record', 'record'),
     ('reel', 'Reel'),
     ('Reel', 'Reel'),
     ('roll', 'Roll'),
     ('sheet', 'Sheet'),
+    ('slide', 'slide'),
     ('Tape', 'Tape'),
+    ('tape', 'tape'),
+    ('tube', 'tube'),
     ('1/4 inch audio cassette', '1/4 inch audio cassette'),
-    ('volume', 'Volume')
+    ('unknown_item', 'unknown_item'),
+    ('volume', 'Volume'),
+    ('video', 'video')
 )
 
 DATE_TYPE_CHOICES = (
