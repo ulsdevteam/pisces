@@ -8,7 +8,7 @@ env:
     - APPLICATION_NAME: pisces
     - DJANGO_PORT: 8007
 before_install:
-  - cp $APPLICATION_NAME/$APPLICATION_NAME/config.py.example $APPLICATION_NAME/$APPLICATION_NAME/config.py
+  - cp ${APPLICATION_NAME}/${APPLICATION_NAME}/config.py.example ${APPLICATION_NAME}/${APPLICATION_NAME}/config.py
   - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
   - docker-compose up -d
 install:
