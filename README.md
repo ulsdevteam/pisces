@@ -3,10 +3,9 @@ A service for fetching, merging and transforming data for discovery.
 
 pisces is part of [Project Electron](https://github.com/RockefellerArchiveCenter/project_electron), an initiative to build sustainable, open and user-centered infrastructure for the archival management of digital records at the [Rockefeller Archive Center](http://rockarch.org/).
 
-[![Build Status](https://travis-ci.org/RockefellerArchiveCenter/pisces.svg?branch=master)](https://travis-ci.org/RockefellerArchiveCenter/pisces)
+[![Build Status](https://travis-ci.org/RockefellerArchiveCenter/pisces.svg?branch=base)](https://travis-ci.org/RockefellerArchiveCenter/pisces)
 
 ## Setup
-
 Install [git](https://git-scm.com/) and clone the repository
 
     $ git clone https://github.com/RockefellerArchiveCenter/pisces.git
@@ -26,23 +25,15 @@ Or, if you want to remove all data
 
     $ docker-compose down -v
 
+## Development
+This repository contains a configuration file for git [pre-commit](https://pre-commit.com/) hooks which help ensure that code is linted before it is checked into version control. It is strongly recommended that you install these hooks locally by installing pre-commit and running `pre-commit install`.
 
 ## Configuring
-
-Pisces configurations are stored in `/pisces/config.py`. This file is excluded from version control, and you will need to update this file with values for your local instance. 
+Pisces configurations are stored in `/pisces/config.py`. This file is excluded from version control, and you will need to update this file with values for your local instance.
 
 The first time the container is started, the example config file (`/pisces/config.py.example`) will be copied to create the config file if it doesn't already exist.
 
-
-## Developing
-Git pre-commit hooks can be enabled in this repository by running:
-```
-$ pip install pre-commit
-$ pre-commit install
-```
-
 ## Services
-
 pisces has three main sets of services, all of which are exposed via HTTP endpoints (see [Routes](#routes) section below):
 
 * Fetch data from data sources
@@ -50,7 +41,6 @@ pisces has three main sets of services, all of which are exposed via HTTP endpoi
 * Transform source data into target data
 
 ![Pisces diagram](pisces-services.png)
-
 
 ### Routes
 
@@ -67,5 +57,4 @@ pisces has three main sets of services, all of which are exposed via HTTP endpoi
 |GET|/schema.json||200|Returns the OpenAPI schema for this service|
 
 ## License
-
 This code is released under an [MIT License](LICENSE).
