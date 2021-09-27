@@ -17,7 +17,6 @@ install:
 script:
   - docker-compose exec $CONTAINER pre-commit run --all-files --show-diff-on-failure
   - docker-compose exec $CONTAINER coverage run manage.py test
-  - docker-compose exec $CONTAINER coverage xml
 after_script:
   - docker-compose exec $CONTAINER coverage report --omit=*/migrations/* -m
 before_deploy:
