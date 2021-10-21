@@ -84,7 +84,7 @@ class ArchivalObjectMerger(BaseMerger):
         data = {"ancestors": [], "linked_agents": []}
         if self.cartographer_client:
             data.update(self.get_cartographer_data(object))
-        data.update(await self.get_archivesspace_data(object, object_type))
+        data.update(self.get_archivesspace_data(object, object_type))
         return data
 
     def get_cartographer_data(self, object):
@@ -187,7 +187,7 @@ class ArchivalObjectMerger(BaseMerger):
 
         return sum([previous_ancestors_count, previous_top_ancestors_count, cartographer_count])
 
-    async def get_archivesspace_data(self, object, object_type):
+    def get_archivesspace_data(self, object, object_type):
         """Gets dates, languages, and extent from archival object's
         resource record in ArchivesSpace.
         """
