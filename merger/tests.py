@@ -5,8 +5,9 @@ from unittest.mock import patch
 
 import vcr
 from django.test import TestCase
-from fetcher.fetchers import BaseDataFetcher
 from rest_framework.test import APIRequestFactory
+
+from fetcher.fetchers import BaseDataFetcher
 
 from .mergers import (AgentMerger, ArchivalObjectMerger, ArrangementMapMerger,
                       ResourceMerger, SubjectMerger)
