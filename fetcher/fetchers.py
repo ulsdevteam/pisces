@@ -23,8 +23,8 @@ def run_transformer(merged_object_type, merged):
     Transformer().run(merged_object_type, merged)
 
 
-def run_merger(merger, object_type, fetched):
-    return merger(clients).merge(object_type, fetched)
+async def run_merger(merger, object_type, fetched):
+    return await merger(clients).merge(object_type, fetched)
 
 
 class BaseDataFetcher:
@@ -116,7 +116,7 @@ class BaseDataFetcher:
     async def handle_data(self, data, loop, executor, semaphore, to_delete):
         try:
             if self.is_exportable(data):
-                merged, merged_object_type = await loop.run_in_executor(executor, run_merger, self.merger, self.object_type, data)
+                merged, merged_object_type = await self.merger(clients).merge(self.object_type, data)
                 await loop.run_in_executor(executor, run_transformer, merged_object_type, merged)
             else:
                 to_delete.append(data.get("uri", data.get("archivesspace_uri")))
