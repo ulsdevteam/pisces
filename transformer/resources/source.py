@@ -253,7 +253,6 @@ class SourceResource(SourceComponentBase):
     id_2 = odin.StringField(null=True)
     ancestors = odin.ArrayOf(SourceAncestor, null=True)
     instances = odin.ArrayOf(SourceInstance)
-    position = odin.IntegerField()
 
 
 class SourceAgentBase(odin.Resource):

@@ -53,7 +53,7 @@ idna==2.10
     # via
     #   requests
     #   yarl
-importlib-metadata==4.6.0
+importlib-metadata==4.8.1
     # via jsonschema
 iso-639==0.4.5
     # via -r requirements.in
@@ -61,7 +61,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements.in
     #   rac-schemas
-more-itertools==8.8.0
+more-itertools==8.10.0
     # via archivessnake
 multidict==5.1.0
     # via yarl
@@ -85,7 +85,7 @@ pyyaml==5.4.1
     #   vcrpy
 rac-schemas==0.27
     # via -r requirements.in
-rapidfuzz==1.4.1
+rapidfuzz==1.7.0
     # via archivessnake
 requests==2.25.1
     # via
@@ -102,11 +102,11 @@ six==1.16.0
     #   vcrpy
 smmap==4.0.0
     # via gitdb
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via django
 structlog==21.1.0
     # via archivessnake
-typing-extensions==3.10.0.0
+typing-extensions==3.10.0.2
     # via
     #   asgiref
     #   gitpython
@@ -115,7 +115,7 @@ typing-extensions==3.10.0.0
     #   yarl
 uritemplate==3.0.1
     # via -r requirements.in
-urllib3==1.26.6
+urllib3==1.26.7
     # via requests
 vcrpy==4.1.1
     # via -r requirements.in
@@ -123,7 +123,7 @@ wrapt==1.12.1
     # via vcrpy
 yarl==1.6.3
     # via vcrpy
-zipp==3.4.1
+zipp==3.5.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
