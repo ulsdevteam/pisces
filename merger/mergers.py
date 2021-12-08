@@ -1,3 +1,5 @@
+from requests.exceptions import ConnectionError
+
 from .helpers import (ArchivesSpaceHelper, MissingArchivalObjectError,
                       add_group, closest_creators, closest_parent_value,
                       combine_references, handle_cartographer_reference,
@@ -30,9 +32,10 @@ class BaseMerger:
             return self.combine_data(object, additional_data), target_object_type
         except MissingArchivalObjectError:
             pass
+        except ConnectionError as e:
+            raise MergeError(f"Error merging {identifier}: {e} for request {e.request.__dict__}")
         except Exception as e:
-            print(e)
-            raise MergeError("Error merging {}: {}".format(identifier, e))
+            raise MergeError(f"Error merging {identifier}: {e}")
 
     def get_identifier(self, object):
         """Returns the identifier for the object."""
