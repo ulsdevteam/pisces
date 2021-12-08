@@ -1,0 +1,14 @@
+PISCES_ROOT=/code/pisce
+*/5 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.CleanUpCompleted" >> /code/logs/cron/pisces-cleanupcompleted.txt
+0 0 */2 * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "transformer.cron.CheckMissingOnlineAssets" >> /code/logs/cron/pisces-online.txt
+00,30 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceFamilies" >> /code/logs/cron/pisces-families.txt
+05,35 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceOrganizations" >> /code/logs/cron/pisces-organizations.txt
+10,40 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.UpdatedArchivesSpacePeople" >> /code/logs/cron/pisces-people.txt
+15,45 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceResources" >> /code/logs/cron/pisces-resources.txt
+20,50 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceArchivalObjects" >> /code/logs/cron/pisces-archivalobjects.txt
+#05,35 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.UpdatedCartographerArrangementMapComponents" >> /code/logs/cron/pisces-arrangementmaps.txt
+00,30 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceFamilies" >> /code/logs/cron/pisces-families-deleted.txt
+05,35 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceOrganizations" >> /code/logs/cron/pisces-organizations-deleted.txt
+10,40 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.DeletedArchivesSpacePeople" >> /code/logs/cron/pisces-people-deleted.txt
+15,45 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceResources" >> /code/logs/cron/pisces-resources-deleted.txt
+20,50 * * * * $PISCES_ROOT/python -u $PISCES_ROOT/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceArchivalObjects" >> /code/logs/cron/pisces-archivalobjects-deleted.txt

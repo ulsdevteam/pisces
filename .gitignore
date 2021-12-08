@@ -3,6 +3,7 @@
 *.pickle
 config.py
 source_data
+python
 
 ### Django ###
 *.log
@@ -14,3 +15,10 @@ db.sqlite3
 media
 .pytest_cache/
 .tox/
+
+### Configs ###
+*.conf
+*.prod
+*.production
+.env
+env/*
