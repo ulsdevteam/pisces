@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  pisces-db:
+    image: postgres:10.4
+    volumes:
+      - piscesdbvolume:/var/lib/postgresql/data/
+  pisces-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8007:8007"
+    depends_on:
+      - pisces-db
+
+volumes:
+  piscesdbvolume:

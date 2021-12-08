@@ -1,10 +1,31 @@
-FROM python:3.6
+FROM python:3.9
 
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
-WORKDIR /code
-ADD requirements.txt /code/
-RUN pip install --upgrade pip && pip install -r requirements.txt
-RUN apt-get update && apt-get install cron -y
-ADD . /code/
-ENTRYPOINT ["/code/entrypoint.sh"]
+RUN apt-get update
+RUN apt-get install --yes apache2 apache2-dev
+RUN apt-get install --yes libapache2-mod-wsgi-py3
+RUN apt-get -y install python3-pip
+RUN pip install --upgrade pip
+RUN pip install django
+
+ADD ./apache/000-pisces.conf /etc/apache2/sites-available/000-pisces.conf
+RUN a2dissite 000-default
+RUN a2ensite 000-pisces.conf
+RUN a2enmod headers
+RUN a2enmod rewrite
+
+RUN mkdir -p /var/www/html/
+COPY . /var/www/html/pisces
+WORKDIR /var/www/html/pisces
+RUN pip install -r requirements.txt
+RUN ./manage.py collectstatic
+
+RUN chmod 775 /var/www/html/pisces
+RUN chgrp www-data /var/www/html/pisces
+RUN chmod 775 /var/www/html/pisces/static
+RUN chown www-data:www-data /var/www/html/pisces/static
+RUN chmod 775 /var/www/html/pisces/pisces
+RUN chgrp www-data /var/www/html/pisces/pisces
+
+EXPOSE 8007
+CMD ["apache2ctl", "-D", "FOREGROUND"]
