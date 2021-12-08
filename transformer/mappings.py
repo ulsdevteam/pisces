@@ -2,8 +2,9 @@ import json
 
 import odin
 import requests
-from fetcher.helpers import identifier_from_uri
 from iso639 import languages
+
+from fetcher.helpers import identifier_from_uri
 from pisces import settings
 
 from .resources.configs import NOTE_TYPE_CHOICES, NOTE_TYPE_CHOICES_TRANSFORM

@@ -2,6 +2,7 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 from django.utils import timezone
+
 from merger.mergers import (AgentMerger, ArchivalObjectMerger,
                             ArrangementMapMerger, ResourceMerger,
                             SubjectMerger)
@@ -38,7 +39,6 @@ class BaseDataFetcher:
         self.object_type = object_type
         self.last_run = last_run_time(self.source, object_status, object_type)
         global clients
-        clients = self.instantiate_clients()
         self.processed = 0
         self.current_run = FetchRun.objects.create(
             status=FetchRun.STARTED,
@@ -48,6 +48,7 @@ class BaseDataFetcher:
         self.merger = self.get_merger(object_type)
 
         try:
+            clients = self.instantiate_clients()
             fetched = getattr(
                 self, "get_{}".format(self.object_status))()
             asyncio.get_event_loop().run_until_complete(

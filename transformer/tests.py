@@ -5,8 +5,9 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
-from fetcher.helpers import identifier_from_uri
 from rest_framework.test import APIRequestFactory
+
+from fetcher.helpers import identifier_from_uri
 
 from .cron import CheckMissingOnlineAssets
 from .mappings import has_online_instance

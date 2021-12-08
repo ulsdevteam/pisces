@@ -59,6 +59,14 @@ class BaseMerger:
                 return "archival_object_collection"
         return data.get("jsonmodel_type")
 
+    def arrangement_map_component_by_uri(self, uri):
+        resp = self.cartographer_client.get("/api/find-by-uri/", params={"uri": uri})
+        resp.raise_for_status()
+        json_data = resp.json()
+        if json_data["count"] > 0:
+            return json_data["results"][0]
+        return None
+
 
 class ArchivalObjectMerger(BaseMerger):
 
@@ -83,13 +91,10 @@ class ArchivalObjectMerger(BaseMerger):
         """Gets ancestors, if any, from the archival object's resource record in
         Cartographer."""
         data = {"ancestors": []}
-        resp = self.cartographer_client.get(
-            "/api/find-by-uri/", params={"uri": object["resource"]["ref"]})
-        if resp.status_code == 200:
-            json_data = resp.json()
-            if json_data["count"] >= 1:
-                for a in json_data["results"][0].get("ancestors"):
-                    data["ancestors"].append(handle_cartographer_reference(a))
+        result = self.arrangement_map_component_by_uri(object["resource"]["ref"])
+        if result:
+            for a in result.get("ancestors", []):
+                data["ancestors"].append(handle_cartographer_reference(a))
         return data
 
     def get_language_data(self, object, data):
@@ -149,6 +154,39 @@ class ArchivalObjectMerger(BaseMerger):
                 raise Exception("Error parsing instances") from e
         return extents
 
+    def get_position(self, object):
+        """Gets the position of the object within the collection.
+
+        This is calculated based on the sum of previous ancestors, previous top
+        ancestors in ArchivesSpace, and previous ancestors in Cartographer.
+        """
+
+        previous_ancestors_count = 0
+        for idx, ancestor in enumerate(object["ancestors"]):
+            target_node = object["ancestors"][idx - 1] if idx > 0 else object
+            tree_node = self.aspace_helper.tree_node(object["resource"]["ref"], ancestor["ref"])
+            previous_ancestors_count += self.aspace_helper.objects_before(
+                target_node,
+                tree_node,
+                object["resource"]["ref"],
+                ancestor["ref"])
+
+        target_node = object["ancestors"][-2] if len(object["ancestors"]) > 1 else object
+        tree_root = self.aspace_helper.tree_root(object["resource"]["ref"])
+        previous_top_ancestors_count = self.aspace_helper.objects_before(
+            target_node,
+            tree_root,
+            object["resource"]["ref"])
+
+        cartographer_count = 0
+        if self.cartographer_client:
+            result = self.arrangement_map_component_by_uri(object["resource"]["ref"])
+            if result:
+                resp = self.cartographer_client.get(f"{result['ref']}objects_before/").json()
+                cartographer_count = resp.get("count", 0)
+
+        return sum([previous_ancestors_count, previous_top_ancestors_count, cartographer_count])
+
     def get_archivesspace_data(self, object, object_type):
         """Gets dates, languages, and extent from archival object's
         resource record in ArchivesSpace.
@@ -164,6 +202,7 @@ class ArchivalObjectMerger(BaseMerger):
             data["extents"] = extent_data
         if object_type == "archival_object_collection":
             data["linked_agents"] = closest_creators(object)
+        data["position"] = self.get_position(object)
         return data
 
     def combine_data(self, object, additional_data):
@@ -235,15 +274,12 @@ class ResourceMerger(BaseMerger):
         """Returns ancestors (if any) for the resource record from
         Cartographer."""
         data = {"ancestors": []}
-        resp = self.cartographer_client.get(
-            "/api/find-by-uri/", params={"uri": object["uri"]})
-        if resp.status_code == 200:
-            json_data = resp.json()
-            if json_data["count"] > 0:
-                result = json_data["results"][0]
-                data["order"] = result["order"]
-                for a in result.get("ancestors", []):
-                    data["ancestors"].append(handle_cartographer_reference(a))
+        result = self.arrangement_map_component_by_uri(object["uri"])
+        if result:
+            resp = self.cartographer_client.get(f"{result['ref']}objects_before/").json()
+            data["order"] = resp.get("count", 0)
+            for a in result.get("ancestors", []):
+                data["ancestors"].append(handle_cartographer_reference(a))
         return data
 
     def combine_data(self, object, additional_data):
