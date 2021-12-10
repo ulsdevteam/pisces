@@ -1,6 +1,5 @@
 DJANGO_CRON_LOCKFILE_PATH = "/tmp/pisces_cron/"  # absolute path to store lockfiles for running cron jobs (string)
 DJANGO_DEBUG = True  # run Django in debug mode, which outputs stack traces to the UI, set to False for production (boolean)
-DJANGO_PORT = 8007  # the port on which the Django development server will run (integer)
 DJANGO_SECRET_KEY = "d$@ip!go1iqfsckz=g7q+*p6epzk$&w*0)yo*!+^rc%jpumn5v"  # used by Django to create hashes (string)
 DJANGO_ALLOWED_HOSTS = ["localhost", "pisces-web"]  # hosts Pisces will respond to (list of strings)
 SQL_ENGINE = "django.db.backends.postgresql"  # the database engine used by Pisces (string, one of django.db.backends)
