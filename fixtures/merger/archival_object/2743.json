@@ -5,7 +5,7 @@
                 "ancestors": [
                     {
                         "level": "collection",
-                        "ref": "/repositories/101/resources/4"
+                        "ref": "/repositories/2/resources/4"
                     }
                 ],
                 "component_id": "3",
@@ -34,7 +34,7 @@
                     "ref": "/repositories/101"
                 },
                 "resource": {
-                    "ref": "/repositories/101/resources/4"
+                    "ref": "/repositories/2/resources/4"
                 },
                 "restrictions_apply": false,
                 "rights_statements": [],
@@ -42,11 +42,11 @@
                 "suppressed": false,
                 "system_mtime": "2020-09-21T17:24:57Z",
                 "title": "Original Audio Tapes",
-                "uri": "/repositories/101/archival_objects/2336",
+                "uri": "/repositories/2/archival_objects/2336",
                 "user_mtime": "2020-09-21T17:10:28Z"
             },
             "level": "series",
-            "ref": "/repositories/101/archival_objects/2336"
+            "ref": "/repositories/2/archival_objects/2336"
         },
         {
             "_resolved": {
@@ -421,13 +421,13 @@
                 "system_mtime": "2020-09-21T17:24:57Z",
                 "title": "Cary Reich papers",
                 "tree": {
-                    "ref": "/repositories/101/resources/4/tree"
+                    "ref": "/repositories/2/resources/4/tree"
                 },
-                "uri": "/repositories/101/resources/4",
+                "uri": "/repositories/2/resources/4",
                 "user_mtime": "2020-09-21T17:10:28Z"
             },
             "level": "collection",
-            "ref": "/repositories/101/resources/4"
+            "ref": "/repositories/2/resources/4"
         }
     ],
     "create_time": "2020-09-21T17:16:25Z",
@@ -462,7 +462,7 @@
                             {
                                 "display_string": "Cary Reich papers",
                                 "identifier": "FA1275",
-                                "ref": "/repositories/101/resources/4"
+                                "ref": "/repositories/2/resources/4"
                             }
                         ],
                         "container_locations": [],
@@ -485,15 +485,15 @@
                                 "identifier": "3",
                                 "level_display_string": "Series",
                                 "publish": true,
-                                "ref": "/repositories/101/archival_objects/2336"
+                                "ref": "/repositories/2/archival_objects/2336"
                             }
                         ],
                         "system_mtime": "2020-09-21T17:24:57Z",
                         "type": "box",
-                        "uri": "/repositories/101/top_containers/504",
+                        "uri": "/repositories/2/top_containers/504",
                         "user_mtime": "2020-09-20T15:19:02Z"
                     },
-                    "ref": "/repositories/101/top_containers/504"
+                    "ref": "/repositories/2/top_containers/504"
                 },
                 "user_mtime": "2020-09-21T17:16:25Z"
             },
@@ -511,7 +511,7 @@
     "lock_version": 0,
     "notes": [],
     "parent": {
-        "ref": "/repositories/101/archival_objects/2336"
+        "ref": "/repositories/2/archival_objects/2336"
     },
     "position": 3,
     "publish": true,
@@ -520,7 +520,7 @@
         "ref": "/repositories/101"
     },
     "resource": {
-        "ref": "/repositories/101/resources/4"
+        "ref": "/repositories/2/resources/4"
     },
     "restrictions_apply": false,
     "rights_statements": [],
@@ -528,6 +528,6 @@
     "suppressed": false,
     "system_mtime": "2020-09-21T17:24:57Z",
     "title": "AV 6472 - AV 6526",
-    "uri": "/repositories/101/archival_objects/2743",
+    "uri": "/repositories/2/archival_objects/2743",
     "user_mtime": "2020-09-21T17:16:25Z"
 }

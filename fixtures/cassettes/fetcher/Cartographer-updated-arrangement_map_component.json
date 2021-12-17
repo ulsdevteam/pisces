@@ -4,7 +4,7 @@
         {
             "request": {
                 "method": "POST",
-                "uri": "http://192.168.1.4:8089/users/admin/login",
+                "uri": "https://as.rockarch.org/api/users/admin/login",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -57,7 +57,7 @@
         {
             "request": {
                 "method": "GET",
-                "uri": "http://192.168.1.4:8089/version",
+                "uri": "https://as.rockarch.org/api/version",
                 "body": null,
                 "headers": {
                     "User-Agent": [
