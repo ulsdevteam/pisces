@@ -4,7 +4,7 @@
         {
             "request": {
                 "method": "POST",
-                "uri": "http://192.168.1.9:8089/users/admin/login",
+                "uri": "https://api.rockarch.org/api/users/admin/login",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -57,7 +57,7 @@
         {
             "request": {
                 "method": "GET",
-                "uri": "http://192.168.1.9:8089/version",
+                "uri": "https://api.rockarch.org/api/version",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -169,7 +169,7 @@
         {
             "request": {
                 "method": "GET",
-                "uri": "http://rac-vch-prod.ad.rockarchive.org:8000/api/find-by-uri/?uri=%2Frepositories%2F101%2Fresources%2F3",
+                "uri": "http://rac-vch-prod.ad.rockarchive.org:8000/api/find-by-uri/?uri=%2Frepositories%2F2%2Fresources%2F3",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -228,7 +228,7 @@
         {
             "request": {
                 "method": "GET",
-                "uri": "http://192.168.1.9:8089/repositories/101/resources/3/tree/root",
+                "uri": "https://api.rockarch.org/api/repositories/2/resources/3/tree/root",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -271,14 +271,14 @@
                     ]
                 },
                 "body": {
-                    "string": "{\"child_count\":1,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2\",\"uri\":\"/repositories/101/resources/3\",\"slugged_url\":\"\",\"jsonmodel_type\":\"resource\",\"parsed_title\":\"Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2\",\"level\":\"series\",\"precomputed_waypoints\":{\"\":{\"0\":[{\"child_count\":5,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Congressional Quarterly\",\"slugged_url\":\"\",\"parsed_title\":\"Congressional Quarterly\",\"uri\":\"/repositories/101/archival_objects/1622\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"subseries\",\"dates\":[{\"type\":\"inclusive\",\"label\":\"creation\",\"expression\":\"1960-1971\",\"begin\":\"1960\",\"end\":\"1971\"}]}]}}}\n"
+                    "string": "{\"child_count\":1,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2\",\"uri\":\"/repositories/2/resources/3\",\"slugged_url\":\"\",\"jsonmodel_type\":\"resource\",\"parsed_title\":\"Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2\",\"level\":\"series\",\"precomputed_waypoints\":{\"\":{\"0\":[{\"child_count\":5,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Congressional Quarterly\",\"slugged_url\":\"\",\"parsed_title\":\"Congressional Quarterly\",\"uri\":\"/repositories/2/archival_objects/1622\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"subseries\",\"dates\":[{\"type\":\"inclusive\",\"label\":\"creation\",\"expression\":\"1960-1971\",\"begin\":\"1960\",\"end\":\"1971\"}]}]}}}\n"
                 }
             }
         },
         {
             "request": {
                 "method": "GET",
-                "uri": "http://192.168.1.9:8089/repositories/101/resources/3/tree/waypoint?offset=0",
+                "uri": "https://api.rockarch.org/api/repositories/2/resources/3/tree/waypoint?offset=0",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -321,14 +321,14 @@
                     ]
                 },
                 "body": {
-                    "string": "[{\"child_count\":5,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Congressional Quarterly\",\"slugged_url\":\"\",\"parsed_title\":\"Congressional Quarterly\",\"uri\":\"/repositories/101/archival_objects/1622\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"subseries\",\"dates\":[{\"type\":\"inclusive\",\"label\":\"creation\",\"expression\":\"1960-1971\",\"begin\":\"1960\",\"end\":\"1971\"}]}]\n"
+                    "string": "[{\"child_count\":5,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Congressional Quarterly\",\"slugged_url\":\"\",\"parsed_title\":\"Congressional Quarterly\",\"uri\":\"/repositories/2/archival_objects/1622\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"subseries\",\"dates\":[{\"type\":\"inclusive\",\"label\":\"creation\",\"expression\":\"1960-1971\",\"begin\":\"1960\",\"end\":\"1971\"}]}]\n"
                 }
             }
         },
         {
             "request": {
                 "method": "GET",
-                "uri": "http://rac-vch-prod.ad.rockarchive.org:8000/api/find-by-uri/?uri=%2Frepositories%2F101%2Fresources%2F4",
+                "uri": "http://rac-vch-prod.ad.rockarchive.org:8000/api/find-by-uri/?uri=%2Frepositories%2F2%2Fresources%2F4",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -387,7 +387,7 @@
         {
             "request": {
                 "method": "GET",
-                "uri": "http://192.168.1.9:8089/repositories/101/resources/4/tree/root",
+                "uri": "https://api.rockarch.org/api/repositories/2/resources/4/tree/root",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -430,14 +430,14 @@
                     ]
                 },
                 "body": {
-                    "string": "{\"child_count\":1,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Cary Reich papers\",\"uri\":\"/repositories/101/resources/4\",\"slugged_url\":\"\",\"jsonmodel_type\":\"resource\",\"parsed_title\":\"Cary Reich papers\",\"level\":\"collection\",\"precomputed_waypoints\":{\"\":{\"0\":[{\"child_count\":10,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Original Audio Tapes\",\"slugged_url\":\"\",\"parsed_title\":\"Original Audio Tapes\",\"uri\":\"/repositories/101/archival_objects/2336\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"series\"}]}}}\n"
+                    "string": "{\"child_count\":1,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Cary Reich papers\",\"uri\":\"/repositories/2/resources/4\",\"slugged_url\":\"\",\"jsonmodel_type\":\"resource\",\"parsed_title\":\"Cary Reich papers\",\"level\":\"collection\",\"precomputed_waypoints\":{\"\":{\"0\":[{\"child_count\":10,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Original Audio Tapes\",\"slugged_url\":\"\",\"parsed_title\":\"Original Audio Tapes\",\"uri\":\"/repositories/2/archival_objects/2336\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"series\"}]}}}\n"
                 }
             }
         },
         {
             "request": {
                 "method": "GET",
-                "uri": "http://192.168.1.9:8089/repositories/101/resources/4/tree/waypoint?offset=0",
+                "uri": "https://api.rockarch.org/api/repositories/2/resources/4/tree/waypoint?offset=0",
                 "body": null,
                 "headers": {
                     "User-Agent": [
@@ -480,7 +480,7 @@
                     ]
                 },
                 "body": {
-                    "string": "[{\"child_count\":10,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Original Audio Tapes\",\"slugged_url\":\"\",\"parsed_title\":\"Original Audio Tapes\",\"uri\":\"/repositories/101/archival_objects/2336\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"series\"}]\n"
+                    "string": "[{\"child_count\":10,\"waypoints\":1,\"waypoint_size\":200,\"title\":\"Original Audio Tapes\",\"slugged_url\":\"\",\"parsed_title\":\"Original Audio Tapes\",\"uri\":\"/repositories/2/archival_objects/2336\",\"position\":0,\"parent_id\":null,\"jsonmodel_type\":\"archival_object\",\"level\":\"series\"}]\n"
                 }
             }
         }
