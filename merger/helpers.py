@@ -1,6 +1,6 @@
 import re
 
-from fetcher.helpers import instantiate_aspace
+from fetcher.helpers import instantiate_aspace, list_chunks
 from pisces import settings
 
 
@@ -138,18 +138,13 @@ class ArchivesSpaceHelper:
         """Gets a resource tree starting at a node."""
         return self.aspace.client.get(f"{resource_uri}/tree/node?node_uri={node_uri}").json()
 
-    def objects_within(self, uri):
+    def objects_within(self, uri_list):
         """Gets the number of objects which have a URI in their ancestors array."""
-        escaped_uri = uri.replace('/', r'\/')
-        search_uri = f"search?q=ancestors:/{escaped_uri}/ AND publish:true&page=1&fields[]=uri&type[]=archival_object&page_size=1"
-        return self.aspace.client.get(search_uri).json()
-
-    def get_child_count(self, result):
-        """Returns the total number of descendants of an object."""
         count = 0
-        if result["child_count"] > 0:
-            search = self.objects_within(result["uri"])
-            count = search["total_hits"]
+        for chunk in list_chunks(uri_list, 2000):
+            search_uri = f"search?q={{!terms f=ancestors}}{','.join(chunk)} AND publish:true&page=1&fields[]=uri&type[]=archival_object&page_size=1"
+            result = self.aspace.client.get(search_uri).json()
+            count += result["total_hits"]
         return count
 
     def objects_before(self, target_node, initial_node, resource_uri, parent_uri=None):
@@ -162,9 +157,9 @@ class ArchivesSpaceHelper:
             results_page = self.aspace.client.get(results_url).json()
             if target_position < ((offset + 1) * initial_node["waypoint_size"]):
                 previous_results = [r for r in results_page if r["position"] < target_position]
-                count += sum([self.get_child_count(r) + 1 for r in previous_results])
+                count += sum([self.objects_within([p["uri"] for p in previous_results]), len(previous_results)])
                 count += 1
                 return count
-            count += sum([self.get_child_count(r) + 1 for r in results_page])
+            count += sum([self.objects_within([r["uri"] for r in results_page]), len(results_page)])
             count += 1
         return count
