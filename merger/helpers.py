@@ -141,10 +141,14 @@ class ArchivesSpaceHelper:
     def objects_within(self, uri_list):
         """Gets the number of objects which have a URI in their ancestors array."""
         count = 0
-        for chunk in list_chunks(uri_list, 2000):
+        for chunk in list_chunks(uri_list, 190):
             search_uri = f"search?q={{!terms f=ancestors}}{','.join(chunk)} AND publish:true&page=1&fields[]=uri&type[]=archival_object&page_size=1"
-            result = self.aspace.client.get(search_uri).json()
-            count += result["total_hits"]
+            result = self.aspace.client.get(search_uri)
+            try:
+                data = result.json()
+                count += data["total_hits"]
+            except Exception as e:
+                raise Exception(f"Error fetching child counts for URI {result.url}: {e}")
         return count
 
     def objects_before(self, target_node, initial_node, resource_uri, parent_uri=None):
