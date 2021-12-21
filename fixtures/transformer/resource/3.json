@@ -2,7 +2,7 @@
     "ancestors": [
         {
             "level": "collection",
-            "ref": "/repositories/101/resources/3",
+            "ref": "/repositories/2/resources/3",
             "title": "Rockefeller Foundation records, photographs, series 100-1000",
             "type": "collection"
         }
@@ -87,7 +87,7 @@
                 "user_mtime": "2020-09-21T16:58:31Z"
             }
         ],
-        "identifier": "/repositories/101/resources/3",
+        "identifier": "/repositories/2/resources/3",
         "title": "Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2"
     },
     "id_0": "FA346",
@@ -318,7 +318,7 @@
     "publish": true,
     "related_accessions": [],
     "repository": {
-        "ref": "/repositories/101"
+        "ref": "/repositories/2"
     },
     "restrictions": false,
     "revision_statements": [],
@@ -575,8 +575,8 @@
     "system_mtime": "2020-09-21T17:05:00Z",
     "title": "Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2",
     "tree": {
-        "ref": "/repositories/101/resources/3/tree"
+        "ref": "/repositories/2/resources/3/tree"
     },
-    "uri": "/repositories/101/resources/3",
+    "uri": "/repositories/2/resources/3",
     "user_mtime": "2020-09-21T16:58:31Z"
 }

@@ -167,12 +167,13 @@ class ArchivalObjectMerger(BaseMerger):
         previous_ancestors_count = 0
         for idx, ancestor in enumerate(object["ancestors"]):
             target_node = object["ancestors"][idx - 1] if idx > 0 else object
-            tree_node = self.aspace_helper.tree_node(object["resource"]["ref"], ancestor["ref"])
-            previous_ancestors_count += self.aspace_helper.objects_before(
-                target_node,
-                tree_node,
-                object["resource"]["ref"],
-                ancestor["ref"])
+            if "resource" not in ancestor["ref"]:
+                tree_node = self.aspace_helper.tree_node(object["resource"]["ref"], ancestor["ref"])
+                previous_ancestors_count += self.aspace_helper.objects_before(
+                    target_node,
+                    tree_node,
+                    object["resource"]["ref"],
+                    ancestor["ref"])
 
         target_node = object["ancestors"][-2] if len(object["ancestors"]) > 1 else object
         tree_root = self.aspace_helper.tree_root(object["resource"]["ref"])

@@ -3,7 +3,7 @@
         {
             "dates": "1959-1970",
             "level": "series",
-            "ref": "/repositories/101/resources/3",
+            "ref": "/repositories/2/resources/3",
             "subjects": [
                 {
                     "ref": "/subjects/1"
@@ -204,7 +204,7 @@
                 "user_mtime": "2020-09-21T16:58:31Z"
             }
         ],
-        "identifier": "/repositories/101/resources/3",
+        "identifier": "/repositories/2/resources/3",
         "title": "Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2"
     },
     "has_unpublished_ancestor": false,
@@ -276,14 +276,14 @@
     "linked_events": [],
     "lock_version": 0,
     "notes": [],
-    "position": 0,
+    "position": 1,
     "publish": true,
     "ref_id": "59e3f0b877f28efe3278a6988c73584c",
     "repository": {
         "ref": "/repositories/101"
     },
     "resource": {
-        "ref": "/repositories/101/resources/3"
+        "ref": "/repositories/2/resources/3"
     },
     "restrictions_apply": false,
     "rights_statements": [],
@@ -291,6 +291,6 @@
     "suppressed": false,
     "system_mtime": "2020-09-21T16:58:33Z",
     "title": "Congressional Quarterly",
-    "uri": "/repositories/101/archival_objects/1622",
+    "uri": "/repositories/2/archival_objects/1622",
     "user_mtime": "2020-09-21T16:58:33Z"
 }
