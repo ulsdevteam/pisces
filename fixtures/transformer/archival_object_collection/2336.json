@@ -3,7 +3,7 @@
         {
             "dates": "1950s-1980s (Bulk 1982)",
             "level": "collection",
-            "ref": "/repositories/101/resources/4",
+            "ref": "/repositories/2/resources/4",
             "subjects": [
                 {
                     "ref": "/subjects/42"
@@ -85,7 +85,7 @@
                 "user_mtime": "2020-09-21T17:10:28Z"
             }
         ],
-        "identifier": "/repositories/101/resources/4",
+        "identifier": "/repositories/2/resources/4",
         "title": "Cary Reich papers"
     },
     "has_unpublished_ancestor": false,
@@ -157,14 +157,14 @@
     "linked_events": [],
     "lock_version": 0,
     "notes": [],
-    "position": 0,
+    "position": 1,
     "publish": true,
     "ref_id": "aspace_b1f076a9f49d369034188c232f7cdf25",
     "repository": {
         "ref": "/repositories/101"
     },
     "resource": {
-        "ref": "/repositories/101/resources/4"
+        "ref": "/repositories/2/resources/4"
     },
     "restrictions_apply": false,
     "rights_statements": [],
@@ -172,6 +172,6 @@
     "suppressed": false,
     "system_mtime": "2020-09-21T17:24:57Z",
     "title": "Original Audio Tapes",
-    "uri": "/repositories/101/archival_objects/2336",
+    "uri": "/repositories/2/archival_objects/2336",
     "user_mtime": "2020-09-21T17:10:28Z"
 }

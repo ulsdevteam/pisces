@@ -3,14 +3,14 @@
         {
             "dates": "",
             "level": "series",
-            "ref": "/repositories/101/archival_objects/2336",
+            "ref": "/repositories/2/archival_objects/2336",
             "title": "Original Audio Tapes",
             "type": "collection"
         },
         {
             "dates": "1950s-1980s (Bulk 1982)",
             "level": "collection",
-            "ref": "/repositories/101/resources/4",
+            "ref": "/repositories/2/resources/4",
             "subjects": [
                 {
                     "ref": "/subjects/42"
@@ -82,7 +82,7 @@
                 "user_mtime": "2020-09-21T17:10:28Z"
             }
         ],
-        "identifier": "/repositories/101/resources/4",
+        "identifier": "/repositories/2/resources/4",
         "title": "Cary Reich papers"
     },
     "has_unpublished_ancestor": false,
@@ -103,7 +103,7 @@
                 "lock_version": 0,
                 "system_mtime": "2020-09-21T17:16:26Z",
                 "top_container": {
-                    "ref": "/repositories/101/top_containers/507"
+                    "ref": "/repositories/2/top_containers/507"
                 },
                 "user_mtime": "2020-09-21T17:16:26Z"
             },
@@ -162,16 +162,16 @@
     "lock_version": 0,
     "notes": [],
     "parent": {
-        "ref": "/repositories/101/archival_objects/2336"
+        "ref": "/repositories/2/archival_objects/2336"
     },
-    "position": 6,
+    "position": 1,
     "publish": true,
     "ref_id": "aspace_689033b41444cd98149fa3948fd2f119",
     "repository": {
         "ref": "/repositories/101"
     },
     "resource": {
-        "ref": "/repositories/101/resources/4"
+        "ref": "/repositories/2/resources/4"
     },
     "restrictions_apply": false,
     "rights_statements": [],
@@ -179,6 +179,6 @@
     "suppressed": false,
     "system_mtime": "2020-09-21T17:24:57Z",
     "title": "AV 6637 - AV 6691",
-    "uri": "/repositories/101/archival_objects/2746",
+    "uri": "/repositories/2/archival_objects/2746",
     "user_mtime": "2020-09-21T17:16:26Z"
 }
