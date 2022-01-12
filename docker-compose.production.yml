@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 
 services:
   pisces-db:
@@ -13,6 +13,14 @@ services:
       - "8007:8007"
     depends_on:
       - pisces-db
+    volumes:
+      - .:/code
+  pisces-cron:
+    build:
+      context: .
+      dockerfile: Dockerfile.cron
+    volumes:
+      - /data/logs/cron:/var/log/pisces-cron
 
 volumes:
   piscesdbvolume:
