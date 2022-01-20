@@ -109,10 +109,11 @@ def add_group(object, aspace_client):
 
 
 def handle_cartographer_reference(reference):
-    reference["ref"] = reference["archivesspace_uri"]
-    reference["type"] = "collection"
-    del reference["archivesspace_uri"]
-    return reference
+    if self.cartographer_client:
+      reference["ref"] = reference["archivesspace_uri"]
+      reference["type"] = "collection"
+      del reference["archivesspace_uri"]
+      return reference
 
 
 class ArchivesSpaceHelper:
