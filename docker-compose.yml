@@ -8,11 +8,13 @@ services:
   pisces-web:
     build: .
     entrypoint: /code/entrypoint.sh
+    environment:
+      - APPLICATION_PORT=${APPLICATION_PORT:-8007}
     volumes:
       - .:/code
       - /data/logs/cron:/data/log/cron
     ports:
-      - "8007:8007"
+      - "${APPLICATION_PORT:-8007}:${APPLICATION_PORT:-8007}"
     depends_on:
       - pisces-db
 

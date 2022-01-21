@@ -18,6 +18,7 @@ merger_vcr = vcr.VCR(
     match_on=['path', 'method', 'query'],
     filter_query_parameters=['username', 'password', 'modified_since'],
     filter_headers=['Authorization', 'X-ArchivesSpace-Session'],
+    filter_post_data_parameters=['password']
 )
 
 
@@ -58,7 +59,7 @@ class MergerTest(TestCase):
                         #     json.dump(merged, df, indent=4, sort_keys=True)
                         self.assertNotEqual(
                             merged, False,
-                            "Transformer returned an error: {}".format(merged))
+                            "Merger returned an error: {}".format(merged))
                         transform_count += 1
                         self.assertTrue(merged.get("jsonmodel_type") in target_object_types)
                         self.check_counts(source, source_object_type, merged, merged.get("jsonmodel_type"))
@@ -137,10 +138,10 @@ class MergerTest(TestCase):
     def test_position(self):
         """Asserts that collection positions are calculated correctly."""
         EXPECTED = {"/repositories/2/archival_objects/1113591": 14362,
-                    "/repositories/2/archival_objects/13832": 141607,
+                    "/repositories/2/archival_objects/13832": 140323,
                     "/repositories/2/archival_objects/482045": 36134,
-                    "/repositories/2/archival_objects/487369": 40700,
-                    "/repositories/2/archival_objects/892776": 136188}
+                    "/repositories/2/archival_objects/487369": 40707,
+                    "/repositories/2/archival_objects/892776": 134904}
         with merger_vcr.use_cassette("position.json"):
             clients = BaseDataFetcher().instantiate_clients()
             merger = ArchivalObjectMerger(clients)

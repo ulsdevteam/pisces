@@ -2,13 +2,13 @@
     "ancestors": [
         {
             "level": "collection",
-            "ref": "/repositories/101/resources/3",
+            "ref": "/repositories/2/resources/3",
             "title": "Rockefeller Foundation records, photographs, series 100-1000s",
             "type": "collection"
         },
         {
             "level": "collection",
-            "ref": "/repositories/101/resources/4",
+            "ref": "/repositories/2/resources/4",
             "title": "Peter F. Geithner papers",
             "type": "collection"
         }
@@ -104,7 +104,7 @@
                 "user_mtime": "2020-09-21T17:10:28Z"
             }
         ],
-        "identifier": "/repositories/101/resources/4",
+        "identifier": "/repositories/2/resources/4",
         "title": "Cary Reich papers"
     },
     "id_0": "FA1275",
@@ -293,7 +293,7 @@
     "publish": true,
     "related_accessions": [],
     "repository": {
-        "ref": "/repositories/101"
+        "ref": "/repositories/2"
     },
     "restrictions": false,
     "revision_statements": [],
@@ -310,8 +310,8 @@
     "system_mtime": "2020-09-21T17:24:57Z",
     "title": "Cary Reich papers",
     "tree": {
-        "ref": "/repositories/101/resources/4/tree"
+        "ref": "/repositories/2/resources/4/tree"
     },
-    "uri": "/repositories/101/resources/4",
+    "uri": "/repositories/2/resources/4",
     "user_mtime": "2020-09-21T17:10:28Z"
 }

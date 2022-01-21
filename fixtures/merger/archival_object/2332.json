@@ -5,7 +5,7 @@
                 "ancestors": [
                     {
                         "level": "series",
-                        "ref": "/repositories/101/resources/3"
+                        "ref": "/repositories/2/resources/3"
                     }
                 ],
                 "component_id": "6",
@@ -49,7 +49,7 @@
                     "ref": "/repositories/101"
                 },
                 "resource": {
-                    "ref": "/repositories/101/resources/3"
+                    "ref": "/repositories/2/resources/3"
                 },
                 "restrictions_apply": false,
                 "rights_statements": [],
@@ -57,11 +57,11 @@
                 "suppressed": false,
                 "system_mtime": "2020-09-21T16:58:33Z",
                 "title": "Congressional Quarterly",
-                "uri": "/repositories/101/archival_objects/1622",
+                "uri": "/repositories/2/archival_objects/1622",
                 "user_mtime": "2020-09-21T16:58:33Z"
             },
             "level": "subseries",
-            "ref": "/repositories/101/archival_objects/1622"
+            "ref": "/repositories/2/archival_objects/1622"
         },
         {
             "_resolved": {
@@ -589,13 +589,13 @@
                 "system_mtime": "2020-09-21T17:05:00Z",
                 "title": "Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2",
                 "tree": {
-                    "ref": "/repositories/101/resources/3/tree"
+                    "ref": "/repositories/2/resources/3/tree"
                 },
-                "uri": "/repositories/101/resources/3",
+                "uri": "/repositories/2/resources/3",
                 "user_mtime": "2020-09-21T16:58:31Z"
             },
             "level": "series",
-            "ref": "/repositories/101/resources/3"
+            "ref": "/repositories/2/resources/3"
         }
     ],
     "create_time": "2020-09-21T17:01:58Z",
@@ -645,7 +645,7 @@
                             {
                                 "display_string": "Nelson A. Rockefeller personal papers, Politics - George L. Hinman, Series J.2",
                                 "identifier": "FA346",
-                                "ref": "/repositories/101/resources/3"
+                                "ref": "/repositories/2/resources/3"
                             }
                         ],
                         "container_locations": [],
@@ -665,10 +665,10 @@
                         "series": [],
                         "system_mtime": "2020-09-21T17:05:00Z",
                         "type": "box",
-                        "uri": "/repositories/101/top_containers/102",
+                        "uri": "/repositories/2/top_containers/102",
                         "user_mtime": "2020-09-20T15:05:03Z"
                     },
-                    "ref": "/repositories/101/top_containers/102"
+                    "ref": "/repositories/2/top_containers/102"
                 },
                 "user_mtime": "2020-09-21T17:01:58Z"
             },
@@ -686,7 +686,7 @@
     "lock_version": 0,
     "notes": [],
     "parent": {
-        "ref": "/repositories/101/archival_objects/1622"
+        "ref": "/repositories/2/archival_objects/1622"
     },
     "position": 3,
     "publish": true,
@@ -695,7 +695,7 @@
         "ref": "/repositories/101"
     },
     "resource": {
-        "ref": "/repositories/101/resources/3"
+        "ref": "/repositories/2/resources/3"
     },
     "restrictions_apply": false,
     "rights_statements": [],
@@ -703,6 +703,6 @@
     "suppressed": false,
     "system_mtime": "2020-09-21T17:01:58Z",
     "title": "Congressional Quarterly Bound Volumes",
-    "uri": "/repositories/101/archival_objects/2332",
+    "uri": "/repositories/2/archival_objects/2332",
     "user_mtime": "2020-09-21T17:01:58Z"
 }

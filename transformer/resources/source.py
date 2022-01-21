@@ -128,7 +128,7 @@ class SourceNameBase(odin.Resource):
     sort_name = odin.StringField()
     authorized = odin.BooleanField()
     is_display_name = odin.BooleanField()
-    use_dates = odin.ArrayOf(SourceDate)
+    # use_dates = odin.ArrayOf(SourceStructuredDate) # TODO: account for structured and nonstructured dates
     rules = odin.StringField(choices=configs.NAME_RULES_CHOICES, null=True)
     source = odin.StringField(choices=configs.NAME_SOURCE_CHOICES, null=True)
 
