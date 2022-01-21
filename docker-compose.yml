@@ -12,6 +12,7 @@ services:
       - APPLICATION_PORT=${APPLICATION_PORT:-8007}
     volumes:
       - .:/code
+      - /data/logs/cron:/data/log/cron
     ports:
       - "${APPLICATION_PORT:-8007}:${APPLICATION_PORT:-8007}"
     depends_on:

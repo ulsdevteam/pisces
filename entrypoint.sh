@@ -16,4 +16,8 @@ python manage.py migrate
 
 #Start server
 echo "Starting server"
-python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
+python manage.py runserver 0.0.0.0:8007
+
+#Start cron tasks
+#env >> /etc/environment
+#exec "cron -f"

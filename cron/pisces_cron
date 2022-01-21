@@ -1,0 +1,16 @@
+# Don't remove empty line at end of file. It is required for cron to run.
+PISCES_ROOT=/code/pisces
+*/5 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.CleanUpCompleted" >> /var/log/pisces-cron/pisces-cleanupcompleted.txt 2>&1
+0 0 */2 * * $PISCES_ROOT/python -u /code/manage.py runcrons "transformer.cron.CheckMissingOnlineAssets" >> /var/log/pisces-cron/pisces-online.txt 2>&1
+00,30 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceFamilies" >> /var/log/pisces-cron/pisces-families.txt 2>&1
+05,35 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceOrganizations" >> /var/log/pisces-cron/pisces-organizations.txt 2>&1
+10,40 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpacePeople" >> /var/log/pisces-cron/pisces-people.txt 2>&1
+15,45 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceResources" >> /var/log/pisces-cron/pisces-resources.txt 2>&1
+20,50 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceArchivalObjects" >> /var/log/pisces-cron/pisces-archivalobjects.txt 2>&1
+#05,35 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedCartographerArrangementMapComponents" >> /var/log/pisces-cron/pisces-arrangementmaps.txt
+#00,30 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceFamilies" >> /var/log/pisces-cron/pisces-families-deleted.txt
+#05,35 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceOrganizations" >> /var/log/pisces-cron/pisces-organizations-deleted.txt
+#10,40 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpacePeople" >> /var/log/pisces-cron/pisces-people-deleted.txt
+#15,45 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceResources" >> /var/log/pisces-cron/pisces-resources-deleted.txt
+#20,50 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceArchivalObjects" >> /var/log/pisces-cron/pisces-archivalobjects-deleted.txt
+

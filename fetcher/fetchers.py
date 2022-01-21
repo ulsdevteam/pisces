@@ -136,8 +136,8 @@ class BaseDataFetcher:
             return False
         if obj.get("has_unpublished_ancestor"):
             return False
-        if obj.get("id_0") and not obj.get("id_0").startswith("FA"):
-            return False
+        #if obj.get("id_0") and not obj.get("id_0").startswith("FA"):
+        #    return False
         return True
 
 
