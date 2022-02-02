@@ -49,6 +49,7 @@ class TransformerTest(TestCase):
                     self.check_formats(transformed)
                     self.check_component_id(source, transformed)
                     self.check_position(transformed, object_type)
+                    self.check_external_identifiers(source, transformed)
 
     def check_list_counts(self, source, transformed, object_type):
         """Checks that lists of items are the same on source and data objects.
@@ -114,7 +115,7 @@ class TransformerTest(TestCase):
     def check_uri(self, transformed):
         _, path, identifier = transformed["uri"].split("/")
         self.assertEqual(path, "{}s".format(transformed["type"]))
-        self.assertEqual(identifier, identifier_from_uri(transformed["external_identifiers"][0]["identifier"]))
+        self.assertEqual(identifier, identifier_from_uri([t["identifier"] for t in transformed["external_identifiers"] if t["source"] == "archivesspace"][0]))
         self.assertTrue(DataObject.objects.filter(es_id=identifier).exists())
 
     def check_parent(self, transformed):
@@ -143,6 +144,12 @@ class TransformerTest(TestCase):
     def check_position(self, transformed, object_type):
         if object_type in ["archival_object", "resource"]:
             self.assertTrue(isinstance(transformed["position"], int))
+
+    def check_external_identifiers(self, source, transformed):
+        if transformed["type"] == "agent":
+            self.assertEqual(len(transformed["external_identifiers"]), len(source.get("agent_record_identifiers", [])) + 1)
+        else:
+            self.assertEqual(len(transformed["external_identifiers"]), 1, transformed["external_identifiers"])
 
     def views(self):
         for object_type in ["agent", "collection", "object", "term"]:

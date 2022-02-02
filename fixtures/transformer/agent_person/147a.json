@@ -23,7 +23,32 @@
     "agent_other_agency_codes": [],
     "agent_places": [],
     "agent_record_controls": [],
-    "agent_record_identifiers": [],
+    "agent_record_identifiers": [
+      {
+            "primary_identifier": true,
+            "record_identifier": "Q11237",
+            "created_by": "aberish",
+            "last_modified_by": "aberish",
+            "create_time": "2022-01-26T17:43:27Z",
+            "system_mtime": "2022-01-26T17:43:27Z",
+            "user_mtime": "2022-01-26T17:43:27Z",
+            "lock_version": 0,
+            "source": "wikidata",
+            "jsonmodel_type": "agent_record_identifier"
+        },
+        {
+            "primary_identifier": true,
+            "record_identifier": "Nelson_Rockefeller",
+            "created_by": "aberish",
+            "last_modified_by": "aberish",
+            "create_time": "2022-01-26T17:43:27Z",
+            "system_mtime": "2022-01-26T17:43:27Z",
+            "user_mtime": "2022-01-26T17:43:27Z",
+            "lock_version": 0,
+            "source": "wikipedia",
+            "jsonmodel_type": "agent_record_identifier"
+        }
+    ],
     "agent_resources": [],
     "agent_sources": [],
     "agent_topics": [],

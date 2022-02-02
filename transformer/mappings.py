@@ -584,9 +584,10 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -648,9 +649,10 @@ class SourceAgentFamilyToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -718,9 +720,10 @@ class SourceAgentPersonToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
