@@ -572,6 +572,10 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
     from_obj = SourceAgentCorporateEntity
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -632,6 +636,10 @@ class SourceAgentFamilyToAgent(odin.Mapping):
     from_obj = SourceAgentFamily
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -691,6 +699,16 @@ class SourceAgentPersonToAgent(odin.Mapping):
     """Maps SourceAgentPerson to Agent object."""
     from_obj = SourceAgentPerson
     to_obj = Agent
+
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
+    @odin.map_field(from_field="display_name", to_field="title")
+    def title(self, value):
+        first_name = value.rest_of_name if value.rest_of_name else ""
+        last_name = value.primary_name if value.primary_name else ""
+        return f'{first_name} {last_name}'.strip()
 
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):

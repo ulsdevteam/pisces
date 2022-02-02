@@ -159,6 +159,7 @@ class Agent(BaseResource):
     Agent is a first-class entity in the RAC data model.
     """
     type = odin.StringField(default="agent")
+    authorized_name = odin.StringField()
     category = odin.StringField()
     agent_type = odin.StringField()
     description = odin.StringField(null=True)
