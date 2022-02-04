@@ -706,11 +706,15 @@ class SourceAgentPersonToAgent(odin.Mapping):
         odin.define(from_field="title", to_field="authorized_name"),
     )
 
-    @odin.map_field(from_field="display_name", to_field="title")
-    def title(self, value):
+    def parse_name(self, value):
+        """Parses names of people agents."""
         first_name = value.rest_of_name if value.rest_of_name else ""
         last_name = value.primary_name if value.primary_name else ""
         return f'{first_name} {last_name}'.strip()
+
+    @odin.map_field(from_field="display_name", to_field="title")
+    def title(self, value):
+        return self.parse_name(value)
 
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
@@ -743,4 +747,5 @@ class SourceAgentPersonToAgent(odin.Mapping):
 
     @odin.map_field(from_field="group", to_field="group")
     def group(self, value):
+        value.title = self.parse_name(self.source.display_name)
         return transform_group(value, "agents")

@@ -128,6 +128,9 @@ class TransformerTest(TestCase):
             self.assertEqual(group["identifier"], "/collections/{}".format(identifier_from_uri(source["ancestors"][-1]["ref"])))
         else:
             self.assertEqual(group["identifier"], transformed.get("uri"))
+        if transformed["type"] == "agent":
+            print(group)
+            self.assertEqual(group["title"], transformed["title"])
 
     def check_formats(self, transformed):
         """Cary Reich papers have `Sound recordings` as a subject term at the top
