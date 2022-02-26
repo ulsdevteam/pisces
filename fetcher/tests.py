@@ -198,7 +198,7 @@ class FetcherTest(TestCase):
             self.assertEqual(len(es_id), 22, "Expected es_id to be 22 characters long.")
             self.assertTrue(isinstance(es_id, str))
 
-        error_resp = Mock(Response())
+        error_resp = Mock(spec=Response)
         error_resp.raise_for_status.side_effect = HTTPError("blergh")
         error_resp.json.return_value = {"detail": "foo"}
         mock_post.return_value = error_resp
