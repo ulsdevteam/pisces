@@ -572,6 +572,10 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
     from_obj = SourceAgentCorporateEntity
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -580,9 +584,10 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -632,6 +637,10 @@ class SourceAgentFamilyToAgent(odin.Mapping):
     from_obj = SourceAgentFamily
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -640,9 +649,10 @@ class SourceAgentFamilyToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -692,6 +702,20 @@ class SourceAgentPersonToAgent(odin.Mapping):
     from_obj = SourceAgentPerson
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
+    def parse_name(self, value):
+        """Parses names of people agents."""
+        first_name = value.rest_of_name if value.rest_of_name else ""
+        last_name = value.primary_name if value.primary_name else ""
+        return f'{first_name} {last_name}'.strip()
+
+    @odin.map_field(from_field="display_name", to_field="title")
+    def title(self, value):
+        return self.parse_name(value)
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -700,9 +724,10 @@ class SourceAgentPersonToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -722,4 +747,5 @@ class SourceAgentPersonToAgent(odin.Mapping):
 
     @odin.map_field(from_field="group", to_field="group")
     def group(self, value):
+        value.title = self.parse_name(self.source.display_name)
         return transform_group(value, "agents")

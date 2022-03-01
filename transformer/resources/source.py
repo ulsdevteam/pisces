@@ -79,6 +79,12 @@ class SourceExternalId(odin.Resource):
     source = odin.StringField()
 
 
+class SourceAgentRecordIdentifier(odin.Resource):
+    """Identifies an agent record in an external data source."""
+    record_identifier = odin.StringField()
+    source = odin.StringField()
+
+
 class SourceLanguageAndScript(odin.Resource):
     """Records the language and scripts of archival records.
 
@@ -270,6 +276,7 @@ class SourceAgentBase(odin.Resource):
         ('agent_person', 'Person')
     )
 
+    agent_record_identifiers = odin.ArrayOf(SourceAgentRecordIdentifier, null=True)
     dates_of_existence = odin.ArrayField(null=True)
     group = odin.DictAs(SourceGroup)
     jsonmodel_type = odin.StringField(choices=AGENT_TYPES)
