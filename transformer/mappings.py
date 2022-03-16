@@ -62,7 +62,7 @@ def transform_language(value, lang_materials):
         lang_data = languages.get(part2b=value)
         langz.append(Language(expression=lang_data.name, identifier=value))
     elif lang_materials:
-        for lang in [l for l in lang_materials if l.language_and_script]:
+        for lang in [lng for lng in lang_materials if lng.language_and_script]:
             langz += transform_language(lang.language_and_script.language, None)
     return langz if len(langz) else [Language(expression="English", identifier="eng")]
 
