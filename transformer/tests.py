@@ -129,7 +129,6 @@ class TransformerTest(TestCase):
         else:
             self.assertEqual(group["identifier"], transformed.get("uri"))
         if transformed["type"] == "agent":
-            print(group)
             self.assertEqual(group["title"], transformed["title"])
 
     def check_formats(self, transformed):
@@ -252,3 +251,7 @@ class TransformerTest(TestCase):
         self.online_instance()
         self.online_pending()
         self.update_online_instances()
+
+    def test_ping(self):
+        response = self.client.get(reverse('ping'))
+        self.assertEqual(response.status_code, 200)

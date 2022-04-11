@@ -446,8 +446,10 @@ NOTE_TYPE_CHOICES = (
 )
 
 NOTE_TYPE_CHOICES_TRANSFORM = [
-    'abstract', 'accessrestrict', 'arrangement', 'bioghist', 'materialspec', 'odd',
-    'physdesc', 'processinfo', 'scopecontent', 'userestrict']
+    'abstract', 'accessrestrict', 'acqinfo', 'altformavail', 'bioghist',
+    'custodhist', 'materialspec', 'odd', 'physdesc', 'phystech', 'processinfo',
+    'relatedmaterial', 'scopecontent', 'userestrict']
+
 
 REFERENCE_TYPE_CHOICES = (
     ("cultural_context", "Cultural Context"),
