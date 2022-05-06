@@ -279,6 +279,7 @@ AGENT_ROLE_CHOICES = (
 )
 
 CONTAINER_TYPE_CHOICES = (
+    ('bin', 'Bin'),
     ('box', 'Box'),
     ('cabinet', 'cabinet'),
     ('carton', 'Carton'),
@@ -293,6 +294,7 @@ CONTAINER_TYPE_CHOICES = (
     ('drawer', 'Drawer'),
     ('dvd', 'DVD'),
     ('envelope', 'Envelope'),
+    ('file-cabinet','File Cabinet'),
     ('folder', 'Folder'),
     ('frame', 'Frame'),
     ('item', 'Item'),
@@ -314,6 +316,7 @@ CONTAINER_TYPE_CHOICES = (
     ('slide', 'slide'),
     ('Tape', 'Tape'),
     ('tape', 'tape'),
+    ('tray', 'tray'),
     ('tube', 'tube'),
     ('1/4 inch audio cassette', '1/4 inch audio cassette'),
     ('unknown_item', 'unknown_item'),
@@ -355,10 +358,13 @@ INSTANCE_TYPE_CHOICES = (
     ('collection', 'Collection'),
     ('Digital', 'Digital'),
     ('computer_disks', 'Computer Disks'),
+    ('computer_disks_/_tapes', 'Computer Disks / Tapes'),
+    ('computer disks / tapes', 'Computer Disks / Tapes'),
     ('digital_object', 'Digital Object'),
     ('documents', 'Documents'),
     ('Ephemera', 'Ephemera'),
     ('graphic_materials', 'Graphic Materials'),
+    ('index', 'Index'),
     ('maps', 'Maps'),
     ('microform', 'Microform'),
     ('mixed materials', 'Mixed Materials'),
@@ -398,7 +404,8 @@ NAME_RULES_CHOICES = (
     ('aacr', 'Anglo-American Cataloging Rules'),
     ('dacs', 'Describing Archives: a Content Standard'),
     ('local', 'Local Rules'),
-    ('rda', 'Resource Description and Access')
+    ('rda', 'Resource Description and Access'),
+    ('rda:_resource_description_and_access','rda:_resource_description_and_access')
 )
 
 NOTE_TYPE_CHOICES = (
