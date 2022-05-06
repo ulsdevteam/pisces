@@ -404,7 +404,7 @@ NAME_RULES_CHOICES = (
     ('aacr', 'Anglo-American Cataloging Rules'),
     ('dacs', 'Describing Archives: a Content Standard'),
     ('local', 'Local Rules'),
-    ('rda', 'Resource Description and Access')
+    ('rda', 'Resource Description and Access'),
     ('rda:_resource_description_and_access','rda:_resource_description_and_access')
 )
 
