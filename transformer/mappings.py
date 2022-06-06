@@ -1,4 +1,6 @@
 import json
+import re
+import xml.etree.ElementTree as ET
 
 import odin
 import requests
@@ -51,9 +53,15 @@ def has_online_instance(instances, uri):
     return False
 
 
-def replace_xml(content_list):
-    """Replaces XML entities in notes with HTML tags."""
-    return [c.replace("extref", "a") for c in content_list]
+def strip_tags(user_string):
+    """Strips XML and HTML tags from a string."""
+    try:
+        xmldoc = ET.fromstring(f'<xml>{user_string}</xml>')
+        textcontent = ''.join(xmldoc.itertext())
+    except ET.ParseError:
+        tagregxp = re.compile(r'<[/\w][^>]+>')
+        textcontent = tagregxp.sub('', user_string)
+    return textcontent
 
 
 def transform_language(value, lang_materials):
@@ -123,7 +131,7 @@ class SourceAncestorToRecordReference(odin.Mapping):
 
     @odin.map_field(from_field="title", to_field="title")
     def title(self, value):
-        return value.strip()
+        return strip_tags(value.strip())
 
     @odin.map_field(from_field="order", to_field="order")
     def order(self, value):
@@ -159,7 +167,7 @@ class SourceLinkedAgentToAgentReference(odin.Mapping):
 
     @odin.map_field(from_field="title", to_field="title")
     def title(self, value):
-        return value.strip()
+        return strip_tags(value.strip())
 
     @odin.map_list_field(from_field="ref", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
@@ -297,8 +305,8 @@ class SourceNoteToNote(odin.Mapping):
             subnote = self.chronology_subnotes(value.items)
         else:
             subnote = Subnote(
-                type="text", content=replace_xml(value.content)
-                if isinstance(value.content, list) else replace_xml([value.content]))
+                type="text", content=[strip_tags(c) for c in value.content]
+                if isinstance(value.content, list) else [strip_tags(value.content)])
         return subnote
 
     @odin.map_list_field(from_field="subnotes", to_field="subnotes", to_list=True)
@@ -309,7 +317,7 @@ class SourceNoteToNote(odin.Mapping):
         elif self.source.jsonmodel_type in ["note_singlepart"]:
             # Here content is a list passed as a string, so we have to reconvert.
             content = [self.source.content.strip("][\"\'")]
-            subnotes = [Subnote(type="text", content=replace_xml(content))]
+            subnotes = [Subnote(type="text", content=[strip_tags(c) for c in content])]
         elif self.source.jsonmodel_type == "note_index":
             subnotes = self.index_subnotes(self.source.content, self.source.items)
         elif self.source.jsonmodel_type == "note_bibliography":
@@ -322,7 +330,7 @@ class SourceNoteToNote(odin.Mapping):
         data = []
         # Here content is a list passed as a string, so we have to reconvert.
         content = [raw_content.strip("][\'")]
-        data.append(Subnote(type="text", content=replace_xml(content)))
+        data.append(Subnote(type="text", content=[strip_tags(c) for c in content]))
         data.append(Subnote(type="orderedlist", content=items))
         return data
 
@@ -342,6 +350,10 @@ class SourceResourceToCollection(odin.Mapping):
     """Maps SourceResource to Collection object."""
     from_obj = SourceResource
     to_obj = Collection
+
+    @odin.map_field(from_field="title", to_field="title")
+    def title(self, value):
+        return strip_tags(value)
 
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
@@ -410,7 +422,7 @@ class SourceArchivalObjectToCollection(odin.Mapping):
         title = value.strip() if value else self.source.display_string.strip()
         if getattr(self.source, "component_id", None):
             title = "{}, {} {}".format(title, self.source.level.capitalize(), self.source.component_id)
-        return title
+        return strip_tags(title)
 
     @odin.map_field(from_field="language", to_field="languages", to_list=True)
     def languages(self, value):
@@ -476,7 +488,8 @@ class SourceArchivalObjectToObject(odin.Mapping):
 
     @odin.map_field
     def title(self, value):
-        return value.strip() if value else self.source.display_string.strip()
+        title = value.strip() if value else self.source.display_string.strip()
+        return strip_tags(title)
 
     @odin.map_field(from_field="language", to_field="languages", to_list=True)
     def languages(self, value):
