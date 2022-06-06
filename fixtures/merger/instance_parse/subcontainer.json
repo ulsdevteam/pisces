@@ -112,5 +112,17 @@
       "extent_type": "folder",
       "number": 5
     }]
+  },
+  {
+    "source": [{
+      "sub_container": {
+        "indicator_2": "Ar - Be",
+        "type_2": "folder"
+      }
+    }],
+    "parsed": [{
+      "extent_type": "folder",
+      "number": 2
+    }]
   }
 ]
