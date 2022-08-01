@@ -10,7 +10,7 @@ asgiref==3.5.2
     # via django
 asterism==0.9.0
     # via -r requirements.in
-attrs==21.4.0
+attrs==22.1.0
     # via
     #   archivessnake
     #   jsonschema
@@ -47,7 +47,7 @@ iso-639==0.4.5
     # via -r requirements.in
 jarowinkler==1.2.0
     # via rapidfuzz
-jsonschema==4.7.2
+jsonschema==4.9.0
     # via
     #   -r requirements.in
     #   rac-schemas
@@ -74,7 +74,7 @@ pyyaml==6.0
     #   vcrpy
 rac-schemas==0.30
     # via -r requirements.in
-rapidfuzz==2.2.0
+rapidfuzz==2.4.2
     # via archivessnake
 requests==2.28.1
     # via
@@ -94,7 +94,7 @@ structlog==22.1.0
     # via archivessnake
 uritemplate==4.1.1
     # via -r requirements.in
-urllib3==1.26.10
+urllib3==1.26.11
     # via requests
 vcrpy==4.2.0
     # via -r requirements.in
