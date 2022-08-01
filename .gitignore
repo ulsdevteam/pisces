@@ -3,7 +3,6 @@
 *.pickle
 config.py
 source_data
-python
 
 ### Django ###
 *.log
@@ -17,8 +16,5 @@ media
 .tox/
 
 ### Configs ###
-*.conf
-*.prod
-*.production
 .env
 env/*
