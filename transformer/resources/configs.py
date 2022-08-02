@@ -319,7 +319,7 @@ CONTAINER_TYPE_CHOICES = (
     ('tube', 'Tube'),
     ('1/4 inch audio cassette', '1/4 inch audio cassette'),
     ('unknown_item', 'Unknown Item'),
-    ('video', 'Video')
+    ('video', 'Video'),
     ('volume', 'Volume')
 )
 
