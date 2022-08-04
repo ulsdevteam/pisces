@@ -9,7 +9,7 @@ jsonschema==4.4.0
 odin==1.7.3
 psycopg2-binary==2.9.3
 PyYAML==6.0
-pitt_schemas==0.2
+./rac-schemas~=0.2
 requests==2.27.1
 shortuuid==1.0.8
 uritemplate==4.1.1
