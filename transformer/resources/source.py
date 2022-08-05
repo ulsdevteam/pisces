@@ -79,6 +79,12 @@ class SourceExternalId(odin.Resource):
     source = odin.StringField()
 
 
+class SourceAgentRecordIdentifier(odin.Resource):
+    """Identifies an agent record in an external data source."""
+    record_identifier = odin.StringField()
+    source = odin.StringField()
+
+
 class SourceLanguageAndScript(odin.Resource):
     """Records the language and scripts of archival records.
 
@@ -128,7 +134,7 @@ class SourceNameBase(odin.Resource):
     sort_name = odin.StringField()
     authorized = odin.BooleanField()
     is_display_name = odin.BooleanField()
-    use_dates = odin.ArrayOf(SourceDate)
+    # use_dates = odin.ArrayOf(SourceStructuredDate) # TODO: account for structured and nonstructured dates
     rules = odin.StringField(choices=configs.NAME_RULES_CHOICES, null=True)
     source = odin.StringField(choices=configs.NAME_SOURCE_CHOICES, null=True)
 
@@ -253,7 +259,6 @@ class SourceResource(SourceComponentBase):
     id_2 = odin.StringField(null=True)
     ancestors = odin.ArrayOf(SourceAncestor, null=True)
     instances = odin.ArrayOf(SourceInstance)
-    position = odin.IntegerField()
 
 
 class SourceAgentBase(odin.Resource):
@@ -271,6 +276,7 @@ class SourceAgentBase(odin.Resource):
         ('agent_person', 'Person')
     )
 
+    agent_record_identifiers = odin.ArrayOf(SourceAgentRecordIdentifier, null=True)
     dates_of_existence = odin.ArrayField(null=True)
     group = odin.DictAs(SourceGroup)
     jsonmodel_type = odin.StringField(choices=AGENT_TYPES)

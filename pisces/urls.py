@@ -13,10 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from asterism.views import PingView
 from django.contrib import admin
 from django.urls import include, path, re_path
-from fetcher.views import FetchRunViewSet
 from rest_framework.schemas import get_schema_view
+
+from fetcher.views import FetchRunViewSet
 from transformer.views import DataObjectUpdateByIdView, DataObjectViewSet
 
 from .routers import PiscesRouter
@@ -34,7 +36,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^index-complete/$', DataObjectUpdateByIdView.as_view(), name='index-action-complete'),
-    path('status/', include('health_check.api.urls')),
+    path('status/', PingView.as_view(), name='ping'),
     path('schema/', schema_view, name='schema'),
     path('', include(router.urls)),
 ]

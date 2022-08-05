@@ -15,7 +15,7 @@ class BaseCron(CronJobBase):
         """Checks to see if an instance of this class is already running."""
         try:
             running = check_output(["pgrep", "-f", self.__class__.__name__]).decode("utf-8").strip().split("\n")
-            if len(running) > 1:
+            if len(running) > 2:
                 return True
             else:
                 return False

@@ -1,7 +1,9 @@
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
+from asgiref.sync import sync_to_async
 from django.utils import timezone
+
 from merger.mergers import (AgentMerger, ArchivalObjectMerger,
                             ArrangementMapMerger, ResourceMerger,
                             SubjectMerger)
@@ -38,7 +40,6 @@ class BaseDataFetcher:
         self.object_type = object_type
         self.last_run = last_run_time(self.source, object_status, object_type)
         global clients
-        clients = self.instantiate_clients()
         self.processed = 0
         self.current_run = FetchRun.objects.create(
             status=FetchRun.STARTED,
@@ -48,6 +49,7 @@ class BaseDataFetcher:
         self.merger = self.get_merger(object_type)
 
         try:
+            clients = self.instantiate_clients()
             fetched = getattr(
                 self, "get_{}".format(self.object_status))()
             asyncio.get_event_loop().run_until_complete(
@@ -121,7 +123,7 @@ class BaseDataFetcher:
                 to_delete.append(data.get("uri", data.get("archivesspace_uri")))
         except Exception as e:
             print(e)
-            FetchRunError.objects.create(run=self.current_run, message=str(e))
+            await sync_to_async(FetchRunError.objects.create, thread_sensitive=True)(run=self.current_run, message=str(e))
 
     def is_exportable(self, obj):
         """Determines whether the object can be exported.

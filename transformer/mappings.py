@@ -1,9 +1,12 @@
 import json
+import re
+import xml.etree.ElementTree as ET
 
 import odin
 import requests
-from fetcher.helpers import identifier_from_uri
 from iso639 import languages
+
+from fetcher.helpers import identifier_from_uri
 from pisces import settings
 
 from .resources.configs import NOTE_TYPE_CHOICES, NOTE_TYPE_CHOICES_TRANSFORM
@@ -50,9 +53,15 @@ def has_online_instance(instances, uri):
     return False
 
 
-def replace_xml(content_list):
-    """Replaces XML entities in notes with HTML tags."""
-    return [c.replace("extref", "a") for c in content_list]
+def strip_tags(user_string):
+    """Strips XML and HTML tags from a string."""
+    try:
+        xmldoc = ET.fromstring(f'<xml>{user_string}</xml>')
+        textcontent = ''.join(xmldoc.itertext())
+    except ET.ParseError:
+        tagregxp = re.compile(r'<[/\w][^>]+>')
+        textcontent = tagregxp.sub('', user_string)
+    return textcontent
 
 
 def transform_language(value, lang_materials):
@@ -61,7 +70,7 @@ def transform_language(value, lang_materials):
         lang_data = languages.get(part2b=value)
         langz.append(Language(expression=lang_data.name, identifier=value))
     elif lang_materials:
-        for lang in [l for l in lang_materials if l.language_and_script]:
+        for lang in [lng for lng in lang_materials if lng.language_and_script]:
             langz += transform_language(lang.language_and_script.language, None)
     return langz if len(langz) else [Language(expression="English", identifier="eng")]
 
@@ -122,7 +131,7 @@ class SourceAncestorToRecordReference(odin.Mapping):
 
     @odin.map_field(from_field="title", to_field="title")
     def title(self, value):
-        return value.strip()
+        return strip_tags(value.strip())
 
     @odin.map_field(from_field="order", to_field="order")
     def order(self, value):
@@ -158,7 +167,7 @@ class SourceLinkedAgentToAgentReference(odin.Mapping):
 
     @odin.map_field(from_field="title", to_field="title")
     def title(self, value):
-        return value.strip()
+        return strip_tags(value.strip())
 
     @odin.map_list_field(from_field="ref", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
@@ -296,8 +305,8 @@ class SourceNoteToNote(odin.Mapping):
             subnote = self.chronology_subnotes(value.items)
         else:
             subnote = Subnote(
-                type="text", content=replace_xml(value.content)
-                if isinstance(value.content, list) else replace_xml([value.content]))
+                type="text", content=[strip_tags(c) for c in value.content]
+                if isinstance(value.content, list) else [strip_tags(value.content)])
         return subnote
 
     @odin.map_list_field(from_field="subnotes", to_field="subnotes", to_list=True)
@@ -308,7 +317,7 @@ class SourceNoteToNote(odin.Mapping):
         elif self.source.jsonmodel_type in ["note_singlepart"]:
             # Here content is a list passed as a string, so we have to reconvert.
             content = [self.source.content.strip("][\"\'")]
-            subnotes = [Subnote(type="text", content=replace_xml(content))]
+            subnotes = [Subnote(type="text", content=[strip_tags(c) for c in content])]
         elif self.source.jsonmodel_type == "note_index":
             subnotes = self.index_subnotes(self.source.content, self.source.items)
         elif self.source.jsonmodel_type == "note_bibliography":
@@ -321,7 +330,7 @@ class SourceNoteToNote(odin.Mapping):
         data = []
         # Here content is a list passed as a string, so we have to reconvert.
         content = [raw_content.strip("][\'")]
-        data.append(Subnote(type="text", content=replace_xml(content)))
+        data.append(Subnote(type="text", content=[strip_tags(c) for c in content]))
         data.append(Subnote(type="orderedlist", content=items))
         return data
 
@@ -341,6 +350,10 @@ class SourceResourceToCollection(odin.Mapping):
     """Maps SourceResource to Collection object."""
     from_obj = SourceResource
     to_obj = Collection
+
+    @odin.map_field(from_field="title", to_field="title")
+    def title(self, value):
+        return strip_tags(value)
 
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
@@ -409,7 +422,7 @@ class SourceArchivalObjectToCollection(odin.Mapping):
         title = value.strip() if value else self.source.display_string.strip()
         if getattr(self.source, "component_id", None):
             title = "{}, {} {}".format(title, self.source.level.capitalize(), self.source.component_id)
-        return title
+        return strip_tags(title)
 
     @odin.map_field(from_field="language", to_field="languages", to_list=True)
     def languages(self, value):
@@ -475,7 +488,8 @@ class SourceArchivalObjectToObject(odin.Mapping):
 
     @odin.map_field
     def title(self, value):
-        return value.strip() if value else self.source.display_string.strip()
+        title = value.strip() if value else self.source.display_string.strip()
+        return strip_tags(title)
 
     @odin.map_field(from_field="language", to_field="languages", to_list=True)
     def languages(self, value):
@@ -571,6 +585,10 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
     from_obj = SourceAgentCorporateEntity
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -579,9 +597,10 @@ class SourceAgentCorporateEntityToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -631,6 +650,10 @@ class SourceAgentFamilyToAgent(odin.Mapping):
     from_obj = SourceAgentFamily
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -639,9 +662,10 @@ class SourceAgentFamilyToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -691,6 +715,20 @@ class SourceAgentPersonToAgent(odin.Mapping):
     from_obj = SourceAgentPerson
     to_obj = Agent
 
+    mappings = (
+        odin.define(from_field="title", to_field="authorized_name"),
+    )
+
+    def parse_name(self, value):
+        """Parses names of people agents."""
+        first_name = value.rest_of_name if value.rest_of_name else ""
+        last_name = value.primary_name if value.primary_name else ""
+        return f'{first_name} {last_name}'.strip()
+
+    @odin.map_field(from_field="display_name", to_field="title")
+    def title(self, value):
+        return self.parse_name(value)
+
     @odin.map_list_field(from_field="notes", to_field="notes", to_list=True)
     def notes(self, value):
         return SourceNoteToNote.apply([v for v in value if (v.publish and v.jsonmodel_type.split("_")[-1] in NOTE_TYPE_CHOICES_TRANSFORM)])
@@ -699,9 +737,10 @@ class SourceAgentPersonToAgent(odin.Mapping):
     def dates(self, value):
         return convert_dates(value)
 
-    @odin.map_field(from_field="uri", to_field="external_identifiers", to_list=True)
+    @odin.map_field(from_field="agent_record_identifiers", to_field="external_identifiers", to_list=True)
     def external_identifiers(self, value):
-        return [ExternalIdentifier(identifier=value, source="archivesspace")]
+        external_ids = [ExternalIdentifier(identifier=v.record_identifier, source=v.source) for v in value] if value else []
+        return external_ids + [ExternalIdentifier(identifier=self.source.uri, source="archivesspace")]
 
     @odin.map_field(from_field="uri", to_field="uri")
     def uri(self, value):
@@ -721,4 +760,5 @@ class SourceAgentPersonToAgent(odin.Mapping):
 
     @odin.map_field(from_field="group", to_field="group")
     def group(self, value):
+        value.title = self.parse_name(self.source.display_name)
         return transform_group(value, "agents")

@@ -373,13 +373,13 @@
                 "system_mtime": "2020-09-21T17:24:57Z",
                 "title": "Cary Reich papers",
                 "tree": {
-                    "ref": "/repositories/101/resources/4/tree"
+                    "ref": "/repositories/2/resources/4/tree"
                 },
-                "uri": "/repositories/101/resources/4",
+                "uri": "/repositories/2/resources/4",
                 "user_mtime": "2020-09-21T17:10:28Z"
             },
             "level": "collection",
-            "ref": "/repositories/101/resources/4"
+            "ref": "/repositories/2/resources/4"
         }
     ],
     "component_id": "3",
@@ -408,7 +408,7 @@
         "ref": "/repositories/101"
     },
     "resource": {
-        "ref": "/repositories/101/resources/4"
+        "ref": "/repositories/2/resources/4"
     },
     "restrictions_apply": false,
     "rights_statements": [],
@@ -416,6 +416,6 @@
     "suppressed": false,
     "system_mtime": "2020-09-21T17:24:57Z",
     "title": "Original Audio Tapes",
-    "uri": "/repositories/101/archival_objects/2336",
+    "uri": "/repositories/2/archival_objects/2336",
     "user_mtime": "2020-09-21T17:10:28Z"
 }

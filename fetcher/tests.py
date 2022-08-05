@@ -198,7 +198,7 @@ class FetcherTest(TestCase):
             self.assertEqual(len(es_id), 22, "Expected es_id to be 22 characters long.")
             self.assertTrue(isinstance(es_id, str))
 
-        error_resp = Mock(Response())
+        error_resp = Mock(spec=Response)
         error_resp.raise_for_status.side_effect = HTTPError("blergh")
         error_resp.json.return_value = {"detail": "foo"}
         mock_post.return_value = error_resp
@@ -223,3 +223,14 @@ class FetcherTest(TestCase):
                 ({"publish": True, "id_0": "FA123"}, True)]:
             result = fetcher.is_exportable(data)
             self.assertEqual(result, expected_result)
+
+    @patch("fetcher.fetchers.BaseDataFetcher.instantiate_clients")
+    def test_client_exception(self, mock_clients):
+        """Ensures that errors are raised and logged when client instantiation raises exception"""
+        mock_clients.side_effect = Exception("foo")
+        with self.assertRaises(Exception) as context:
+            ArchivesSpaceDataFetcher().fetch("updated", "archival_object")
+        fetch_run = FetchRun.objects.last()
+        self.assertEqual(fetch_run.error_count, 1)
+        for e in fetch_run.errors:
+            self.assertTrue(str(context.exception) in e.message)

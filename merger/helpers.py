@@ -1,6 +1,6 @@
 import re
 
-from fetcher.helpers import instantiate_aspace
+from fetcher.helpers import instantiate_aspace, list_chunks
 from pisces import settings
 
 
@@ -12,7 +12,9 @@ def indicator_to_integer(indicator):
     """Converts an instance indicator to an integer.
 
     An indicator can be an integer (23) a combination of integers and letters (23b)
-    or just a letter (B).
+    or just letters (B, Be). In cases where indicator data only consists of letters,
+    the function will return an integer based on the ordinal value of the lowercased
+    first letter in the indicator.
     """
     try:
         integer = int(indicator)
@@ -20,7 +22,7 @@ def indicator_to_integer(indicator):
         parsed = re.sub("[^0-9]", "", indicator)
         if len(parsed):
             return indicator_to_integer(parsed)
-        integer = ord(indicator.lower()) - 97
+        integer = ord(indicator[0].lower()) - 97
     return integer
 
 
@@ -127,5 +129,43 @@ class ArchivesSpaceHelper:
             raise MissingArchivalObjectError("{} cannot be found".format(uri))
         obj = resp.json()
         resource_uri = obj['resource']['ref']
-        tree_node = self.aspace.client.get('{}/tree/node?node_uri={}'.format(resource_uri, obj['uri'])).json()
+        tree_node = self.aspace.client.get(f"{resource_uri}/tree/node?node_uri={obj['uri']}").json()
         return True if tree_node['child_count'] > 0 else False
+
+    def tree_root(self, resource_uri):
+        """Gets a resource tree starting at the root."""
+        return self.aspace.client.get(f"{resource_uri}/tree/root").json()
+
+    def tree_node(self, resource_uri, node_uri):
+        """Gets a resource tree starting at a node."""
+        return self.aspace.client.get(f"{resource_uri}/tree/node?node_uri={node_uri}").json()
+
+    def objects_within(self, uri_list):
+        """Gets the number of objects which have a URI in their ancestors array."""
+        count = 0
+        for chunk in list_chunks(uri_list, 190):
+            search_uri = f"search?q={{!terms f=ancestors}}{','.join(chunk)} AND publish:true&page=1&fields[]=uri&type[]=archival_object&page_size=1"
+            result = self.aspace.client.get(search_uri)
+            try:
+                data = result.json()
+                count += data["total_hits"]
+            except Exception as e:
+                raise Exception(f"Error fetching child counts for URI {result.url}: {e}")
+        return count
+
+    def objects_before(self, target_node, initial_node, resource_uri, parent_uri=None):
+        """Gets a count of previous archival objects in a resource."""
+        count = 0
+        target_position = target_node["position"] if ("position" in target_node) else target_node["_resolved"]["position"]
+        for offset in range(initial_node["waypoints"]):
+            results_url = (f"{resource_uri}/tree/waypoint?offset={offset}&parent_node={parent_uri}" if parent_uri else
+                           f"{resource_uri}/tree/waypoint?offset={offset}")
+            results_page = self.aspace.client.get(results_url).json()
+            if target_position < ((offset + 1) * initial_node["waypoint_size"]):
+                previous_results = [r for r in results_page if r["position"] < target_position]
+                count += sum([self.objects_within([p["uri"] for p in previous_results]), len(previous_results)])
+                count += 1
+                return count
+            count += sum([self.objects_within([r["uri"] for r in results_page]), len(results_page)])
+            count += 1
+        return count

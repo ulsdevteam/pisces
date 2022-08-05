@@ -5,11 +5,12 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
-from fetcher.helpers import identifier_from_uri
 from rest_framework.test import APIRequestFactory
 
+from fetcher.helpers import identifier_from_uri
+
 from .cron import CheckMissingOnlineAssets
-from .mappings import has_online_instance
+from .mappings import has_online_instance, strip_tags
 from .models import DataObject
 from .resources.configs import NOTE_TYPE_CHOICES_TRANSFORM
 from .transformers import Transformer
@@ -48,6 +49,7 @@ class TransformerTest(TestCase):
                     self.check_formats(transformed)
                     self.check_component_id(source, transformed)
                     self.check_position(transformed, object_type)
+                    self.check_external_identifiers(source, transformed)
 
     def check_list_counts(self, source, transformed, object_type):
         """Checks that lists of items are the same on source and data objects.
@@ -113,7 +115,7 @@ class TransformerTest(TestCase):
     def check_uri(self, transformed):
         _, path, identifier = transformed["uri"].split("/")
         self.assertEqual(path, "{}s".format(transformed["type"]))
-        self.assertEqual(identifier, identifier_from_uri(transformed["external_identifiers"][0]["identifier"]))
+        self.assertEqual(identifier, identifier_from_uri([t["identifier"] for t in transformed["external_identifiers"] if t["source"] == "archivesspace"][0]))
         self.assertTrue(DataObject.objects.filter(es_id=identifier).exists())
 
     def check_parent(self, transformed):
@@ -126,6 +128,8 @@ class TransformerTest(TestCase):
             self.assertEqual(group["identifier"], "/collections/{}".format(identifier_from_uri(source["ancestors"][-1]["ref"])))
         else:
             self.assertEqual(group["identifier"], transformed.get("uri"))
+        if transformed["type"] == "agent":
+            self.assertEqual(group["title"], transformed["title"])
 
     def check_formats(self, transformed):
         """Cary Reich papers have `Sound recordings` as a subject term at the top
@@ -142,6 +146,12 @@ class TransformerTest(TestCase):
     def check_position(self, transformed, object_type):
         if object_type in ["archival_object", "resource"]:
             self.assertTrue(isinstance(transformed["position"], int))
+
+    def check_external_identifiers(self, source, transformed):
+        if transformed["type"] == "agent":
+            self.assertEqual(len(transformed["external_identifiers"]), len(source.get("agent_record_identifiers", [])) + 1)
+        else:
+            self.assertEqual(len(transformed["external_identifiers"]), 1, transformed["external_identifiers"])
 
     def views(self):
         for object_type in ["agent", "collection", "object", "term"]:
@@ -241,3 +251,11 @@ class TransformerTest(TestCase):
         self.online_instance()
         self.online_pending()
         self.update_online_instances()
+
+    def test_ping(self):
+        response = self.client.get(reverse('ping'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_strip_tags(self):
+        for input in ["<title>a collection</title>", "a <a href='https://example.com'>collection</a>", "a collection"]:
+            self.assertEqual('a collection', strip_tags(input))
