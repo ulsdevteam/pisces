@@ -158,7 +158,8 @@ ARCHIVESSPACE = {
     "username": config.AS_USERNAME,
     "password": config.AS_PASSWORD,
     "repo": config.AS_REPO_ID,
-    "resource_id_0_prefixes": config.RESOURCE_ID_0_PREFIXES,
+    "resource_id_0_prefixes": getattr(config, 'RESOURCE_ID_0_PREFIXES', []),
+    "finding_aid_status_restrict": getattr(config, 'FINDING_AID_STATUS_RESTRICT', []),
 }
 
 CARTOGRAPHER = {

@@ -2,12 +2,12 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 from asgiref.sync import sync_to_async
+from django.conf import settings
 from django.utils import timezone
 
 from merger.mergers import (AgentMerger, ArchivalObjectMerger,
                             ArrangementMapMerger, ResourceMerger,
                             SubjectMerger)
-from pisces import settings
 from transformer.transformers import Transformer
 
 from .helpers import (handle_deleted_uris, instantiate_aspace,
@@ -139,6 +139,10 @@ class BaseDataFetcher:
         if len(settings.ARCHIVESSPACE["resource_id_0_prefixes"]):
             if obj.get("id_0") and not any(
                     [obj.get("id_0").startswith(prefix) for prefix in settings.ARCHIVESSPACE["resource_id_0_prefixes"]]):
+                return False
+        if len(settings.ARCHIVESSPACE["finding_aid_status_restrict"]):
+            if not obj.get("finding_aid_status_ancestor") or any(
+                    [obj.get("finding_aid_status_ancestor") == value for value in settings.ARCHIVESSPACE["finding_aid_status_restrict"]]):
                 return False
         return True
 
