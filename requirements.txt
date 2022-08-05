@@ -72,7 +72,7 @@ pyyaml==6.0
     #   -r requirements.in
     #   archivessnake
     #   vcrpy
-rac-schemas @ file:///var/www/html/pisces/rac-schemas
+./rac-schemas
     # via -r requirements.in
 rapidfuzz==2.4.2
     # via archivessnake
