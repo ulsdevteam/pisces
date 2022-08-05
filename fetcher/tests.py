@@ -5,8 +5,9 @@ from unittest.mock import Mock, patch
 
 import pytz
 import vcr
+from django.conf import settings
 from django.core import mail
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils import timezone
 from requests import Response
 from requests.exceptions import HTTPError
@@ -207,22 +208,32 @@ class FetcherTest(TestCase):
             self.assertEqual(context.exception, "foo")
 
     def test_is_exportable(self):
-        """
-        Ensures is_exportable correctly parses objects.
-
-        Presumes that the configured value for `pisces.settings.ARCHIVESSPACE["resource_id_0_prefixes"]`
-        includes the string "FA".
-        """
+        """Ensures is_exportable correctly parses objects."""
         fetcher = ArchivesSpaceDataFetcher()
-        for data, expected_result in [
-                ({"publish": False}, False),
-                ({"publish": True}, True),
-                ({"publish": True, "has_unpublished_ancestor": True}, False),
-                ({"publish": True, "has_unpublished_ancestor": False}, True),
-                ({"publish": True, "id_0": "foobar"}, False),
-                ({"publish": True, "id_0": "FA123"}, True)]:
-            result = fetcher.is_exportable(data)
-            self.assertEqual(result, expected_result)
+
+        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE}):
+            for data, expected_result in [
+                    ({"publish": False}, False),
+                    ({"publish": True}, True),
+                    ({"publish": True, "has_unpublished_ancestor": True}, False),
+                    ({"publish": True, "has_unpublished_ancestor": False}, True)]:
+                result = fetcher.is_exportable(data)
+                self.assertEqual(result, expected_result)
+
+        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': ['FA']}):
+            for data, expected_result in [
+                    ({"publish": True, "id_0": "foobar"}, False),
+                    ({"publish": True, "id_0": "FA123"}, True)]:
+                result = fetcher.is_exportable(data)
+                self.assertEqual(result, expected_result)
+
+        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': [], 'finding_aid_status_restrict': ["Unprocessed", "In Progress", "Under Revision", "Deaccessioned"]}):
+            for data, expected_result in [
+                    ({"publish": True, "finding_aid_status_ancestor": "Completed"}, True),
+                    ({"publish": True, "finding_aid_status_ancestor": "Unprocessed"}, False),
+                    ({"publish": True, "finding_aid_status_ancestor": None}, False)]:
+                result = fetcher.is_exportable(data)
+                self.assertEqual(result, expected_result, data)
 
     @patch("fetcher.fetchers.BaseDataFetcher.instantiate_clients")
     def test_client_exception(self, mock_clients):
