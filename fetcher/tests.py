@@ -220,7 +220,7 @@ class FetcherTest(TestCase):
                 result = fetcher.is_exportable(data)
                 self.assertEqual(result, expected_result)
 
-        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': ['FA']}):
+        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': ['FA'], 'finding_aid_status_restrict': []}):
             for data, expected_result in [
                     ({"publish": True, "id_0": "foobar"}, False),
                     ({"publish": True, "id_0": "FA123"}, True)]:
