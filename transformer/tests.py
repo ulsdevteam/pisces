@@ -10,7 +10,7 @@ from rest_framework.test import APIRequestFactory
 from fetcher.helpers import identifier_from_uri
 
 from .cron import CheckMissingOnlineAssets
-from .mappings import has_online_instance
+from .mappings import has_online_instance, strip_tags
 from .models import DataObject
 from .resources.configs import NOTE_TYPE_CHOICES_TRANSFORM
 from .transformers import Transformer
@@ -255,3 +255,7 @@ class TransformerTest(TestCase):
     def test_ping(self):
         response = self.client.get(reverse('ping'))
         self.assertEqual(response.status_code, 200)
+
+    def test_strip_tags(self):
+        for input in ["<title>a collection</title>", "a <a href='https://example.com'>collection</a>", "a collection"]:
+            self.assertEqual('a collection', strip_tags(input))

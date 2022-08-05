@@ -12,7 +12,9 @@ def indicator_to_integer(indicator):
     """Converts an instance indicator to an integer.
 
     An indicator can be an integer (23) a combination of integers and letters (23b)
-    or just a letter (B).
+    or just letters (B, Be). In cases where indicator data only consists of letters,
+    the function will return an integer based on the ordinal value of the lowercased
+    first letter in the indicator.
     """
     try:
         integer = int(indicator)
@@ -20,7 +22,7 @@ def indicator_to_integer(indicator):
         parsed = re.sub("[^0-9]", "", indicator)
         if len(parsed):
             return indicator_to_integer(parsed)
-        integer = ord(indicator.lower()) - 97
+        integer = ord(indicator[0].lower()) - 97
     return integer
 
 
