@@ -216,3 +216,21 @@ class FetcherTest(TestCase):
         self.assertEqual(fetch_run.error_count, 1)
         for e in fetch_run.errors:
             self.assertTrue(str(context.exception) in e.message)
+
+    def test_is_exportable(self):
+        """
+        Ensures is_exportable correctly parses objects.
+
+        Presumes that the configured value for `pisces.settings.ARCHIVESSPACE["resource_id_0_prefixes"]`
+        includes the string "FA".
+        """
+        fetcher = ArchivesSpaceDataFetcher()
+        for data, expected_result in [
+                ({"publish": False}, False),
+                ({"publish": True}, True),
+                ({"publish": True, "has_unpublished_ancestor": True}, False),
+                ({"publish": True, "has_unpublished_ancestor": False}, True),
+                ({"publish": True, "id_0": "foobar"}, False),
+                ({"publish": True, "id_0": "FA123"}, True)]:
+            result = fetcher.is_exportable(data)
+            self.assertEqual(result, expected_result)

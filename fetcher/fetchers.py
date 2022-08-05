@@ -136,8 +136,10 @@ class BaseDataFetcher:
             return False
         if obj.get("has_unpublished_ancestor"):
             return False
-        #if obj.get("id_0") and not obj.get("id_0").startswith("FA"):
-        #    return False
+        if len(settings.ARCHIVESSPACE["resource_id_0_prefixes"]):
+            if obj.get("id_0") and not any(
+                    [obj.get("id_0").startswith(prefix) for prefix in settings.ARCHIVESSPACE["resource_id_0_prefixes"]]):
+                return False
         return True
 
 
