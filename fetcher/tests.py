@@ -211,7 +211,7 @@ class FetcherTest(TestCase):
         """Ensures is_exportable correctly parses objects."""
         fetcher = ArchivesSpaceDataFetcher()
 
-        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE}):
+        with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': [], 'finding_aid_status_restrict': []}):
             for data, expected_result in [
                     ({"publish": False}, False),
                     ({"publish": True}, True),
