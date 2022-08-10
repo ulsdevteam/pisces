@@ -1,10 +1,9 @@
 import requests
 import shortuuid
 from asnake.aspace import ASpace
+from django.conf import settings
 from django.core.mail import send_mail
 from electronbonder.client import ElectronBond
-
-from pisces import settings
 
 from .models import FetchRun
 
@@ -130,3 +129,35 @@ def send_error_notification(fetch_run):
             fail_silently=False,)
     except Exception as e:
         print("Unable to send error notification email: {}".format(e))
+
+
+def object_published(obj):
+    """Returns a boolean indicating whether the object is published."""
+    return obj.get("publish", False)
+
+
+def ancestors_published(obj):
+    """Returns a boolean indicating whether the object has unpublished ancestors."""
+    return not obj.get("has_unpublished_ancestor", False)
+
+
+def valid_id0(obj):
+    """Returns a boolean indicating whether the object's id_0 field is in a configured list."""
+    if len(settings.ARCHIVESSPACE.get("resource_id_0_prefixes", [])):
+        if obj.get("id_0") and not any(
+                [obj.get("id_0").startswith(prefix) for prefix in settings.ARCHIVESSPACE["resource_id_0_prefixes"]]):
+            return False
+    return True
+
+
+def valid_finding_aid_status(obj):
+    """
+    Returns a boolean indicating whether the finding aid status for the object's
+    resource is not in a list of configured restricted statuses.
+    """
+    if len(settings.ARCHIVESSPACE.get("finding_aid_status_restrict", [])) and obj["jsonmodel_type"] in ["resource", "archival_object"]:
+        resource = obj["ancestors"][-1]["_resolved"] if obj["jsonmodel_type"] == "archival_object" else obj
+        if not resource.get("finding_aid_status") or any(
+                [resource.get("finding_aid_status") == value for value in settings.ARCHIVESSPACE["finding_aid_status_restrict"]]):
+            return False
+    return True
