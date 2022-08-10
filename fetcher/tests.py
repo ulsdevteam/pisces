@@ -238,9 +238,14 @@ class FetcherTest(TestCase):
 
         with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': [], 'finding_aid_status_restrict': ["Unprocessed", "In Progress", "Under Revision", "Deaccessioned"]}):
             for data, expected_result in [
-                    ({"publish": True, "finding_aid_status_ancestor": "Completed"}, True),
-                    ({"publish": True, "finding_aid_status_ancestor": "Unprocessed"}, False),
-                    ({"publish": True, "finding_aid_status_ancestor": None}, False)]:
+                    ({"publish": True, "jsonmodel_type": "subject"}, True),
+                    ({"publish": True, "jsonmodel_type": "resource", "finding_aid_status": "Completed"}, True),
+                    ({"publish": True, "jsonmodel_type": "resource", "finding_aid_status": "Unprocessed"}, False),
+                    ({"publish": True, "jsonmodel_type": "resource"}, False),
+                    ({"publish": True, "jsonmodel_type": "archival_object", "ancestors": [{"ref": "/repositories/2/archival_objects/739810"}, {"ref": "/repositories/2/resources/1", "_resolved": {"finding_aid_status": "Completed"}}]}, True),
+                    ({"publish": True, "jsonmodel_type": "archival_object", "ancestors": [{"ref": "/repositories/2/archival_objects/739810"}, {"ref": "/repositories/2/resources/1", "_resolved": {"finding_aid_status": "In Progress"}}]}, False),
+                    ({"publish": True, "jsonmodel_type": "archival_object", "ancestors": [{"ref": "/repositories/2/archival_objects/739810"}, {"ref": "/repositories/2/resources/1", "_resolved": {}}]}, False),
+            ]:
                 result = fetcher.is_exportable(data)
                 self.assertEqual(result, expected_result, data)
 

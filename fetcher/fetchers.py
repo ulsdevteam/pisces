@@ -10,9 +10,11 @@ from merger.mergers import (AgentMerger, ArchivalObjectMerger,
                             SubjectMerger)
 from transformer.transformers import Transformer
 
-from .helpers import (handle_deleted_uris, instantiate_aspace,
-                      instantiate_electronbond, last_run_time, list_chunks,
-                      send_error_notification)
+from .helpers import (ancestors_published, handle_deleted_uris,
+                      instantiate_aspace, instantiate_electronbond,
+                      last_run_time, list_chunks, object_published,
+                      send_error_notification, valid_finding_aid_status,
+                      valid_id0)
 from .models import FetchRun, FetchRunError
 
 
@@ -128,23 +130,15 @@ class BaseDataFetcher:
     def is_exportable(self, obj):
         """Determines whether the object can be exported.
 
-        Unpublished objects should not be exported.
-        Objects with unpublished ancestors should not be exported.
-        Resource records whose id_0 field does not begin with FA should not be exported.
+        All methods called here should explicitly return True if the object can
+        be exported or False if it cannot be exported.
         """
-        if not obj.get("publish"):
-            return False
-        if obj.get("has_unpublished_ancestor"):
-            return False
-        if len(settings.ARCHIVESSPACE["resource_id_0_prefixes"]):
-            if obj.get("id_0") and not any(
-                    [obj.get("id_0").startswith(prefix) for prefix in settings.ARCHIVESSPACE["resource_id_0_prefixes"]]):
-                return False
-        if len(settings.ARCHIVESSPACE["finding_aid_status_restrict"]):
-            if not obj.get("finding_aid_status_ancestor") or any(
-                    [obj.get("finding_aid_status_ancestor") == value for value in settings.ARCHIVESSPACE["finding_aid_status_restrict"]]):
-                return False
-        return True
+        return bool(all([
+            object_published(obj),
+            ancestors_published(obj),
+            valid_id0(obj),
+            valid_finding_aid_status(obj)
+        ]))
 
 
 class ArchivesSpaceDataFetcher(BaseDataFetcher):
