@@ -155,7 +155,7 @@ def valid_finding_aid_status(obj):
     Returns a boolean indicating whether the finding aid status for the object's
     resource is not in a list of configured restricted statuses.
     """
-    if len(settings.ARCHIVESSPACE.get("finding_aid_status_restrict", [])) and obj["jsonmodel_type"] in ["resource", "archival_object"]:
+    if len(settings.ARCHIVESSPACE.get("finding_aid_status_restrict", [])) and obj.get("jsonmodel_type") in ["resource", "archival_object"]:
         resource = obj["ancestors"][-1]["_resolved"] if obj["jsonmodel_type"] == "archival_object" else obj
         if not resource.get("finding_aid_status") or any(
                 [resource.get("finding_aid_status") == value for value in settings.ARCHIVESSPACE["finding_aid_status_restrict"]]):
