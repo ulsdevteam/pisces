@@ -45,11 +45,16 @@
           <a href="#" id="objectDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transformed Objects</a>
           <div class="dropdown-menu" aria-labelledby="objectsDropdown">
             <a class="dropdown-item" href="{% url 'dataobject-agents' %}?clean=True">Agents</a>
+            <a class="dropdown-item" href="{% url 'dataobject-agents' %}">Agents (Pending Indexing)</a>
             <a class="dropdown-item" href="{% url 'dataobject-collections' %}?clean=True">Collections</a>
+            <a class="dropdown-item" href="{% url 'dataobject-collections' %}">Collections (Pending Indexing)</a>
             <a class="dropdown-item" href="{% url 'dataobject-objects' %}?clean=True">Objects</a>
+            <a class="dropdown-item" href="{% url 'dataobject-objects' %}">Objects (Pending Indexing)</a>
             <a class="dropdown-item" href="{% url 'dataobject-terms' %}?clean=True">Terms</a>
+            <a class="dropdown-item" href="{% url 'dataobject-terms' %}">Terms (Pending Indexing)</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'dataobject-list' %}?clean=True">All</a>
+            <a class="dropdown-item" href="{% url 'dataobject-list' %}">All (Pending Indexing)</a>
           </div>
         </li>
       </ul>
