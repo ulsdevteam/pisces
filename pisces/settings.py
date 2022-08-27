@@ -153,6 +153,15 @@ CRON_CLASSES = [
 DJANGO_CRON_LOCK_BACKEND = "django_cron.backends.lock.file.FileLock"
 DJANGO_CRON_LOCKFILE_PATH = config.DJANGO_CRON_LOCKFILE_PATH
 
+SCHEMAS = {
+    "base_dir": os.path.join(BASE_DIR, config.SCHEMAS_BASE_DIR),
+    "base": config.BASE_SCHEMA,
+    "agent": config.AGENT_SCHEMA,
+    "collection": config.COLLECTION_SCHEMA,
+    "object": config.OBJECT_SCHEMA,
+    "term": config.TERM_SCHEMA,
+}
+
 ARCHIVESSPACE = {
     "baseurl": config.AS_BASEURL,
     "username": config.AS_USERNAME,
