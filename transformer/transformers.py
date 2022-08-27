@@ -1,8 +1,10 @@
 import json
+from os.path import join
 
+from django.conf import settings
 from jsonschema.exceptions import ValidationError
 from odin.codecs import json_codec
-from rac_schemas import is_valid
+from rac_schema_validator import is_valid
 
 from .mappings import (SourceAgentCorporateEntityToAgent,
                        SourceAgentFamilyToAgent, SourceAgentPersonToAgent,
@@ -34,11 +36,11 @@ class Transformer:
     def run(self, object_type, data):
         try:
             self.identifier = data.get("uri")
-            from_resource, mapping, schema = self.get_mapping_classes(object_type)
+            from_resource, mapping, schema_name = self.get_mapping_classes(object_type)
             transformed = self.get_transformed_object(data, from_resource, mapping)
             online_pending = self.get_online_pending(
                 data.get("instances", []), transformed.get("online", False))
-            is_valid(transformed, schema)
+            self.validate_transformed(transformed, schema_name)
             self.save_validated(transformed, online_pending)
             return transformed
         except ValidationError as e:
@@ -48,13 +50,13 @@ class Transformer:
 
     def get_mapping_classes(self, object_type):
         TYPE_MAP = {
-            "agent_person": (SourceAgentPerson, SourceAgentPersonToAgent, "agent.json"),
-            "agent_corporate_entity": (SourceAgentCorporateEntity, SourceAgentCorporateEntityToAgent, "agent.json"),
-            "agent_family": (SourceAgentFamily, SourceAgentFamilyToAgent, "agent.json"),
-            "resource": (SourceResource, SourceResourceToCollection, "collection.json"),
-            "archival_object": (SourceArchivalObject, SourceArchivalObjectToObject, "object.json"),
-            "archival_object_collection": (SourceArchivalObject, SourceArchivalObjectToCollection, "collection.json"),
-            "subject": (SourceSubject, SourceSubjectToTerm, "term.json")
+            "agent_person": (SourceAgentPerson, SourceAgentPersonToAgent, settings.SCHEMAS["agent"]),
+            "agent_corporate_entity": (SourceAgentCorporateEntity, SourceAgentCorporateEntityToAgent, settings.SCHEMAS["agent"]),
+            "agent_family": (SourceAgentFamily, SourceAgentFamilyToAgent, settings.SCHEMAS["agent"]),
+            "resource": (SourceResource, SourceResourceToCollection, settings.SCHEMAS["collection"]),
+            "archival_object": (SourceArchivalObject, SourceArchivalObjectToObject, settings.SCHEMAS["object"]),
+            "archival_object_collection": (SourceArchivalObject, SourceArchivalObjectToCollection, settings.SCHEMAS["collection"]),
+            "subject": (SourceSubject, SourceSubjectToTerm, settings.SCHEMAS["term"])
         }
         return TYPE_MAP[object_type]
 
@@ -91,6 +93,17 @@ class Transformer:
         else:
             return data
         return modified_dict
+
+    def validate_transformed(self, data, schema_name):
+        """Validates an object againse the specified schema."""
+        base_schema = None
+        if settings.SCHEMAS.get("base"):
+            base_file = open(join(settings.SCHEMAS['base_dir'], settings.SCHEMAS['base']), 'r')
+            base_schema = json.load(base_file)
+            base_file.close()
+        with open(join(settings.SCHEMAS['base_dir'], schema_name), 'r') as object_file:
+            object_schema = json.load(object_file)
+            is_valid(data, object_schema, base_schema)
 
     def save_validated(self, data, online_pending):
         es_id = data["uri"].split("/")[-1]
