@@ -1,6 +1,6 @@
 ArchivesSnake~=0.9
 asterism~=0.9
-Django~=4.0
+Django~=4.0.7
 django4-cron~=0.5
 djangorestframework~=3.13
 ElectronBonder~=1.1
@@ -9,7 +9,7 @@ jsonschema~=4.7
 odin~=1.7
 psycopg2-binary~=2.9
 PyYAML~=6.0
-rac-schemas~=0.30
+rac-schema-validator~=0.1
 requests~=2.28
 shortuuid~=1.0
 uritemplate~=4.1

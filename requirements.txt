@@ -20,9 +20,9 @@ boltons==21.0.0
     # via archivessnake
 certifi==2022.6.15
     # via requests
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via requests
-django==4.0.6
+django==4.0.7
     # via
     #   -r requirements.in
     #   asterism
@@ -45,13 +45,13 @@ idna==3.3
     #   yarl
 iso-639==0.4.5
     # via -r requirements.in
-jarowinkler==1.2.0
+jarowinkler==1.2.1
     # via rapidfuzz
-jsonschema==4.9.0
+jsonschema==4.14.0
     # via
     #   -r requirements.in
-    #   rac-schemas
-more-itertools==8.13.0
+    #   rac-schema-validator
+more-itertools==8.14.0
     # via archivessnake
 multidict==6.0.2
     # via yarl
@@ -65,16 +65,16 @@ psycopg2-binary==2.9.3
     #   asterism
 pyrsistent==0.18.1
     # via jsonschema
-pytz==2022.1
+pytz==2022.2.1
     # via djangorestframework
 pyyaml==6.0
     # via
     #   -r requirements.in
     #   archivessnake
     #   vcrpy
-rac-schemas==0.30
+rac-schema-validator==0.1
     # via -r requirements.in
-rapidfuzz==2.4.2
+rapidfuzz==2.6.0
     # via archivessnake
 requests==2.28.1
     # via
@@ -94,11 +94,11 @@ structlog==22.1.0
     # via archivessnake
 uritemplate==4.1.1
     # via -r requirements.in
-urllib3==1.26.11
+urllib3==1.26.12
     # via requests
 vcrpy==4.2.0
     # via -r requirements.in
 wrapt==1.14.1
     # via vcrpy
-yarl==1.7.2
+yarl==1.8.1
     # via vcrpy
