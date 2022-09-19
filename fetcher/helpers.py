@@ -1,3 +1,5 @@
+import json
+
 import requests
 import shortuuid
 from asnake.aspace import ASpace
@@ -109,26 +111,44 @@ async def handle_deleted_uris(uri_list, source, object_type, current_run):
     return updated
 
 
-def send_error_notification(fetch_run):
+def send_email_message(title, body):
     """Send email with errors encountered during a fetch run."""
     try:
-        errors = ""
-        err_str = "errors" if fetch_run.error_count > 1 else "error"
-        object_type = fetch_run.get_object_type_display()
-        object_status = fetch_run.get_object_status_display()
-        source = [s[1] for s in FetchRun.SOURCE_CHOICES if s[0] == int(fetch_run.source)][0]
-        for err in fetch_run.errors:
-            errors += "{}\n".format(err.message)
-        send_mail(
-            "{} {} processing {} {} objects from {}".format(
-                fetch_run.error_count, err_str, object_status, object_type, source),
-            "The following errors were encountered while processing {} {} objects from {}:\n\n{}".format(
-                object_status, object_type, source, errors),
-            "alerts@rockarch.org",
-            settings.EMAIL_TO_ADDRESSES,
-            fail_silently=False,)
+        send_mail(title, body, "alerts@rockarch.org", settings.EMAIL_TO_ADDRESSES, fail_silently=False,)
     except Exception as e:
-        print("Unable to send error notification email: {}".format(e))
+        print(f"Unable to send error notification email: {e}")
+
+
+def send_teams_message(title, body):
+    """Send Teams message with errors encountered during a fetch run."""
+    message = {
+        "@context": "https://schema.org/extensions",
+        "type": "MessageCard",
+        "title": title,
+        "summary": title,
+        "sections": [{"text": body}]}
+    encoded_msg = json.dumps(message).encode('utf-8')
+    try:
+        requests.post(settings.TEAMS_URL, data=encoded_msg)
+    except Exception as e:
+        print(f"Unable to deliver error notification to Teams Channel: {e}")
+
+
+def send_error_notification(fetch_run):
+    """Send error message to configured targets."""
+    errors = ""
+    err_str = "errors" if fetch_run.error_count > 1 else "error"
+    object_type = fetch_run.get_object_type_display()
+    object_status = fetch_run.get_object_status_display()
+    source = [s[1] for s in FetchRun.SOURCE_CHOICES if s[0] == int(fetch_run.source)][0]
+    for err in fetch_run.errors:
+        errors += "{}\n".format(err.message)
+    title = f"{fetch_run.error_count} {err_str} processing {object_status} {object_type} objects from {source}"
+    body = f"The following errors were encountered while processing {object_status} {object_type} objects from {source}:\n\n{errors}"
+    if settings.NOTIFY_EMAIL:
+        send_email_message(title, body)
+    if settings.NOTIFY_TEAMS:
+        send_teams_message(title, body)
 
 
 def object_published(obj):
