@@ -30,3 +30,6 @@ MOVING_IMAGE_REFS = []  # ArchivesSpace URIs (for example "/subjects/42") for co
 AUDIO_REFS = ["/subjects/42"]  # ArchivesSpace URIs (for example "/subjects/42") for controlled terms which refer to audio materials (list of strings)
 PHOTOGRAPH_REFS = []  # ArchivesSpace URIs (for example "/subjects/42") for controlled terms which refer to photographic materials (list of strings)
 ASSET_BASEURL = "https://iiif.rockarch.org"  # base URL for IIIF image assets, used to check whether or not assets are available online (string)
+NOTIFY_EMAIL = True  # deliver error messages via email (boolean)
+NOTIFY_TEAMS = False  # deliver error message via Microsoft Teams (boolean)
+TEAMS_URL = "https://teams-url.com"  # URL for Incoming Webhook Connector in Microsoft Teams Channel
