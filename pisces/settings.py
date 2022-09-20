@@ -180,6 +180,14 @@ EMAIL_USE_TLS = config.EMAIL_USE_TLS
 EMAIL_USE_SSL = config.EMAIL_USE_SSL
 EMAIL_TO_ADDRESSES = config.EMAIL_TO_ADDRESSES
 
+# Teams settings
+TEAMS_URL = config.TEAMS_URL
+
+# Notification settings
+NOTIFY_EMAIL = getattr(config, 'NOTIFY_EMAIL', True)
+NOTIFY_TEAMS = getattr(config, 'NOTIFY_TEAMS', False)
+
+# Format settings
 MOVING_IMAGE_REFS = config.MOVING_IMAGE_REFS
 AUDIO_REFS = config.AUDIO_REFS
 PHOTOGRAPH_REFS = config.PHOTOGRAPH_REFS
