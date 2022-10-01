@@ -18,7 +18,7 @@ bagit==1.8.1
     # via asterism
 boltons==21.0.0
     # via archivessnake
-certifi==2022.6.15
+certifi==2022.9.24
     # via requests
 charset-normalizer==2.1.1
     # via requests
@@ -33,21 +33,21 @@ django-common-helpers==0.9.2
     # via django4-cron
 django4-cron==0.5.1
     # via -r requirements.in
-djangorestframework==3.13.1
+djangorestframework==3.14.0
     # via
     #   -r requirements.in
     #   asterism
 electronbonder==1.1
     # via -r requirements.in
-idna==3.3
+idna==3.4
     # via
     #   requests
     #   yarl
 iso-639==0.4.5
     # via -r requirements.in
-jarowinkler==1.2.1
+jarowinkler==1.2.3
     # via rapidfuzz
-jsonschema==4.15.0
+jsonschema==4.16.0
     # via
     #   -r requirements.in
     #   rac-schemas
@@ -74,7 +74,7 @@ pyyaml==6.0
     #   vcrpy
 rac-schemas==0.30
     # via -r requirements.in
-rapidfuzz==2.6.1
+rapidfuzz==2.10.3
     # via archivessnake
 requests==2.28.1
     # via
@@ -88,7 +88,7 @@ six==1.16.0
     #   electronbonder
     #   odin
     #   vcrpy
-sqlparse==0.4.2
+sqlparse==0.4.3
     # via django
 structlog==22.1.0
     # via archivessnake
