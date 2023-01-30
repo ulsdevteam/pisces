@@ -16,7 +16,7 @@ class BaseMerger:
     def __init__(self, clients):
         try:
             self.aspace_helper = ArchivesSpaceHelper(clients["aspace"])
-            self.cartographer_client = clients.get("cartographer")
+            self.cartographer_client = False
         except Exception as e:
             raise MergeError(e)
 
