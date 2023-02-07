@@ -67,7 +67,7 @@ class Transformer:
             instances (list): source instances.
             online (bool): value of `online` field from transformed object.
         """
-        published_digital_instances = [v for v in instances if v["instance_type"] == "digital_object" and v.get("digital_object", {}).get("_resolved", {}).get("publish") == True]
+        published_digital_instances = [v for v in instances if v["instance_type"] == "digital_object" and v.get("digital_object", {}).get("_resolved", {}).get("publish")]
         if len(published_digital_instances) and not online:
             return True
         return False
