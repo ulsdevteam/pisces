@@ -8,7 +8,12 @@
         "last_modified_by": "admin",
         "lock_version": 0,
         "system_mtime": "2020-09-21T17:01:58Z",
-        "user_mtime": "2020-09-21T17:01:58Z"
+        "user_mtime": "2020-09-21T17:01:58Z",
+        "digital_object": {
+            "_resolved": {
+                "publish": true
+            }
+        }
     },
     {
         "create_time": "2020-09-21T17:01:58Z",
