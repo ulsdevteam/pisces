@@ -190,7 +190,7 @@ class ArchivesSpaceDataFetcher(BaseDataFetcher):
     async def get_page(self, id_list):
         params = {
             "id_set": id_list,
-            "resolve": ["ancestors", "ancestors::linked_agents", "instances::top_container", "linked_agents", "subjects"]}
+            "resolve": ["ancestors", "ancestors::linked_agents", "instances::top_container", "instances::digital_object", "linked_agents", "subjects"]}
         return clients["aspace"].client.get(self.get_endpoint(self.object_type), params=params).json()
 
 

@@ -60,14 +60,15 @@ class Transformer:
 
     def get_online_pending(self, instances, online):
         """
-        If digital object instances are present in the source but the transformed
+        If published digital object instances are present in the source but the transformed
         `online` field is set to False, mark the object as pending an online asset.
 
         Args:
             instances (list): source instances.
             online (bool): value of `online` field from transformed object.
         """
-        if len([v for v in instances if v["instance_type"] == "digital_object"]) and not online:
+        published_digital_instances = [v for v in instances if v["instance_type"] == "digital_object" and v.get("digital_object", {}).get("_resolved", {}).get("publish")]
+        if len(published_digital_instances) and not online:
             return True
         return False
 
