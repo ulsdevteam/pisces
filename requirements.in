@@ -1,18 +1,15 @@
 ArchivesSnake==0.9.1
 asterism~=0.9
-<<<<<<< HEAD
 Django==4.0.4
 django4-cron==0.5.1
 djangorestframework==3.13.1
 ElectronBonder~=1.0
 iso-639==0.4.5
-=======
 Django~=4.1
 django4-cron~=0.5
 djangorestframework~=3.13
 ElectronBonder~=1.1
 iso-639~=0.4
->>>>>>> upstream/base
 jsonschema~=4.7
 odin==1.7.3
 psycopg2-binary==2.9.3
