@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   pisces-db:
@@ -10,7 +10,9 @@ services:
     volumes:
       - piscesdbvolume:/var/lib/postgresql/data/
   pisces-web:
-    build: .
+    build:
+      context: .
+      target: pisces-web
     entrypoint: /code/entrypoint.sh
     environment:
       - APPLICATION_PORT=${APPLICATION_PORT:-8007}

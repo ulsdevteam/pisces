@@ -212,10 +212,19 @@ class FetcherTest(TestCase):
             loop.run_until_complete(handle_deleted_uris(uris, source, object_type, current_run))
             self.assertEqual(context.exception, "foo")
 
-    def test_is_exportable(self):
+    @patch("fetcher.fetchers.BaseDataFetcher.instantiate_clients")
+    def test_client_exception(self, mock_clients):
+        """Ensures that errors are raised and logged when client instantiation raises exception"""
+        mock_clients.side_effect = Exception("foo")
+        with self.assertRaises(Exception) as context:
+            ArchivesSpaceDataFetcher().fetch("updated", "archival_object")
+        fetch_run = FetchRun.objects.last()
+        self.assertEqual(fetch_run.error_count, 1)
+        for e in fetch_run.errors:
+            self.assertTrue(str(context.exception) in e.message)
+
         """Ensures is_exportable correctly parses objects."""
         fetcher = ArchivesSpaceDataFetcher()
-
         with override_settings(ARCHIVESSPACE={**settings.ARCHIVESSPACE, 'resource_id_0_prefixes': [], 'finding_aid_status_restrict': []}):
             for data, expected_result in [
                     ({"publish": False}, False),

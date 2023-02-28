@@ -56,5 +56,15 @@ pisces has three main sets of services, all of which are exposed via HTTP endpoi
 |GET|/status||200|Return the status of the service|
 |GET|/schema.json||200|Returns the OpenAPI schema for this service|
 
+### Routes
+
+This service depends on JSON schemas defined for your archival data.  [Rockefeller Archive Center's schemas](https://github.com/RockefellerArchiveCenter/rac_schemas) can be used as a basis for your schemas.  An easy way to incorporate your own schemas is to fork Rockefeller Archive Center's repository, clone it into this directory under the rac-schema folder, and edit the requirements.in to use this local repository.
+
+For example:
+```
+git clone https://github.com/ulsdevteam/rac_schemas rac-schemas
+sed 's/rac-schemas/.\/rac-schemas/' -i requirements.in
+```
+
 ## License
 This code is released under an [MIT License](LICENSE).

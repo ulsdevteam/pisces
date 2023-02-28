@@ -48,7 +48,8 @@ class FetchRunViewSet(ModelViewSet):
 
     @action(detail=False)
     def cartographer(self, request):
-        return self.get_action_response(request, source=FetchRun.CARTOGRAPHER)
+        if self.cartographer_client:
+            return self.get_action_response(request, source=FetchRun.CARTOGRAPHER)
 
     @action(detail=False)
     def archival_objects(self, request):
