@@ -6,7 +6,6 @@ from unittest.mock import Mock, patch
 import pytz
 import vcr
 from django.conf import settings
-from django.core import mail
 from django.test import TestCase, override_settings
 from django.utils import timezone
 from requests import Response
@@ -147,20 +146,26 @@ class FetcherTest(TestCase):
                 cron().do()
                 self.assertEqual(len(FetchRunError.objects.all()), 0)
 
-    def test_error_notifications(self):
+    @patch("fetcher.helpers.send_email_message")
+    @patch("fetcher.helpers.send_teams_message")
+    def test_error_notifications(self, mock_teams, mock_email):
+        object_type = random.choice(FetchRun.OBJECT_TYPE_CHOICES)
+        source = random.choice(FetchRun.SOURCE_CHOICES)
+        status = random.choice(FetchRun.STATUS_CHOICES)
+        object_status = random.choice(FetchRun.OBJECT_STATUS_CHOICES)
+        error_text = "This is an error!"
         fetch_run = FetchRun.objects.create(
-            object_type=random.choice(FetchRun.OBJECT_TYPE_CHOICES)[0],
-            source=random.choice(FetchRun.SOURCE_CHOICES)[0],
-            status=random.choice(FetchRun.STATUS_CHOICES)[0],
-            object_status=random.choice(FetchRun.OBJECT_STATUS_CHOICES)[0])
-        error = FetchRunError.objects.create(message="This is an error!", run=fetch_run)
-        send_error_notification(fetch_run)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(fetch_run.get_object_type_display(), mail.outbox[0].subject)
-        source = [s[1] for s in FetchRun.SOURCE_CHOICES if s[0] == int(fetch_run.source)][0]
-        self.assertIn(source, mail.outbox[0].subject)
-        self.assertNotIn("errors", mail.outbox[0].subject)
-        self.assertIn(error.message, mail.outbox[0].body)
+            object_type=object_type[0],
+            source=source[0],
+            status=status[0],
+            object_status=object_status[0])
+        FetchRunError.objects.create(message=error_text, run=fetch_run)
+        expected_title = f"1 error processing {object_status[1]} {object_type[1]} objects from {source[1]}"
+        expected_text = f"The following errors were encountered while processing {object_status[1]} {object_type[1]} objects from {source[1]}:\n\n{error_text}\n"
+        with self.settings(NOTIFY_EMAIL=True, NOTIFY_TEAMS=True):
+            send_error_notification(fetch_run)
+            mock_email.assert_called_once_with(expected_title, expected_text)
+            mock_teams.assert_called_once_with(expected_title, expected_text)
 
     def test_cleanup(self):
         for source_id, source in FetchRun.SOURCE_CHOICES:
