@@ -43,7 +43,6 @@ def has_online_asset(identifier):
 
 
 def has_online_instance(instances, uri):
-    return False
     try:
         digital_instances = [v for v in instances if v.instance_type == "digital_object"]
     except AttributeError:
@@ -51,6 +50,7 @@ def has_online_instance(instances, uri):
     if len(digital_instances):
         if has_online_asset(identifier_from_uri(uri)):
             return True
+    return False
 
 
 def strip_tags(user_string):
