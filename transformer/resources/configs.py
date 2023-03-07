@@ -286,6 +286,7 @@ CONTAINER_TYPE_CHOICES = (
     ('card', 'Card'),
     ('case', 'Case'),
     ('cassette', 'Cassette'),
+    ('computer_disks_/_tapes', 'Computer Disks / Tapes'),
     ('computer disks / tapes', 'Computer Disk / Tape'),
     ('Disc', 'Disc'),
     ('disc', 'Disc'),
@@ -355,14 +356,16 @@ INSTANCE_TYPE_CHOICES = (
     ('bound volume', 'Bound Volume'),
     ('cassette', 'Cassette'),
     ('collection', 'Collection'),
+    ('computer_disks', 'Computer Disks'),
+    ('computer_disks_/_tapes', 'Computer Disks / Tapes'),
     ('computer disks / tapes', 'Computer Disks / Tapes'),
     ('Digital', 'Digital'),
-    ('computer_disks', 'Computer Disks'),
     ('digital_object', 'Digital Object'),
     ('documents', 'Documents'),
     ('Ephemera', 'Ephemera'),
     ('graphic_materials', 'Graphic Materials'),
     ('index', 'Index'),
+    ('maps', 'Maps'),
     ('microform', 'Microform'),
     ('mixed materials', 'Mixed Materials'),
     ('mixed_materials', 'Mixed Materials'),
@@ -401,7 +404,8 @@ NAME_RULES_CHOICES = (
     ('aacr', 'Anglo-American Cataloging Rules'),
     ('dacs', 'Describing Archives: a Content Standard'),
     ('local', 'Local Rules'),
-    ('rda', 'Resource Description and Access')
+    ('rda', 'Resource Description and Access'),
+    ('rda:_resource_description_and_access','rda:_resource_description_and_access')
 )
 
 NOTE_TYPE_CHOICES = (
