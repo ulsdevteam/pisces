@@ -218,4 +218,6 @@ class CartographerDataFetcher(BaseDataFetcher):
         return data
 
     async def get_item(self, obj_ref):
-        return clients["cartographer"].get(obj_ref).json()
+        resp = clients["cartographer"].get(obj_ref)
+        resp.raise_for_status()
+        return resp.json()
