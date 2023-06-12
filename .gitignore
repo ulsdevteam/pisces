@@ -3,7 +3,6 @@
 *.pickle
 config.py
 source_data
-rac-schemas
 
 ### Django ###
 *.log
