@@ -227,7 +227,8 @@ class TransformerTest(TestCase):
                 ("no_online_instances.json", False, False),
                 ("online_instance.json", False, True),
                 ("no_online_instances.json", True, False),
-                ("online_instance.json", True, False)]:
+                ("online_instance.json", True, False),
+                ("unpublished_online_instance.json", False, False)]:
             with open(os.path.join("fixtures", "transformer", "online_instance", fixture), "r") as sf:
                 instances = json.load(sf)
             output = Transformer().get_online_pending(instances, online)

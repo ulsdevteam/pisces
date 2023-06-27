@@ -190,7 +190,7 @@ class ArchivesSpaceDataFetcher(BaseDataFetcher):
     async def get_page(self, id_list):
         params = {
             "id_set": id_list,
-            "resolve": ["ancestors", "ancestors::linked_agents", "instances::top_container", "linked_agents", "subjects"]}
+            "resolve": ["ancestors", "ancestors::linked_agents", "instances::top_container", "instances::digital_object", "linked_agents", "subjects"]}
         return clients["aspace"].client.get(self.get_endpoint(self.object_type), params=params).json()
 
 
@@ -218,4 +218,6 @@ class CartographerDataFetcher(BaseDataFetcher):
         return data
 
     async def get_item(self, obj_ref):
-        return clients["cartographer"].get(obj_ref).json()
+        resp = clients["cartographer"].get(obj_ref)
+        resp.raise_for_status()
+        return resp.json()
