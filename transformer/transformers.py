@@ -1,8 +1,9 @@
 import json
+from os.path import join
 
+import rac_schema_validator
 from jsonschema.exceptions import ValidationError
 from odin.codecs import json_codec
-from rac_schemas import is_valid
 
 from .mappings import (SourceAgentCorporateEntityToAgent,
                        SourceAgentFamilyToAgent, SourceAgentPersonToAgent,
@@ -38,7 +39,7 @@ class Transformer:
             transformed = self.get_transformed_object(data, from_resource, mapping)
             online_pending = self.get_online_pending(
                 data.get("instances", []), transformed.get("online", False))
-            is_valid(transformed, schema)
+            self.validate_transformed(transformed, schema)
             self.save_validated(transformed, online_pending)
             return transformed
         except ValidationError as e:
@@ -92,6 +93,15 @@ class Transformer:
         else:
             return data
         return modified_dict
+
+    def validate_transformed(self, data, schema_name):
+        """Validates transformed data against RAC schemas."""
+        base_file = open(join('rac_schemas', 'schemas', 'base.json'), 'r')
+        base_schema = json.load(base_file)
+        base_file.close()
+        with open(join('rac_schemas', 'schemas', schema_name), 'r') as object_file:
+            object_schema = json.load(object_file)
+            return rac_schema_validator.is_valid(data, object_schema, base_schema)
 
     def save_validated(self, data, online_pending):
         es_id = data["uri"].split("/")[-1]
