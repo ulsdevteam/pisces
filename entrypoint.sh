@@ -8,10 +8,14 @@ fi
 # Create config.py if it doesn't exist
 if [ ! -f pisces/config.py ]; then
     echo "Creating config file"
-    cp pisces/config.py.example pisces/config.py
+    if [[ -n $PROD ]]; then
+      envsubst < pisces/config.py.deploy > pisces/config.py
+    else
+      cp pisces/config.py.example pisces/config.py
+    fi
 fi
 
-./wait-for-it.sh db:5432 -- echo "Apply database migrations"
+./wait-for-it.sh $db:5432 -- echo "Apply database migrations"
 python manage.py migrate
 
 #Start server
