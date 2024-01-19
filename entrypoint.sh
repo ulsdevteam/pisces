@@ -15,9 +15,24 @@ if [ ! -f pisces/config.py ]; then
     fi
 fi
 
-./wait-for-it.sh $db:5432 -- echo "Apply database migrations"
-python manage.py migrate
+if [[ -n $CRON ]]; then
+  cron -f -L 2
+else  
+  ./wait-for-it.sh $db:5432 -- echo "Apply database migrations"
+  python manage.py migrate
 
-#Start server
-echo "Starting server"
-python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
+  # Collect static files
+  echo "Collecting static files"
+  python manage.py collectstatic
+
+  chmod 775 /var/www/html/pisces/static
+  chown www-data:www-data /var/www/html/pisces/static
+
+  #Start server
+  echo "Starting server"
+  if [[ -n $PROD ]]; then
+      apache2ctl -D FOREGROUND
+  else
+      python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
+  fi
+fi
