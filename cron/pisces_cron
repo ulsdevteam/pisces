@@ -6,7 +6,7 @@ PISCES_ROOT=/code/pisces
 07,37 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceOrganizations" >> /var/log/pisces-cron/pisces-organizations.txt 2>&1
 12,42 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpacePeople" >> /var/log/pisces-cron/pisces-people.txt 2>&1
 17,47 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceResources" >> /var/log/pisces-cron/pisces-resources.txt 2>&1
-#22,52 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceArchivalObjects" >> /var/log/pisces-cron/pisces-archivalobjects.txt 2>&1
+22,52 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedArchivesSpaceArchivalObjects" >> /var/log/pisces-cron/pisces-archivalobjects.txt 2>&1
 #05,35 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.UpdatedCartographerArrangementMapComponents" >> /var/log/pisces-cron/pisces-arrangementmaps.txt
 59,29 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceFamilies" >> /var/log/pisces-cron/pisces-families-deleted.txt
 04,34 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceOrganizations" >> /var/log/pisces-cron/pisces-organizations-deleted.txt
