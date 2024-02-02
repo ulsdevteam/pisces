@@ -320,7 +320,8 @@ CONTAINER_TYPE_CHOICES = (
     ('1/4 inch audio cassette', '1/4 inch audio cassette'),
     ('unknown_item', 'Unknown Item'),
     ('video', 'Video'),
-    ('volume', 'Volume')
+    ('volume', 'Volume'),
+	('Compact-Disc', 'Compact-Disc')
 )
 
 DATE_TYPE_CHOICES = (
@@ -446,6 +447,7 @@ NOTE_TYPE_CHOICES = (
     ('summary', 'Summary'),
     ('type_note', 'Type Note'),
     ('userestrict', 'Conditions Governing Use'),
+	('maps', 'Maps')
 )
 
 NOTE_TYPE_CHOICES_TRANSFORM = [
