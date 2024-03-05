@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y cron && rm -rf /etc/cron.*/*
 RUN apt-get -y install python3-pip
 RUN apt-get -y install gettext
 RUN pip install --upgrade pip
-RUN pip install django
 
 RUN mkdir /code
 WORKDIR /code
