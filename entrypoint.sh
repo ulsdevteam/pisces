@@ -18,19 +18,20 @@ fi
 if [[ -n $CRON ]]; then
   cron -f -L 2
 else  
-  ./wait-for-it.sh $db:5432 -- echo "Apply database migrations"
+  ./wait-for-it.sh $db:${SQL_PORT} -- echo "Apply database migrations"
   python manage.py migrate
-
-  # Collect static files
-  echo "Collecting static files"
-  python manage.py collectstatic
-
-  chmod 775 /var/www/html/pisces/static
-  chown www-data:www-data /var/www/html/pisces/static
 
   #Start server
   echo "Starting server"
   if [[ -n $PROD ]]; then
+
+      # Collect static files
+      echo "Collecting static files"
+      python manage.py collectstatic
+
+      chmod 775 /var/www/html/pisces/static
+      chown www-data:www-data /var/www/html/pisces/static
+      
       apache2ctl -D FOREGROUND
   else
       python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
