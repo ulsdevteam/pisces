@@ -8,6 +8,7 @@ iso-639~=0.4
 jsonschema~=4.7
 odin~=1.7
 psycopg2~=2.9
+pytz~=2024.1
 PyYAML~=6.0
 rac-schema-validator~=0.1
 requests~=2.28
