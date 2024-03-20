@@ -16,7 +16,6 @@ Including another URLconf
 from asterism.views import PingView
 from django.contrib import admin
 from django.urls import include, path, re_path
-from rest_framework.schemas import get_schema_view
 
 from fetcher.views import FetchRunViewSet
 from transformer.views import DataObjectUpdateByIdView, DataObjectViewSet
@@ -27,16 +26,10 @@ router = PiscesRouter()
 router.register(r'fetches', FetchRunViewSet, 'fetchrun')
 router.register(r'objects', DataObjectViewSet, 'dataobject')
 
-schema_view = get_schema_view(
-    title="Pisces API",
-    description="Endpoints for Pisces microservice application."
-)
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^index-complete/$', DataObjectUpdateByIdView.as_view(), name='index-action-complete'),
     path('status/', PingView.as_view(), name='ping'),
-    path('schema/', schema_view, name='schema'),
     path('', include(router.urls)),
 ]
