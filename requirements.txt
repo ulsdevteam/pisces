@@ -40,13 +40,13 @@ djangorestframework==3.15.1
     #   asterism
 electronbonder==1.1
     # via -r requirements.in
-idna==3.6
+idna==3.7
     # via
     #   requests
     #   yarl
 iso-639==0.4.5
     # via -r requirements.in
-jsonschema==4.21.1
+jsonschema==4.22.0
     # via
     #   -r requirements.in
     #   rac-schema-validator
@@ -69,9 +69,9 @@ pyyaml==6.0.1
     #   vcrpy
 rac-schema-validator==0.1
     # via -r requirements.in
-rapidfuzz==3.7.0
+rapidfuzz==3.8.1
     # via archivessnake
-referencing==0.34.0
+referencing==0.35.0
     # via
     #   jsonschema
     #   jsonschema-specifications
@@ -91,11 +91,11 @@ six==1.16.0
     #   electronbonder
     #   odin
     #   vcrpy
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 structlog==24.1.0
     # via archivessnake
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via asgiref
 uritemplate==4.1.1
     # via -r requirements.in
