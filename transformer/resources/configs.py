@@ -321,7 +321,10 @@ CONTAINER_TYPE_CHOICES = (
     ('unknown_item', 'Unknown Item'),
     ('video', 'Video'),
     ('volume', 'Volume'),
-	('Compact-Disc', 'Compact-Disc')
+    ('Compact-Disc', 'Compact-Disc'),
+    ('shelf', 'Shelf'),
+    ('Number', 'Number'),
+    ('Phonodisc', 'Phonodisc')
 )
 
 DATE_TYPE_CHOICES = (
@@ -372,7 +375,9 @@ INSTANCE_TYPE_CHOICES = (
     ('photographic_images', 'Photographic Images'),
     ('realia', 'Realia'),
     ('still image', 'Still Image'),
-    ('text', 'Text')
+    ('text', 'Text'),
+    ('maps', 'Maps'),
+    ('computer_disks_/_tapes', 'Computer Disks / Tapes')
 )
 
 LEVEL_CHOICES = (
@@ -402,7 +407,8 @@ NAME_RULES_CHOICES = (
     ('aacr', 'Anglo-American Cataloging Rules'),
     ('dacs', 'Describing Archives: a Content Standard'),
     ('local', 'Local Rules'),
-    ('rda', 'Resource Description and Access')
+    ('rda', 'Resource Description and Access'),
+    ('rda:_resource_description_and_access', 'Resource Description and Access')
 )
 
 NOTE_TYPE_CHOICES = (
@@ -447,7 +453,7 @@ NOTE_TYPE_CHOICES = (
     ('summary', 'Summary'),
     ('type_note', 'Type Note'),
     ('userestrict', 'Conditions Governing Use'),
-	('maps', 'Maps')
+    ('maps', 'Maps')
 )
 
 NOTE_TYPE_CHOICES_TRANSFORM = [
