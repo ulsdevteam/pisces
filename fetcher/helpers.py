@@ -181,3 +181,13 @@ def valid_finding_aid_status(obj):
                 [resource.get("finding_aid_status") == value for value in settings.ARCHIVESSPACE["finding_aid_status_restrict"]]):
             return False
     return True
+
+
+def generate_download_identifier(source_object, digital_object):
+    """Generates a URI for a downloadable object."""
+    return f'{settings.DOWNLOAD_BASEURL}/{identifier_from_uri(source_object["uri"])}'
+
+
+def generate_manifest_identifier(source_object, digital_object):
+    """Generates a URI for a IIIF Presentation manifest."""
+    return f'{settings.MANIFEST_BASEURL}/{identifier_from_uri(source_object["uri"])}'

@@ -66,6 +66,7 @@ class MergerTest(TestCase):
                         self.check_group(merged)
                         self.check_position(merged)
                         self.check_embedded(merged)
+                        self.check_digital_object(merged)
 
     def check_counts(self, source, source_object_type, merged, target_object_type):
         """Tests counts of data keys in merged object.
@@ -95,6 +96,13 @@ class MergerTest(TestCase):
             else:
                 self.assertTrue(len(merged.get("ancestors", [])) >= len(source.get("ancestors", [])),
                                 "{} does not have equal or more ancestors in merged data than source data.".format(merged))
+
+    def check_digital_object(self, merged):
+        """Assert digital object data is correctly merged."""
+        for instance in merged.get('instances', []):
+            if instance.get('digital_object'):
+                self.assertNotIn('_resolved', instance['digital_object'])
+                self.assertTrue(instance['digital_object']['digital_object_id'])
 
     def check_group(self, merged):
         field_list = ["identifier", "title", "dates", "creators"]
