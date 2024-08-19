@@ -6,13 +6,15 @@ import odin
 import requests
 from iso639 import languages
 
-from fetcher.helpers import identifier_from_uri
+from fetcher.helpers import (generate_download_identifier,
+                             generate_manifest_identifier, identifier_from_uri)
 from pisces import settings
 
 from .resources.configs import NOTE_TYPE_CHOICES, NOTE_TYPE_CHOICES_TRANSFORM
 from .resources.rac import (Agent, AgentReference, Collection, Date, Extent,
-                            ExternalIdentifier, Group, Language, Note, Object,
-                            RecordReference, Subnote, Term, TermReference)
+                            ExternalIdentifier, FileObject, Group, Language,
+                            Note, Object, RecordReference, Subnote, Term,
+                            TermReference)
 from .resources.source import (SourceAgentCorporateEntity, SourceAgentFamily,
                                SourceAgentPerson, SourceAncestor,
                                SourceArchivalObject, SourceDate, SourceExtent,
@@ -526,6 +528,20 @@ class SourceArchivalObjectToObject(odin.Mapping):
     @odin.map_field(from_field="instances", to_field="online")
     def online(self, value):
         return has_online_instance(value, self.source.uri)
+
+    @odin.map_field(from_field="instances", to_field="files", to_list=True)
+    def files(self, value):
+        files = []
+        for instance in value:
+            if instance.digital_object:
+                files.append(
+                    FileObject(
+                        title=instance.digital_object.title,
+                        download=generate_download_identifier(self.source.to_dict(), instance.digital_object.to_dict()),
+                        manifest=generate_manifest_identifier(self.source.to_dict(), instance.digital_object.to_dict())
+                    )
+                )
+        return files
 
     @odin.map_field(from_field="group", to_field="group")
     def group(self, value):
