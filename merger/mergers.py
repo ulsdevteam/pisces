@@ -214,6 +214,7 @@ class ArchivalObjectMerger(BaseMerger):
 
         Moves data from resolved objects to expected keys within main object.
         Removes resolved top_container data.
+        Moves resolved digital object data to expected key in main object.
         """
         for k, v in additional_data.items():
             if isinstance(v, list):
@@ -223,6 +224,8 @@ class ArchivalObjectMerger(BaseMerger):
         for instance in object.get("instances", []):
             if instance.get("sub_container", {}).get("top_container", {}).get("_resolved"):
                 del instance["sub_container"]["top_container"]["_resolved"]
+            if instance.get("digital_object"):
+                instance["digital_object"] = instance["digital_object"]["_resolved"]
         object = super(ArchivalObjectMerger, self).combine_data(object, additional_data)
         return combine_references(object)
 
