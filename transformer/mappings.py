@@ -12,8 +12,9 @@ from pisces import settings
 
 from .resources.configs import NOTE_TYPE_CHOICES, NOTE_TYPE_CHOICES_TRANSFORM
 from .resources.rac import (Agent, AgentReference, Collection, Date, Extent,
-                            ExternalIdentifier, Group, Language, Note, Object,
-                            RecordReference, Subnote, Term, TermReference)
+                            ExternalIdentifier, FileObject, Group, Language,
+                            Note, Object, RecordReference, Subnote, Term,
+                            TermReference)
 from .resources.source import (SourceAgentCorporateEntity, SourceAgentFamily,
                                SourceAgentPerson, SourceAncestor,
                                SourceArchivalObject, SourceDate, SourceExtent,
@@ -534,11 +535,11 @@ class SourceArchivalObjectToObject(odin.Mapping):
         for instance in value:
             if instance.digital_object:
                 files.append(
-                    {
-                        "title": instance.digital_object.title,
-                        "download": generate_download_identifier(self.source.to_dict(), instance.digital_object.to_dict()),
-                        "manifest": generate_manifest_identifier(self.source.to_dict(), instance.digital_object.to_dict())
-                    }
+                    FileObject(
+                        title=instance.digital_object.title,
+                        download=generate_download_identifier(self.source.to_dict(), instance.digital_object.to_dict()),
+                        manifest=generate_manifest_identifier(self.source.to_dict(), instance.digital_object.to_dict())
+                    )
                 )
         return files
 
