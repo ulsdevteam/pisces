@@ -30,8 +30,10 @@ class TransformerTest(TestCase):
     checks are performed for object counts to ensure successful transformation.
     """
 
-    def mappings(self):
+    @patch('requests.head')
+    def mappings(self, mock_head):
         """Tests transformation of source data resources."""
+        mock_head.return_value.status_code = 200
         for object_type in object_types:
             for f in os.listdir(os.path.join("fixtures", "transformer", object_type)):
                 with open(os.path.join("fixtures", "transformer", object_type, f), "r") as json_file:
@@ -52,6 +54,7 @@ class TransformerTest(TestCase):
                     self.check_component_id(source, transformed)
                     self.check_position(transformed, object_type)
                     self.check_external_identifiers(source, transformed)
+                    self.check_files(source, transformed)
 
     def check_list_counts(self, source, transformed, object_type):
         """Checks that lists of items are the same on source and data objects.
@@ -154,6 +157,10 @@ class TransformerTest(TestCase):
             self.assertEqual(len(transformed["external_identifiers"]), len(source.get("agent_record_identifiers", [])) + 1)
         else:
             self.assertEqual(len(transformed["external_identifiers"]), 1, transformed["external_identifiers"])
+
+    def check_files(self, source, transformed):
+        digital_object_instances = [i for i in source.get('instances', []) if i.get('digital_object')]
+        self.assertEqual(len(digital_object_instances), len(transformed.get('files', [])))
 
     def views(self):
         for object_type in ["agent", "collection", "object", "term"]:
