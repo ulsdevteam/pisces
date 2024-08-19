@@ -674,6 +674,80 @@
             },
             "system_mtime": "2020-09-21T17:01:58Z",
             "user_mtime": "2020-09-21T17:01:58Z"
+        },
+        {
+            "create_time": "2020-09-21T17:01:58Z",
+            "created_by": "admin",
+            "instance_type": "digital_object",
+            "is_representative": false,
+            "jsonmodel_type": "instance",
+            "last_modified_by": "admin",
+            "lock_version": 0,
+            "system_mtime": "2020-09-21T17:01:58Z",
+            "user_mtime": "2020-09-21T17:01:58Z",
+            "digital_object": {
+                "ref": "/repositories/2/digital_objects/6851",
+                "_resolved": {
+                    "lock_version": 1,
+                    "digital_object_id": "229edcf5-4093-4998-b515-70f0118e379a",
+                    "title": "229edcf5-4093-4998-b515-70f0118e379a",
+                    "publish": false,
+                    "restrictions": false,
+                    "created_by": "aquarius",
+                    "last_modified_by": "aquarius",
+                    "create_time": "2022-05-14T15:33:00Z",
+                    "system_mtime": "2022-11-04T20:58:15Z",
+                    "user_mtime": "2022-05-14T15:33:00Z",
+                    "suppressed": false,
+                    "is_slug_auto": true,
+                    "jsonmodel_type": "digital_object",
+                    "external_ids": [],
+                    "subjects": [],
+                    "linked_events": [],
+                    "extents": [],
+                    "lang_materials": [],
+                    "dates": [],
+                    "external_documents": [],
+                    "rights_statements": [],
+                    "linked_agents": [],
+                    "file_versions": [
+                        {
+                            "lock_version": 0,
+                            "file_uri": "http://fedora.rockarch.org:8080/fedora/rest/229edcf5-4093-4998-b515-70f0118e379a",
+                            "publish": true,
+                            "created_by": "aquarius",
+                            "last_modified_by": "aquarius",
+                            "create_time": "2022-05-14T15:33:00Z",
+                            "system_mtime": "2022-05-14T15:33:00Z",
+                            "user_mtime": "2022-05-14T15:33:00Z",
+                            "use_statement": "master",
+                            "jsonmodel_type": "file_version",
+                            "is_representative": false,
+                            "identifier": "11971"
+                        }
+                    ],
+                    "classifications": [],
+                    "notes": [],
+                    "collection": [
+                        {
+                            "ref": "/repositories/2/resources/93"
+                        }
+                    ],
+                    "linked_instances": [
+                        {
+                            "ref": "/repositories/2/archival_objects/12491"
+                        }
+                    ],
+                    "metadata_rights_declarations": [],
+                    "uri": "/repositories/2/digital_objects/6851",
+                    "repository": {
+                        "ref": "/repositories/2"
+                    },
+                    "tree": {
+                        "ref": "/repositories/2/digital_objects/6851/tree"
+                    }
+                }
+            }
         }
     ],
     "is_slug_auto": true,
