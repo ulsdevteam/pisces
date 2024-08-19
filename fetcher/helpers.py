@@ -183,11 +183,11 @@ def valid_finding_aid_status(obj):
     return True
 
 
-def generate_download_identifier(digital_object):
+def generate_download_identifier(source_object, digital_object):
     """Generates a URI for a downloadable object."""
-    return f'{settings.DOWNLOAD_BASEURL}/{digital_object["digital_object_id"]}'
+    return f'{settings.DOWNLOAD_BASEURL}/{identifier_from_uri(source_object["uri"])}'
 
 
-def generate_manifest_identifier(digital_object):
+def generate_manifest_identifier(source_object, digital_object):
     """Generates a URI for a IIIF Presentation manifest."""
-    return f'{settings.MANIFEST_BASEURL}/{digital_object["digital_object_id"]}'
+    return f'{settings.MANIFEST_BASEURL}/{identifier_from_uri(source_object["uri"])}'

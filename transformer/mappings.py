@@ -536,8 +536,8 @@ class SourceArchivalObjectToObject(odin.Mapping):
                 files.append(
                     {
                         "title": instance.digital_object.title,
-                        "download": generate_download_identifier(instance.digital_object.to_dict()),
-                        "manifest": generate_manifest_identifier(instance.digital_object.to_dict())
+                        "download": generate_download_identifier(self.source.to_dict(), instance.digital_object.to_dict()),
+                        "manifest": generate_manifest_identifier(self.source.to_dict(), instance.digital_object.to_dict())
                     }
                 )
         return files
