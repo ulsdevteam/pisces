@@ -65,6 +65,11 @@ class SourceStructuredDate(odin.Resource):
     structured_date_range = odin.DictAs(SourceStructuredDateRange, null=True)
 
 
+class SourceDigitalObject(odin.Resource):
+    title = odin.StringField()
+    digital_object_id = odin.StringField()
+
+
 class SourceExtent(odin.Resource):
     """Records the size of an aggregation of archival records."""
     number = odin.StringField()
@@ -113,7 +118,7 @@ class SourceInstance(odin.Resource):
     instance_type = odin.StringField(choices=configs.INSTANCE_TYPE_CHOICES)
     is_representative = odin.BooleanField()
     sub_container = odin.DictAs(SourceSubcontainer, null=True)
-    digital_object = odin.DictAs(SourceRef, null=True)
+    digital_object = odin.DictAs(SourceDigitalObject, null=True)
 
 
 class SourceLinkedAgent(odin.Resource):

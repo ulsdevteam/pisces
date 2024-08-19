@@ -71,6 +71,13 @@ class Extent(odin.Resource):
     type = odin.StringField()
 
 
+class FileObject(odin.Resource):
+    """A file object associated with a resource."""
+    title = odin.StringField()
+    download = odin.StringField(null=True)
+    manifest = odin.StringField(null=True)
+
+
 class Group(odin.Resource):
     """Information about the highest-level collection containing the data object."""
     category = odin.StringField()
@@ -151,6 +158,7 @@ class Object(BaseResource):
     position = odin.IntegerField()
     formats = odin.ArrayField()
     online = odin.BooleanField(default=False)
+    files = odin.ArrayOf(FileObject, null=True)
 
 
 class Agent(BaseResource):
