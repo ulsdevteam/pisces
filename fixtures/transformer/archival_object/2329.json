@@ -277,7 +277,7 @@
                 "lock_version": 1,
                 "metadata_rights_declarations": [],
                 "notes": [],
-                "publish": false,
+                "publish": true,
                 "repository": {
                     "ref": "/repositories/2"
                 },
