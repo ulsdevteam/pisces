@@ -159,7 +159,7 @@ class TransformerTest(TestCase):
             self.assertEqual(len(transformed["external_identifiers"]), 1, transformed["external_identifiers"])
 
     def check_files(self, source, transformed):
-        digital_object_instances = [i for i in source.get('instances', []) if i.get('digital_object')]
+        digital_object_instances = [i for i in source.get('instances', []) if all([i.get('digital_object') and i.get('digital_object', {}).get('publish')])]
         self.assertEqual(len(digital_object_instances), len(transformed.get('files', [])))
 
     def views(self):

@@ -68,6 +68,7 @@ class SourceStructuredDate(odin.Resource):
 class SourceDigitalObject(odin.Resource):
     title = odin.StringField()
     digital_object_id = odin.StringField()
+    publish = odin.BooleanField()
 
 
 class SourceExtent(odin.Resource):
