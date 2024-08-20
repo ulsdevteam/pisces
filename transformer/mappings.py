@@ -533,7 +533,7 @@ class SourceArchivalObjectToObject(odin.Mapping):
     def files(self, value):
         files = []
         for instance in value:
-            if instance.digital_object:
+            if instance.digital_object and instance.digital_object.publish:
                 files.append(
                     FileObject(
                         title=instance.digital_object.title,
