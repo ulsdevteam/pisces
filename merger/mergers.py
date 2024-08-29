@@ -195,14 +195,14 @@ class ArchivalObjectMerger(BaseMerger):
         """Gets dates, languages, and extent from archival object's
         resource record in ArchivesSpace.
         """
-        data = {"linked_agents": []}
+        data = {"linked_agents": []} 
         if object.get("dates") in ["", [], {}, None]:
             data["dates"] = closest_parent_value(object, "dates")
         data.update(self.get_language_data(object, data))
         if not object.get("extents"):
             extent_data = self.parse_instances(object["instances"])
             if object_type == "archival_object_collection" and not extent_data:
-                extent_data = closest_parent_value(object, "extents")
+                extent_data = [{'value': None,  "type": None}]     
             data["extents"] = extent_data
         if object_type == "archival_object_collection":
             data["linked_agents"] = closest_creators(object)

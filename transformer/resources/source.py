@@ -67,10 +67,10 @@ class SourceStructuredDate(odin.Resource):
 
 class SourceExtent(odin.Resource):
     """Records the size of an aggregation of archival records."""
-    number = odin.StringField()
+    number = odin.StringField(null=True)
     container_summary = odin.StringField(null=True)
     portion = odin.StringField(choices=(('whole', 'Whole'), ('part', 'Part'))),
-    extent_type = odin.StringField()
+    extent_type = odin.StringField(null=True)
 
 
 class SourceExternalId(odin.Resource):
@@ -218,7 +218,7 @@ class SourceComponentBase(odin.Resource):
     )
 
     dates = odin.ArrayOf(SourceDate)
-    extents = odin.ArrayOf(SourceExtent)
+    extents = odin.ArrayOf(SourceExtent, null=True)
     external_ids = odin.ArrayOf(SourceExternalId)
     group = odin.DictAs(SourceGroup)
     jsonmodel_type = odin.StringField(choices=COMPONENT_TYPES)
