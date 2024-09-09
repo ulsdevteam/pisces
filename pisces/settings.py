@@ -207,3 +207,5 @@ DOWNLOAD_BASEURL = config.DOWNLOAD_BASEURL
 MANIFEST_BASEURL = config.MANIFEST_BASEURL
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+# Data attribute inheritance configuration
+INHERIT_EXTENT = config.INHERIT_EXTENT
