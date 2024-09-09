@@ -205,3 +205,5 @@ PHOTOGRAPH_REFS = config.PHOTOGRAPH_REFS
 ASSET_BASEURL = config.ASSET_BASEURL
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+#extent data nullable option
+EXTENT_NULLABLE_FLG = config.EXTENT_NULLABLE_FLG

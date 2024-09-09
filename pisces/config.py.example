@@ -39,3 +39,4 @@ TERM_SCHEMA = "term.json" # Filename for schema against which transformed terms 
 NOTIFY_EMAIL = True  # deliver error messages via email (boolean)
 NOTIFY_TEAMS = False  # deliver error message via Microsoft Teams (boolean)
 TEAMS_URL = "https://teams-url.com"  # URL for Incoming Webhook Connector in Microsoft Teams Channel
+EXTENT_NULLABLE_FLG = True # Object extents data nullable option
