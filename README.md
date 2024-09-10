@@ -3,8 +3,6 @@ A service for fetching, merging and transforming data for discovery.
 
 pisces is part of [Project Electron](https://github.com/RockefellerArchiveCenter/project_electron), an initiative to build sustainable, open and user-centered infrastructure for the archival management of digital records at the [Rockefeller Archive Center](http://rockarch.org/).
 
-[![Build Status](https://travis-ci.org/RockefellerArchiveCenter/pisces.svg?branch=base)](https://travis-ci.org/RockefellerArchiveCenter/pisces)
-
 ## Setup
 Install [git](https://git-scm.com/) and clone the repository
 
