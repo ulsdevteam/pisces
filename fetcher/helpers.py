@@ -152,7 +152,7 @@ def send_teams_message(title, body):
     }
     encoded_msg = json.dumps(message)
     try:
-        requests.post(settings.TEAMS_URL, headers={'Content-Type': 'application/json'}, json=encoded_msg)
+        requests.post(settings.TEAMS_URL, headers={'Content-Type': 'application/json'}, data=encoded_msg)
     except Exception as e:
         print(f"Unable to deliver error notification to Teams Channel: {e}")
 
