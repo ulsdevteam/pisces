@@ -454,7 +454,7 @@ NOTE_TYPE_CHOICES = (
 
 NOTE_TYPE_CHOICES_TRANSFORM = [
     'abstract', 'accessrestrict', 'acqinfo', 'altformavail', 'bioghist',
-    'custodhist', 'materialspec', 'odd', 'physdesc', 'phystech', 'processinfo',
+    'custodhist', 'materialspec', 'odd', 'physdesc', 'phystech', 'prefercite', 'processinfo',
     'relatedmaterial', 'scopecontent', 'userestrict']
 
 
