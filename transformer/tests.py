@@ -3,11 +3,13 @@ import os
 import random
 from unittest.mock import patch
 
-from django.test import TestCase
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from rest_framework.test import APIRequestFactory
 
 from fetcher.helpers import identifier_from_uri
+from pisces import config
 
 from .cron import CheckMissingOnlineAssets
 from .mappings import has_online_instance, strip_tags
@@ -28,8 +30,10 @@ class TransformerTest(TestCase):
     checks are performed for object counts to ensure successful transformation.
     """
 
-    def mappings(self):
+    @patch('requests.head')
+    def mappings(self, mock_head):
         """Tests transformation of source data resources."""
+        mock_head.return_value.status_code = 200
         for object_type in object_types:
             for f in os.listdir(os.path.join("fixtures", "transformer", object_type)):
                 with open(os.path.join("fixtures", "transformer", object_type, f), "r") as json_file:
@@ -50,6 +54,7 @@ class TransformerTest(TestCase):
                     self.check_component_id(source, transformed)
                     self.check_position(transformed, object_type)
                     self.check_external_identifiers(source, transformed)
+                    self.check_files(source, transformed)
 
     def check_list_counts(self, source, transformed, object_type):
         """Checks that lists of items are the same on source and data objects.
@@ -152,6 +157,10 @@ class TransformerTest(TestCase):
             self.assertEqual(len(transformed["external_identifiers"]), len(source.get("agent_record_identifiers", [])) + 1)
         else:
             self.assertEqual(len(transformed["external_identifiers"]), 1, transformed["external_identifiers"])
+
+    def check_files(self, source, transformed):
+        digital_object_instances = [i for i in source.get('instances', []) if all([i.get('digital_object') and i.get('digital_object', {}).get('publish')])]
+        self.assertEqual(len(digital_object_instances), len(transformed.get('files', [])))
 
     def views(self):
         for object_type in ["agent", "collection", "object", "term"]:
@@ -260,3 +269,31 @@ class TransformerTest(TestCase):
     def test_strip_tags(self):
         for input in ["<title>a collection</title>", "a <a href='https://example.com'>collection</a>", "a collection"]:
             self.assertEqual('a collection', strip_tags(input))
+
+    @patch('transformer.transformers.is_valid')
+    def test_validate_transformed(self, mock_is_valid):
+        with override_settings(SCHEMAS={
+                "base_dir": os.path.join(settings.BASE_DIR, config.SCHEMAS_BASE_DIR),
+                "base": config.BASE_SCHEMA,
+                "agent": config.AGENT_SCHEMA,
+                "collection": config.COLLECTION_SCHEMA,
+                "object": config.OBJECT_SCHEMA,
+                "term": config.TERM_SCHEMA, }):
+            Transformer().validate_transformed({}, "object.json")
+            arg_values = mock_is_valid.call_args[0]
+            self.assertTrue(isinstance(arg_values[0], dict))
+            self.assertTrue(isinstance(arg_values[1], dict))
+            self.assertTrue(isinstance(arg_values[2], dict))
+
+        mock_is_valid.reset_mock()
+        with override_settings(SCHEMAS={
+                "base_dir": os.path.join(settings.BASE_DIR, config.SCHEMAS_BASE_DIR),
+                "agent": config.AGENT_SCHEMA,
+                "collection": config.COLLECTION_SCHEMA,
+                "object": config.OBJECT_SCHEMA,
+                "term": config.TERM_SCHEMA, }):
+            Transformer().validate_transformed({}, "object.json")
+            arg_values = mock_is_valid.call_args[0]
+            self.assertTrue(isinstance(arg_values[0], dict))
+            self.assertTrue(isinstance(arg_values[1], dict))
+            self.assertEqual(arg_values[2], None)

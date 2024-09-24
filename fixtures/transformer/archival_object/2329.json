@@ -229,6 +229,77 @@
             },
             "system_mtime": "2020-09-21T17:01:58Z",
             "user_mtime": "2020-09-21T17:01:58Z"
+        },
+        {
+            "create_time": "2020-09-21T17:01:58Z",
+            "created_by": "admin",
+            "digital_object": {
+                "classifications": [],
+                "collection": [
+                    {
+                        "ref": "/repositories/2/resources/93"
+                    }
+                ],
+                "create_time": "2022-05-14T15:33:00Z",
+                "created_by": "aquarius",
+                "dates": [],
+                "digital_object_id": "229edcf5-4093-4998-b515-70f0118e379a",
+                "extents": [],
+                "external_documents": [],
+                "external_ids": [],
+                "file_versions": [
+                    {
+                        "create_time": "2022-05-14T15:33:00Z",
+                        "created_by": "aquarius",
+                        "file_uri": "http://fedora.rockarch.org:8080/fedora/rest/229edcf5-4093-4998-b515-70f0118e379a",
+                        "identifier": "11971",
+                        "is_representative": false,
+                        "jsonmodel_type": "file_version",
+                        "last_modified_by": "aquarius",
+                        "lock_version": 0,
+                        "publish": true,
+                        "system_mtime": "2022-05-14T15:33:00Z",
+                        "use_statement": "master",
+                        "user_mtime": "2022-05-14T15:33:00Z"
+                    }
+                ],
+                "is_slug_auto": true,
+                "jsonmodel_type": "digital_object",
+                "lang_materials": [],
+                "last_modified_by": "aquarius",
+                "linked_agents": [],
+                "linked_events": [],
+                "linked_instances": [
+                    {
+                        "ref": "/repositories/2/archival_objects/12491"
+                    }
+                ],
+                "lock_version": 1,
+                "metadata_rights_declarations": [],
+                "notes": [],
+                "publish": true,
+                "repository": {
+                    "ref": "/repositories/2"
+                },
+                "restrictions": false,
+                "rights_statements": [],
+                "subjects": [],
+                "suppressed": false,
+                "system_mtime": "2022-11-04T20:58:15Z",
+                "title": "229edcf5-4093-4998-b515-70f0118e379a",
+                "tree": {
+                    "ref": "/repositories/2/digital_objects/6851/tree"
+                },
+                "uri": "/repositories/2/digital_objects/6851",
+                "user_mtime": "2022-05-14T15:33:00Z"
+            },
+            "instance_type": "digital_object",
+            "is_representative": false,
+            "jsonmodel_type": "instance",
+            "last_modified_by": "admin",
+            "lock_version": 0,
+            "system_mtime": "2020-09-21T17:01:58Z",
+            "user_mtime": "2020-09-21T17:01:58Z"
         }
     ],
     "is_slug_auto": true,

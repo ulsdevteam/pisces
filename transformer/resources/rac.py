@@ -67,8 +67,15 @@ class Date(odin.Resource):
 
 class Extent(odin.Resource):
     """Records the size of an aggregation of archival records."""
-    value = odin.StringField()
-    type = odin.StringField()
+    value = odin.StringField(null=True)
+    type = odin.StringField(null=True)
+
+
+class FileObject(odin.Resource):
+    """A file object associated with a resource."""
+    title = odin.StringField()
+    download = odin.StringField(null=True)
+    manifest = odin.StringField(null=True)
 
 
 class Group(odin.Resource):
@@ -140,7 +147,7 @@ class Object(BaseResource):
     category = odin.StringField(default="collection")
     dates = odin.ArrayOf(Date)
     languages = odin.ArrayOf(Language)
-    extents = odin.ArrayOf(Extent)
+    extents = odin.ArrayOf(Extent, null=True)
     notes = odin.ArrayOf(Note)
     people = odin.ArrayOf(AgentReference)
     organizations = odin.ArrayOf(AgentReference)
@@ -151,6 +158,7 @@ class Object(BaseResource):
     position = odin.IntegerField()
     formats = odin.ArrayField()
     online = odin.BooleanField(default=False)
+    files = odin.ArrayOf(FileObject, null=True)
 
 
 class Agent(BaseResource):

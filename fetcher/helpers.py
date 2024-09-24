@@ -122,14 +122,37 @@ def send_email_message(title, body):
 def send_teams_message(title, body):
     """Send Teams message with errors encountered during a fetch run."""
     message = {
-        "@context": "https://schema.org/extensions",
-        "type": "MessageCard",
-        "title": title,
-        "summary": title,
-        "sections": [{"text": body}]}
-    encoded_msg = json.dumps(message).encode('utf-8')
+        "type": "message",
+        "attachments": [
+            {
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "contentUrl": None,
+                "content": {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "type": "AdaptiveCard",
+                    "version": "1.4",
+                    "body": [
+                        {
+                            "type": "TextBlock",
+                            "size": "default",
+                            "weight": "bolder",
+                            "text": title,
+                            "style": "heading",
+                            "wrap": True,
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": body,
+                            "wrap": True
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+    encoded_msg = json.dumps(message)
     try:
-        requests.post(settings.TEAMS_URL, data=encoded_msg)
+        requests.post(settings.TEAMS_URL, headers={'Content-Type': 'application/json'}, data=encoded_msg)
     except Exception as e:
         print(f"Unable to deliver error notification to Teams Channel: {e}")
 
@@ -181,3 +204,13 @@ def valid_finding_aid_status(obj):
                 [resource.get("finding_aid_status") == value for value in settings.ARCHIVESSPACE["finding_aid_status_restrict"]]):
             return False
     return True
+
+
+def generate_download_identifier(source_object, digital_object):
+    """Generates a URI for a downloadable object."""
+    return f'{settings.DOWNLOAD_BASEURL}/{identifier_from_uri(source_object["uri"])}'
+
+
+def generate_manifest_identifier(source_object, digital_object):
+    """Generates a URI for a IIIF Presentation manifest."""
+    return f'{settings.MANIFEST_BASEURL}/{identifier_from_uri(source_object["uri"])}'

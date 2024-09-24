@@ -144,8 +144,9 @@ class ArchivesSpaceHelper:
     def objects_within(self, uri_list):
         """Gets the number of objects which have a URI in their ancestors array."""
         count = 0
-        for chunk in list_chunks(uri_list, 190):
-            search_uri = f"search?q={{!terms f=ancestors}}{','.join(chunk)} AND publish:true&page=1&fields[]=uri&type[]=archival_object&page_size=1"
+        for chunk in list_chunks(uri_list, 100):
+            ancestors_param = ' '.join([f'ancestors:"{c}"' for c in chunk])
+            search_uri = f"search?q={ancestors_param}&filter_query[]=publish:true&page=1&fields[]=uri&type[]=archival_object&page_size=1"
             result = self.aspace.client.get(search_uri)
             try:
                 data = result.json()

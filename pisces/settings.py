@@ -153,6 +153,15 @@ CRON_CLASSES = [
 DJANGO_CRON_LOCK_BACKEND = "django_cron.backends.lock.file.FileLock"
 DJANGO_CRON_LOCKFILE_PATH = config.DJANGO_CRON_LOCKFILE_PATH
 
+SCHEMAS = {
+    "base_dir": os.path.join(BASE_DIR, config.SCHEMAS_BASE_DIR),
+    "base": config.BASE_SCHEMA,
+    "agent": config.AGENT_SCHEMA,
+    "collection": config.COLLECTION_SCHEMA,
+    "object": config.OBJECT_SCHEMA,
+    "term": config.TERM_SCHEMA,
+}
+
 ARCHIVESSPACE = {
     "baseurl": config.AS_BASEURL,
     "username": config.AS_USERNAME,
@@ -194,5 +203,9 @@ PHOTOGRAPH_REFS = config.PHOTOGRAPH_REFS
 
 # Base URL for online assets
 ASSET_BASEURL = config.ASSET_BASEURL
+DOWNLOAD_BASEURL = config.DOWNLOAD_BASEURL
+MANIFEST_BASEURL = config.MANIFEST_BASEURL
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+# Data attribute inheritance configuration
+INHERIT_EXTENT = config.INHERIT_EXTENT
