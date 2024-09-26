@@ -204,7 +204,7 @@ class ArchivalObjectMerger(BaseMerger):
         if not object.get("extents"):
             extent_data = self.parse_instances(object["instances"])
             if object_type == "archival_object_collection" and not extent_data:
-                extent_data = settings.INHERIT_EXTENT and [{'value': None, "type": None}] or closest_parent_value(object, "extents")
+                extent_data = [{'value': None, "type": None}] if settings.INHERIT_EXTENT else closest_parent_value(object, "extents")
             data["extents"] = extent_data
         if object_type == "archival_object_collection":
             data["linked_agents"] = closest_creators(object)
