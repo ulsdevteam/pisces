@@ -8,12 +8,32 @@ fi
 # Create config.py if it doesn't exist
 if [ ! -f pisces/config.py ]; then
     echo "Creating config file"
-    cp pisces/config.py.example pisces/config.py
+    if [[ -n $PROD ]]; then
+      envsubst < pisces/config.py.deploy > pisces/config.py
+    else
+      cp pisces/config.py.example pisces/config.py
+    fi
 fi
 
-./wait-for-it.sh db:5432 -- echo "Apply database migrations"
-python manage.py migrate
+if [[ -n $CRON ]]; then
+  cron -f -L 2
+else  
+  ./wait-for-it.sh $db:${SQL_PORT} -- echo "Apply database migrations"
+  python manage.py migrate
 
-#Start server
-echo "Starting server"
-python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
+  #Start server
+  echo "Starting server"
+  if [[ -n $PROD ]]; then
+
+      # Collect static files
+      echo "Collecting static files"
+      python manage.py collectstatic
+
+      chmod 775 /var/www/html/pisces/static
+      chown www-data:www-data /var/www/html/pisces/static
+      
+      apache2ctl -D FOREGROUND
+  else
+      python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
+  fi
+fi

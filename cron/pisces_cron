@@ -13,4 +13,3 @@ PISCES_ROOT=/code/pisces
 09,39 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpacePeople" >> /var/log/pisces-cron/pisces-people-deleted.txt
 14,44 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceResources" >> /var/log/pisces-cron/pisces-resources-deleted.txt
 19,49 * * * * $PISCES_ROOT/python -u /code/manage.py runcrons "fetcher.cron.DeletedArchivesSpaceArchivalObjects" >> /var/log/pisces-cron/pisces-archivalobjects-deleted.txt
-

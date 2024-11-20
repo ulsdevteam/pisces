@@ -40,6 +40,8 @@ def convert_dates(value):
 
 
 def has_online_asset(identifier):
+    if len(settings.ASSET_BASEURL) == 0:
+        return False
     req = requests.head("{}/pdfs/{}".format(settings.ASSET_BASEURL.rstrip("/"), identifier))
     return True if req.status_code == 200 else False
 

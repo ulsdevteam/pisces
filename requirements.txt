@@ -21,9 +21,9 @@ boltons==24.0.0
     # via archivessnake
 certifi==2024.8.30
     # via requests
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
     # via requests
-django==4.2.15
+django==4.2.16
     # via
     #   -r requirements.in
     #   asterism
@@ -38,9 +38,9 @@ djangorestframework==3.15.2
     # via
     #   -r requirements.in
     #   asterism
-electronbonder==1.0
+electronbonder==1.1
     # via -r requirements.in
-idna==3.8
+idna==3.10
     # via
     #   requests
     #   yarl
@@ -50,17 +50,19 @@ jsonschema==4.23.0
     # via
     #   -r requirements.in
     #   rac-schema-validator
-jsonschema-specifications==2023.12.1
+jsonschema-specifications==2024.10.1
     # via jsonschema
-more-itertools==10.4.0
+more-itertools==10.5.0
     # via archivessnake
-multidict==6.0.5
+multidict==6.1.0
     # via yarl
 odin==1.8.1
     # via -r requirements.in
-psycopg2==2.9.9
+propcache==0.2.0
+    # via yarl
+psycopg2==2.9.10
     # via -r requirements.in
-pytz==2024.1
+pytz==2024.2
     # via -r requirements.in
 pyyaml==6.0.2
     # via
@@ -69,7 +71,7 @@ pyyaml==6.0.2
     #   vcrpy
 rac-schema-validator==0.1
     # via -r requirements.in
-rapidfuzz==3.9.6
+rapidfuzz==3.10.1
     # via archivessnake
 referencing==0.35.1
     # via
@@ -80,7 +82,7 @@ requests==2.32.3
     #   -r requirements.in
     #   archivessnake
     #   electronbonder
-rpds-py==0.20.0
+rpds-py==0.20.1
     # via
     #   jsonschema
     #   referencing
@@ -96,15 +98,17 @@ sqlparse==0.5.1
 structlog==24.4.0
     # via archivessnake
 typing-extensions==4.12.2
-    # via asgiref
+    # via
+    #   asgiref
+    #   multidict
 uritemplate==4.1.1
     # via -r requirements.in
-urllib3==2.2.2
+urllib3==2.2.3
     # via requests
 vcrpy==4.4.0
     # via -r requirements.in
 wrapt==1.16.0
     # via vcrpy
-yarl==1.9.6
+yarl==1.17.1
     # via vcrpy
 
